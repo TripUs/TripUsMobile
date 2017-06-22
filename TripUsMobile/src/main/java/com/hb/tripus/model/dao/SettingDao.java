@@ -15,8 +15,11 @@ public class SettingDao implements DaoInterface {
 	}
 	
 	public void insertUser(UserDto bean) throws SQLException {
-		bean.setProfile("");
 		sqlSession.insert("setting.insertUser", bean);
+	}
+	
+	public int searchUser(String id) throws SQLException {
+		return sqlSession.selectOne("setting.searchUser", id);
 	}
 	
 	public UserDto loginUser(UserDto bean) throws SQLException {

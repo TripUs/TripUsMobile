@@ -53,7 +53,7 @@
 	
 				<h2>코스 정보</h2>
 				<c:forEach items="${subList }" var="bean">
-					<p><strong><a href="detail/${bean.subcontentid }">${bean.subname }</a></strong></p>
+					<p><strong><a href="../detail/${bean.subcontentid }">${bean.subname }</a></strong></p>
 					<div>
 						<img class="detail-area-img" src="${bean.subdetailimg }"/>
 					</div>

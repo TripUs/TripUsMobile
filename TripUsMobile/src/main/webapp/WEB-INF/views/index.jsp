@@ -14,7 +14,8 @@
                   crossorigin="anonymous"></script>
         <script src="resources/js/jquery.mobile-1.4.5.min.js"></script>
         <script src="resources/js/swiper.min.js"></script>
-        
+        <script type="text/javascript" src="resources/js/hello.all.min.js"></script>
+        <script type="text/javascript" src="resources/js/google-oauth.js"></script>
 	    <title>Document</title>
         
         <style type="text/css">

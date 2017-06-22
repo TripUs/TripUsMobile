@@ -6,8 +6,6 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=width, initial-scale=1">
-        <script type="text/javascript" src="resources/js/hello.all.min.js"></script>
-        <script type="text/javascript" src="resources/js/google-oauth.js"></script>
         <title>Document</title>
         
     </head>
@@ -25,7 +23,7 @@
                 	</div>
                 	<button>로그인</button>
                 </form>
-                <button data-rel="popup" data-position-to="window" data-transition="pop" onclick="login()">Google+ 로그인</button>
+                <a data-role='button' href="${google_url}">Google+ 로그인</a>
                 <a data-role='button' href="signin">회원가입</a>
             </div>
             <div data-role='footer' data-position='fixed'>
