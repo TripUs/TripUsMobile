@@ -18,9 +18,9 @@
                 <c:choose>
 	                <c:when test="${not empty sessionScope.userInfo}">
 	                	<h2>로그인 성공 </h2>
-				        프로필 : ${sessionScope.userInfo.profile}
-				        이름 : ${sessionScope.userInfo.name}
-				 		이메일 : ${sessionScope.userInfo.email}
+				        <p>프로필 : ${sessionScope.userInfo.profile}</p>
+				        <p>이름 : ${sessionScope.userInfo.name}</p>
+				 		<p>이메일 : ${sessionScope.userInfo.email}</p>
 				        <a data-role='button' href="logout">로그아웃</a>
 	                </c:when>
 	                <c:otherwise>

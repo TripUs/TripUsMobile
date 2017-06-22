@@ -21,8 +21,6 @@
                 <form action="login" method="post">
                 	<div data-role='fieldcontain'>
                 		<input id="id" name="id" type="text" placeholder="ID를 입력하세요"/>
-                	</div>
-                	<div data-role='fieldcontain'>
                 		<input id="pw" name="pw" type="password" placeholder="Password를 입력하세요"/>
                 	</div>
                 	<button>로그인</button>

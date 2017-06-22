@@ -23,6 +23,9 @@
 	
 	<context:component-scan base-package="com.hb.tripus" />
 	
-	
+	<!-- 파일 업로드 시 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="102400"></beans:property>
+	</beans:bean>
 	
 </beans:beans>

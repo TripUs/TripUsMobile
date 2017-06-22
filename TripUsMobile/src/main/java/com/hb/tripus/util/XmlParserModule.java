@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -17,6 +15,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.hb.tripus.model.dto.AreaDto;
 import com.hb.tripus.model.dto.TourAreaInterface;
 
 public class XmlParserModule {
@@ -25,9 +24,14 @@ public class XmlParserModule {
 	private String serviceKey = "&ServiceKey=aBAaB1yK%2F7pFbW7tF9gKOjONRTvNPTJ8ggpIDYUyEltqfm2lkiB0uy1x1SrKGEnPiXfOXBRsBwn%2FBzuBsW1meA%3D%3D";
 	private String className;
 	
+	public XmlParserModule(String url) {
+		this.url += (url + serviceKey);
+	}
+	
 	public XmlParserModule(String url, String page, String className) {
 		this.url += (url + serviceKey + page);
 		this.className = className;
+		System.out.println("url : " + this.url);
 	}
 	
 	public int pageCntParse() {
@@ -109,7 +113,6 @@ public class XmlParserModule {
 					dto.setTagValue(value);
 					parseList.add(dto);
 				}
-				System.out.println("\n\n");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -168,7 +171,6 @@ public class XmlParserModule {
 					}
 					dto.setTagValue(value);
 				}
-				System.out.println("\n\n");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

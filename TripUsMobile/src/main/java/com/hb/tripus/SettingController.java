@@ -31,19 +31,20 @@ public class SettingController {
 	
 	@RequestMapping(value="login", method=RequestMethod.POST)
 	public String login(@ModelAttribute UserDto bean, HttpSession session, Model model) {
-		
-		try {
-			UserDto userInfo = dao.loginUser(bean);
-			if(userInfo.getId() == null) {
-				System.out.println("로그인 실패");
-				System.out.println("id : " + userInfo.getId());
-			} else {
-				System.out.println("로그인 성공");
-				System.out.println("id : " + userInfo.getId());
-				session.setAttribute("userInfo", userInfo);
+		if(bean.getId() != null && bean.getPw() != null) {
+			try {
+				UserDto userInfo = dao.loginUser(bean);
+				if(userInfo.getId() == null) {
+					System.out.println("로그인 실패");
+					System.out.println("id : " + userInfo.getId());
+				} else {
+					System.out.println("로그인 성공");
+					System.out.println("id : " + userInfo.getId());
+					session.setAttribute("userInfo", userInfo);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return "setting/setting";
 	}
