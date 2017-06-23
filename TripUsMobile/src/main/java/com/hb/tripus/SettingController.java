@@ -49,7 +49,6 @@ public class SettingController {
 		/* 구글code 발행 */
 		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
 		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-		System.out.println("구글:" + url);
 		model.addAttribute("google_url", url);
 
 		return "login/login";
@@ -73,12 +72,6 @@ public class SettingController {
 		PlusOperations plusOperations = google.plusOperations(); 
 		Person person = plusOperations.getGoogleProfile();
 		
-		System.out.println("이름 : " + person.toString());
-		System.out.println("email : " + person.getAccountEmail());
-		System.out.println("id : " + person.getId());
-		System.out.println("생일 : " + person.getBirthday());
-		System.out.println("프로필 이미지 : " + person.getImageUrl());
-		
 		// 사용자 객체 생성
 		UserDto userInfo = new UserDto();
 		userInfo.setId(person.getId());				userInfo.setPw(person.getId());
@@ -89,6 +82,7 @@ public class SettingController {
 		else userInfo.setEmail("");
 		if(person.getImageUrl() != null) userInfo.setProfile(person.getImageUrl());
 		else userInfo.setProfile("");
+		userInfo.setUsertype("google");
 		
 		// 사용자 정보 DB 저장
 		try {
@@ -138,6 +132,7 @@ public class SettingController {
 	@RequestMapping(value="signin", method=RequestMethod.POST)
 	public String signin(@ModelAttribute UserDto bean, Model model) {
 		try {
+			bean.setUsertype("tripus");
 			bean.setProfile("");
 			dao.insertUser(bean);
 		} catch (SQLException e) {
