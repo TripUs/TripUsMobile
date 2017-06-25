@@ -12,12 +12,15 @@
 	<body>
 		<div data-role='page'>
 			<div data-role='header'>
-				<h1>TripUs</h1>
+				<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
+                <h1>${basicInfo.title }</h1>
 			</div>
 			<div data-role='content'>
-				<h1>${basicInfo.title }</h1>
 				<div>
 					<img class="detail-area-img" src="${basicInfo.firstimage }"/>			
+				</div>
+				<div>
+					<a data-role="button" href="../addmytrip_list/${basicInfo.contentid }">내 여행지 추가하기</a>
 				</div><br/>
 				
 				<div>
@@ -65,24 +68,24 @@
 			</div>
 	
 			<div data-role='footer' data-position='fixed'>
-	                <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->
-	                <div data-role='navbar'>
-	                    <ul>
-	                        <li>
-	                            <a data-icon='home' class="ui-btn-active ui-state-persist" href="main">Home</a>
-	                        </li>
-	                        <li>
-	                            <a data-icon='calendar' href="#">내 여행</a>
-	                        </li>
-	                        <li>
-	                            <a data-icon='edit' href="#">여행노트</a>
-	                        </li>
-	                        <li>
-	                            <a data-icon='gear' href="setting">설정</a>
-	                        </li>
-	                    </ul>
-	                </div>
-	            </div>
-		</div>
+                <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->
+                <div data-role='navbar'>
+                    <ul>
+                        <li>
+                            <a data-icon='home' class="ui-btn-active ui-state-persist" href="../main">Home</a>
+                        </li>
+                        <li>
+                            <a data-icon='calendar' href="../mytrip">내 여행</a>
+                        </li>
+                        <li>
+                            <a data-icon='edit' href="../tripnote">여행노트</a>
+                        </li>
+                        <li>
+                            <a data-icon='gear' href="../setting">설정</a>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end footer -->
+        </div><!-- end page -->
 	</body>
 </html>

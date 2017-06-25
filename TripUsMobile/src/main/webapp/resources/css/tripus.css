@@ -1,0 +1,22 @@
+.slide-img {
+	width: 200px;
+	height: 150px;
+}
+
+.mytrip-cover, .detail-area-img {
+	width: 100%;
+}
+
+#login-icon {
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.ui-content {
+	padding: 0px;
+}
+
+#mytrip-maps {
+	display: none;
+}

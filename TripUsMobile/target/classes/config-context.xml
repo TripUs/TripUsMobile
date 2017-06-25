@@ -24,6 +24,14 @@
 		<property name="sqlSession" ref="sqlSession"></property>
 	</bean>
 	
+	<bean id="mytripDao" class="com.hb.tripus.model.dao.MyTripDao">
+		<property name="sqlSession" ref="sqlSession"></property>
+	</bean>
+	
+	<bean id="tripnoteDao" class="com.hb.tripus.model.dao.TripNoteDao">
+		<property name="sqlSession" ref="sqlSession"></property>
+	</bean>
+	
 	<bean id="settingDao" class="com.hb.tripus.model.dao.SettingDao">
 		<property name="sqlSession" ref="sqlSession"></property>
 	</bean>

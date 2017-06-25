@@ -16,6 +16,8 @@
 	</environments>
 	<mappers>
 		<mapper resource="config/settingMapper.xml" />
+		<mapper resource="config/tripNoteMapper.xml" />
+		<mapper resource="config/myTripMapper.xml" />
 		<mapper resource="config/homeMapper.xml" />
 	</mappers>
 </configuration>

@@ -3,8 +3,7 @@ package com.hb.tripus.model.dto;
 public class FestivalDetailDto implements TourAreaInterface {
 
 	private String agelimit, bookingplace, discountinfofestival, eventenddate, eventhomepage, eventplace,
-			eventstartdate, festivalgrade;
-	private String playtime, spendtimefestival, usetimefestival, subevent, program;
+					eventstartdate, festivalgrade, playtime, spendtimefestival, usetimefestival, subevent, program;
 
 	@Override
 	public String[] getTags() {
@@ -15,39 +14,13 @@ public class FestivalDetailDto implements TourAreaInterface {
 
 	@Override
 	public void setTagValue(String[] tags) {
-		agelimit = tags[0];
-		bookingplace = tags[1];
-		discountinfofestival = tags[2];
-		eventenddate = tags[3];
-		eventhomepage = tags[4];
-		eventplace = tags[5];
-		eventstartdate = tags[6];
-		festivalgrade = tags[7];
-		playtime = tags[8];
-		spendtimefestival = tags[9];
-		usetimefestival = tags[10];
-		subevent = tags[11];
-		program = tags[12];
-
-	}
-
-	public FestivalDetailDto() {
-	}
-
-	public String getProgram() {
-		return program;
-	}
-	
-	public void setProgram(String program) {
-		this.program = program;
-	}
-	
-	public String getSubevent() {
-		return subevent;
-	}
-
-	public void setSubevent(String subevent) {
-		this.subevent = subevent;
+		this.agelimit = tags[0];					this.bookingplace = tags[1];
+		this.discountinfofestival = tags[2];		this.agelimit = tags[3];
+		this.eventhomepage = tags[4];				this.eventplace = tags[5];
+		this.eventstartdate = tags[6];				this.festivalgrade = tags[7];
+		this.playtime = tags[8];					this.spendtimefestival = tags[9];
+		this.usetimefestival = tags[10];				this.subevent = tags[11];
+		this.program = tags[12];						
 	}
 
 	public String getAgelimit() {
@@ -136,6 +109,22 @@ public class FestivalDetailDto implements TourAreaInterface {
 
 	public void setUsetimefestival(String usetimefestival) {
 		this.usetimefestival = usetimefestival;
+	}
+
+	public String getSubevent() {
+		return subevent;
+	}
+
+	public void setSubevent(String subevent) {
+		this.subevent = subevent;
+	}
+
+	public String getProgram() {
+		return program;
+	}
+
+	public void setProgram(String program) {
+		this.program = program;
 	}
 
 	@Override

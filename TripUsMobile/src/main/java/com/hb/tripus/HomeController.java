@@ -3,8 +3,12 @@ package com.hb.tripus;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +23,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hb.tripus.model.dao.HomeDao;
 import com.hb.tripus.model.dto.AreaDto;
-import com.hb.tripus.model.dto.TourAreaInterface;
+import com.hb.tripus.model.dto.TourAreaBasicDto;
+import com.hb.tripus.model.dto.UserDto;
 import com.hb.tripus.service.MainService;
 import com.hb.tripus.service.ServiceCommand;
 
@@ -36,14 +41,34 @@ public class HomeController {
 	}
 
 	@RequestMapping("main")
-	public String main(Model model) {
+	public String main(Model model, HttpSession session) {
 		service = new MainService();
+		session.setAttribute("mytripCode", null);
+		session.setAttribute("mytripDate", null);
 		model.addAttribute("list", ((MainService) service).getAreaList());
+		
+		// 최근검색지
+		try {
+			UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+			if(userInfo != null) {
+				model.addAttribute("recentSearch", dao.getRecentSearch(userInfo.getId()));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return "home/main";
 	}
 
 	@RequestMapping(value = "search", method = RequestMethod.GET)
 	public String search() {
+		return "home/search";
+	}
+
+	
+	@RequestMapping(value = "search_mytrip", method = RequestMethod.GET)
+	public String search(@RequestParam String tripdate, HttpSession session) {
+		System.out.println("tripdate : " + tripdate);
+		if(tripdate != null) session.setAttribute("mytripDate", tripdate);
 		return "home/search";
 	}
 
@@ -65,17 +90,17 @@ public class HomeController {
 	@RequestMapping("basicInfo")
 	public String basicInfo(@RequestParam("areacode") int areacode, @RequestParam("sigungucode") int sigungucode,
 			Model model) {
-		System.out.println("basicInfo start");
 		service = new MainService();
 		model.addAttribute("tourList", ((MainService) service).getAreaList(areacode, sigungucode));
 		return "tour/basiclist";
 	}
 
 	@RequestMapping("detail/{contentid}")
-	public ModelAndView detailPage(@PathVariable("contentid") String contentid, Model model) {
+	public ModelAndView detailPage(@PathVariable("contentid") String contentid, Model model, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		service = new MainService();
-		System.out.println("\ncontentid :" + contentid);
+		System.out.println("\ndetail Controller");
+		System.out.println("contentid :" + contentid);
 		String contenttypeid = ((MainService) service).getContentTypeInfo(contentid);
 		String DtoClassName = "";
 		String viewPath = "";
@@ -118,7 +143,23 @@ public class HomeController {
 			default:
 				break;
 		}
-		mav.addObject("basicInfo", ((MainService) service).getAreaInfo(contentid));
+		TourAreaBasicDto bean = (TourAreaBasicDto) ((MainService) service).getAreaInfo(contentid);
+		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		// 최근 검색지 추가
+		if(userInfo != null) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("userid", userInfo.getId());
+			map.put("contentid", bean.getContentid());
+			map.put("firstimage", bean.getFirstimage());
+			map.put("title", bean.getTitle());
+			try {
+				dao.insertRecentSearch(map);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		mav.addObject("basicInfo", bean);
 		mav.addObject("detailInfo", ((MainService) service).getAreaDetailInfo(contentid, contenttypeid, DtoClassName));
 		mav.setViewName(viewPath);
 		return mav;

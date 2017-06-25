@@ -18,36 +18,42 @@
         
         	<script type="text/javascript">
         		$('#search-area').on("focus", function(){
-	            	console.log('go to search page');
-        			$.mobile.changePage('search',{
+	            	$.mobile.changePage('search',{
 	                	transition:'slide'
 	                });
 	        	});
         	</script>
         	
             <div data-role='content'>
-            	<div class="ui-corner-all custom-corners">
-            		<div class="ui-bar ui-bar-a">
-            			<h3>최근 검색지</h3>
-            		</div>
-            		<div class="ui-body ui-body-a">
-		            	<div class="swiper-container">
-					        <div class="swiper-wrapper">
-					    		<c:forEach items="${list }" var="bean">
-		                        <div class="swiper-slide">
-						            <a href="detail/${bean.contentid }">
-					                	<img class="slide-img" src="${bean.firstimage }"/>
-					                    <p><strong>${bean.title }</strong></p>
-			               			</a>
-			               		</div>    
-		                		</c:forEach>
-		                	</div>
-					        <!-- Add Pagination -->
-					        <div class="swiper-pagination"></div>
-					    </div>
-					</div>
-			    </div>
-			    
+            	<c:choose>
+		        	<c:when test="${not empty sessionScope.userInfo}">
+		            	<div class="ui-corner-all custom-corners">
+		            		<div class="ui-bar ui-bar-a">
+		            			<h3>${sessionScope.userInfo.nicname }님의 최근 검색지</h3>
+		            		</div>
+		            		<div class="ui-body ui-body-a">
+				            	<div class="swiper-container">
+							        <div class="swiper-wrapper">
+							    		<c:forEach items="${recentSearch }" var="bean">
+				                        <div class="swiper-slide">
+								            <a href="detail/${bean.contentid }">
+							                	<img class="slide-img" src="${bean.firstimage }"/>
+							                    <p><strong>${bean.title }</strong></p>
+					               			</a>
+					               		</div>    
+				                		</c:forEach>
+				                	</div>
+							        <!-- Add Pagination -->
+							        <div class="swiper-pagination"></div>
+							    </div>
+							</div>
+					    </div><br/>
+		            </c:when>
+		            <c:otherwise>
+		                	
+		            </c:otherwise>
+	            </c:choose>
+            	
 			    <div class="ui-corner-all custom-corners">
             		<div class="ui-bar ui-bar-a">
             			<h3>TripUs 추천 여행코스 <a href="#">더보기</a></h3>
@@ -68,7 +74,7 @@
 					        <div class="swiper-pagination"></div>
 					    </div>
 					</div>
-			    </div>
+			    </div><br/>
 				
 			    <div class="ui-corner-all custom-corners">
             		<div class="ui-bar ui-bar-a">
@@ -90,7 +96,7 @@
 					        <div class="swiper-pagination"></div>
 					    </div>
 					</div>
-			    </div>
+			    </div><br/>
 			    
 			    <div class="ui-corner-all custom-corners">
             		<div class="ui-bar ui-bar-a">
@@ -133,10 +139,10 @@
                             <a data-icon='home' class="ui-btn-active ui-state-persist" href="main">Home</a>
                         </li>
                         <li>
-                            <a data-icon='calendar' href="#">내 여행</a>
+                            <a data-icon='calendar' href="mytrip">내 여행</a>
                         </li>
                         <li>
-                            <a data-icon='edit' href="#">여행노트</a>
+                            <a data-icon='edit' href="tripnote">여행노트</a>
                         </li>
                         <li>
                             <a data-icon='gear' href="setting">설정</a>

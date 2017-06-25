@@ -23,8 +23,11 @@
                 	</div>
                 	<button>로그인</button>
                 </form>
-                <a data-role='button' href="${google_url}">Google+ 로그인</a>
-                <a data-role='button' href="signin">회원가입</a>
+                <a data-role='button' href="signin">회원가입</a><br/><br/>
+                <div id="login-icon">
+	                <a href="${google_url}"><img src="resources/imgs/icon/google_login.jpg" /></a>
+	                <a href="${kakao_url }"><img src="resources/imgs/icon/kakao_login_en.png" /></a>
+            	</div>
             </div>
             <div data-role='footer' data-position='fixed'>
                 <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->
@@ -34,13 +37,13 @@
                             <a data-icon='home' href="main">Home</a>
                         </li>
                         <li>
-                            <a data-icon='bars' href="#">내 여행</a>
+                            <a data-icon='calendar' href="mytrip">내 여행</a>
                         </li>
                         <li>
-                            <a data-icon='camera' href="#">여행노트</a>
+                            <a data-icon='edit' href="tripnote">여행노트</a>
                         </li>
                         <li>
-                            <a data-icon='camera' class="ui-btn-active ui-state-persist" href="setting">설정</a>
+                            <a data-icon='gear' class="ui-btn-active ui-state-persist" href="setting">설정</a>
                         </li>
                     </ul>
                 </div>

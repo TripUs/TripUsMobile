@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -11,30 +12,19 @@
     <body>
         <div data-role='page'>
             <div data-role='header'>
-                <h1>TripUs</h1>
+            	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
+                <h1>${basicInfo.title }</h1>
             </div>
             <div data-role='content'>
-                <h1>${basicInfo.title }</h1>
-				<div>
+                <div>
 					<img class="detail-area-img" src="${basicInfo.firstimage }"/>			
+				</div>
+				<div>
+					<a data-role="button" href="../addmytrip_list/${basicInfo.contentid }">내 여행지 추가하기</a>
 				</div><br/>
-				
 				<div>
 					${basicInfo.overview }
 				</div>
-				
-				<form action="upload" method="post" enctype="multipart/form-data">
-					<div>
-						<input type="text" name="contentid" value="${basicInfo.contentid }" hidden="hidden"/>
-					</div>
-					<div>
-						<label for="file"></label>
-						<input type="file" name="file"/>
-					</div>
-					<div>
-						<button>업로드</button>
-					</div>
-				</form>
 				
 				<div>
 					${basicInfo.homepage }
@@ -45,7 +35,8 @@
 				<div>
 					주소 : ${basicInfo.addr1 } ${basicInfo.addr2 }
 				</div><br/>
-				<div><p><strong>문화시설 상세정보</strong></p>
+				<div>
+					<p><strong>문화시설 상세정보</strong></p>
 					<div>
 						유모차대여 여부 : ${detailInfo.chkbabycarriageculture }
 					</div><br/>
@@ -83,20 +74,20 @@
                 <div data-role='navbar'>
                     <ul>
                         <li>
-                            <a data-icon='home' class="ui-btn-active ui-state-persist" href="main">Home</a>
+                            <a data-icon='home' class="ui-btn-active ui-state-persist" href="../main">Home</a>
                         </li>
                         <li>
-                            <a data-icon='calendar' href="#">내 여행</a>
+                            <a data-icon='calendar' href="../mytrip">내 여행</a>
                         </li>
                         <li>
-                            <a data-icon='edit' href="#">여행노트</a>
+                            <a data-icon='edit' href="../tripnote">여행노트</a>
                         </li>
                         <li>
-                            <a data-icon='gear' href="setting">설정</a>
+                            <a data-icon='gear' href="../setting">설정</a>
                         </li>
                     </ul>
                 </div>
-            </div>
-        </div>
+            </div><!-- end footer -->
+        </div><!-- end page -->
     </body>
 </html>

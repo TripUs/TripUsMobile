@@ -2,7 +2,7 @@ package com.hb.tripus.model.dto;
 
 public class TourAreaRecommendDto implements TourAreaInterface {
 
-	private String distance,infocentertourcourse,schedule,taketime,theme;
+	private String distance, infocentertourcourse, schedule, taketime, theme;
 	
 	@Override
 	public String toString() {

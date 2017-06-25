@@ -5,7 +5,7 @@
 <mapper namespace="setting">
 	<insert id="insertUser" parameterType="com.hb.tripus.model.dto.UserDto">
 		INSERT INTO userinfo VALUES
-		(#{id}, #{pw}, #{name}, #{nicname}, #{birthday}, #{email}, #{profile}, #{usertype})
+		(#{id}, #{pw}, #{name}, #{nicname}, #{email}, #{profile}, #{usertype})
 	</insert>
 	
 	<select id="searchUser" parameterType="String" resultType="int">

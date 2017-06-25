@@ -39,13 +39,13 @@ public class JsonParserModule {
 			JSONObject responseObject = (JSONObject) jsonObject.get("response");
 			JSONObject bodyObject = (JSONObject) responseObject.get("body");
 			
-			System.out.println("jsonObject : " + jsonObject.toJSONString());
-			System.out.println("responseObject : " + responseObject.toJSONString());
-			System.out.println("bodyObject : " + bodyObject.toJSONString());
+//			System.out.println("jsonObject : " + jsonObject.toJSONString());
+//			System.out.println("responseObject : " + responseObject.toJSONString());
+//			System.out.println("bodyObject : " + bodyObject.toJSONString());
 			
 			int numOfRows = Integer.parseInt(bodyObject.get("numOfRows").toString());
 			int totalCount = Integer.parseInt(bodyObject.get("totalCount").toString());
-			System.out.println("numOfRows : " + numOfRows + ", totalCount : " + totalCount);
+//			System.out.println("numOfRows : " + numOfRows + ", totalCount : " + totalCount);
 
 			pageCnt = (totalCount / numOfRows);
 			if ((totalCount % numOfRows) != 0) pageCnt++;
@@ -82,10 +82,13 @@ public class JsonParserModule {
 				JSONObject data = (JSONObject) itemArray.get(i);        
 				
 				for (int j = 0; j < dto.getTags().length; j++) {
-	//				System.out.println(dto.getTags() + " : " + getTagValue(dto.getTags()[j], eElement));
 					if(data.get(dto.getTags()[j]) != null)
 						value[j] = data.get(dto.getTags()[j]).toString();
-					else value[j] = "데이터 없음";
+					else {
+						if(dto.getTags()[j].equals("firstimage")) value[j] = "http://localhost:8080/tripus/resources/imgs/no_img.jpg";
+						else if(dto.getTags()[j].equals("firstimage2")) value[j] = "http://localhost:8080/tripus/resources/imgs/no_img.jpg";
+						else value[j] = "데이터 없음";
+					}
 				}
 				dto.setTagValue(value);
 				parseList.add(dto);
@@ -110,8 +113,6 @@ public class JsonParserModule {
 			JSONObject itemsObject = (JSONObject) bodyObject.get("items");
 			JSONObject itemObject = (JSONObject) itemsObject.get("item");
 			
-			System.out.println("itemsObject : " + itemObject.toJSONString());
-			
 			Class<TourAreaInterface> cls = (Class<TourAreaInterface>) Class.forName("com.hb.tripus.model.dto." + this.className);
 			dto = cls.newInstance();
 			dto.getTags();
@@ -119,7 +120,7 @@ public class JsonParserModule {
 				
 			for (int j = 0; j < dto.getTags().length; j++) {
 				if(itemObject.get(dto.getTags()[j]) != null) {
-					System.out.println("data : " +itemObject.get(dto.getTags()[j]).toString());
+//					System.out.println("data : " +itemObject.get(dto.getTags()[j]).toString());
 					value[j] = itemObject.get(dto.getTags()[j]).toString();
 				}
 				else value[j] = "데이터 없음";

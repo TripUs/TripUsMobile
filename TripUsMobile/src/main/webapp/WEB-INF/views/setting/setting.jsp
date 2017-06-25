@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="resources/css/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="resources/css/jquery.mobile.theme-1.4.5.min.css"/>
         <link rel="stylesheet" href="resources/css/swiper.min.css">
+        <link rel="stylesheet" href="resources/css/tripus.css">
         <script src="http://code.jquery.com/jquery-1.12.4.min.js"
                   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
                   crossorigin="anonymous"></script>
@@ -18,16 +19,6 @@
         <script type="text/javascript" src="resources/js/hello.all.min.js"></script>
         <script type="text/javascript" src="resources/js/google-oauth.js"></script>
 	    <title>Document</title>
-        
-        <style type="text/css">
-        	.slide-img {
-        		width: 200px;
-        		height: 150px;
-        	}
-        	.detail-area-img {
-        		width: 100%;
-        	}
-        </style>
     </head>
     <body>
         <div data-role='page'>
@@ -71,12 +62,6 @@
                     <li>
                         <a href="#">
                             <img src=""/>	<!-- 이미지 아이콘 -->
-                            <p>환율 설정</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src=""/>	<!-- 이미지 아이콘 -->
                             <p>언어 설정</p>
                         </a>
                     </li>
@@ -90,13 +75,13 @@
                             <a data-icon='home' href="main">Home</a>
                         </li>
                         <li>
-                            <a data-icon='bars' href="#">내 여행</a>
+                            <a data-icon='calendar' href="mytrip">내 여행</a>
                         </li>
                         <li>
-                            <a data-icon='camera' href="#">여행노트</a>
+                            <a data-icon='edit' href="tripnote">여행노트</a>
                         </li>
                         <li>
-                            <a data-icon='camera' class="ui-btn-active ui-state-persist" href="setting">설정</a>
+                            <a data-icon='gear' class="ui-btn-active ui-state-persist" href="setting">설정</a>
                         </li>
                     </ul>
                 </div>

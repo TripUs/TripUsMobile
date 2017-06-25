@@ -4,6 +4,10 @@ public class CultureFacilityDto implements TourAreaInterface {
 	private String accomcountculture, chkbabycarriageculture, chkpetculture, discountinfo;
 	private String infocenterculture, parkingculture, restdateculture, usetimeculture, parkingfee, usefee ;
 
+	public CultureFacilityDto() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	@Override
 	public String[] getTags() {
 		String[] tags = { "accomcountculture", "chkbabycarriageculture", "chkpetculture", "discountinfo",
@@ -13,38 +17,13 @@ public class CultureFacilityDto implements TourAreaInterface {
 
 	@Override
 	public void setTagValue(String[] tags) {
-		accomcountculture = tags[0];
-		chkbabycarriageculture = tags[1];
-		chkpetculture = tags[2];
-		discountinfo = tags[3];
-		infocenterculture = tags[4];
-		parkingculture = tags[5];
-		restdateculture = tags[6];
-		usetimeculture = tags[7];
-		parkingfee = tags[8];
-		usefee = tags[9];
-
+		this.accomcountculture = tags[0];		this.chkbabycarriageculture = tags[1];
+		this.chkpetculture = tags[2];			this.discountinfo = tags[3];
+		this.infocenterculture = tags[4];		this.parkingculture = tags[5];
+		this.restdateculture = tags[6];			this.usetimeculture = tags[7];
+		this.parkingfee = tags[8];				this.usefee = tags[9];
 	}
 
-	public CultureFacilityDto() {
-	}
-	
-	public void setParkingfee(String parkingfee) {
-		this.parkingfee = parkingfee;
-	}
-	
-	public String getParkingfee() {
-		return parkingfee;
-	}
-	
-	public void setUsefee(String usefee) {
-		this.usefee = usefee;
-	}
-	
-	public String getUsefee() {
-		return usefee;
-	}
-	
 	public String getAccomcountculture() {
 		return accomcountculture;
 	}
@@ -109,6 +88,22 @@ public class CultureFacilityDto implements TourAreaInterface {
 		this.usetimeculture = usetimeculture;
 	}
 
+	public String getParkingfee() {
+		return parkingfee;
+	}
+
+	public void setParkingfee(String parkingfee) {
+		this.parkingfee = parkingfee;
+	}
+
+	public String getUsefee() {
+		return usefee;
+	}
+
+	public void setUsefee(String usefee) {
+		this.usefee = usefee;
+	}
+
 	@Override
 	public String toString() {
 		return "CultureFacilityDto [accomcountculture=" + accomcountculture + ", chkbabycarriageculture="
@@ -117,7 +112,5 @@ public class CultureFacilityDto implements TourAreaInterface {
 				+ ", restdateculture=" + restdateculture + ", usetimeculture=" + usetimeculture + ", parkingfee="
 				+ parkingfee + ", usefee=" + usefee + "]";
 	}
-
 	
-
 }

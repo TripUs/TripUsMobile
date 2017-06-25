@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mytrip">
+	<select id="getMyTrip" parameterType="String" resultType="com.hb.tripus.model.dto.MyTripDto">
+		SELECT * FROM MYTRIP WHERE USERID=#{value}
+	</select>
+	
+	<select id="getMyTripSelectOne" parameterType="int" resultType="com.hb.tripus.model.dto.MyTripDto">
+		SELECT * FROM MYTRIP WHERE CODE=#{value}
+	</select>
+	
+	<insert id="insertMyTrip" parameterType="com.hb.tripus.model.dto.MyTripDto">
+		INSERT INTO MYTRIP(CODE, GRP, USERID, TITLE, STARTDATE, ENDDATE, THEMA)
+		VALUES (MYTRIP_CODE_SEQ.NEXTVAL, MYTRIP_GRP_SEQ.NEXTVAL, #{userid}, #{title}, #{startdate}, #{enddate}, #{thema})
+	</insert>
+	
+	<select id="getMyTripList" parameterType="int" resultType="com.hb.tripus.model.dto.MyTripListDto">
+		SELECT * FROM TRIPLIST WHERE CODE=#{value}
+	</select>
+	
+	<insert id="insertMyTripList" parameterType="com.hb.tripus.model.dto.MyTripListDto">
+		INSERT INTO TRIPLIST VALUES (#{code}, #{daynum}, #{tripdate})
+	</insert>
+	
+	<select id="getMyTripDetail" parameterType="int" resultType="com.hb.tripus.model.dto.MyTripDetailDto">
+		SELECT * FROM TRIPLIST_DETAIL WHERE MYTRIPCODE=#{value} ORDER BY TRIPDATE, IDX
+	</select>
+	
+	<insert id="insertMyTripDetail" parameterType="com.hb.tripus.model.dto.MyTripDetailDto">
+		INSERT INTO TRIPLIST_DETAIL
+		VALUES (TRIPLIST_DETAIL_IDX_SEQ.NEXTVAL, #{mytripcode}, #{tripdate}, #{contentid}, #{content_title}, #{content_img}, #{mapx}, #{mapy})
+	</insert>
+	
+	<insert id="insertTripStory" parameterType="com.hb.tripus.model.dto.MyTripBbsDto">
+		INSERT INTO TRIPLISTBBS
+		VALUES (TRIPLISTBBS_IDX_SEQ.NEXTVAL, #{tripdate}, #{userid}, #{userprofile}, #{memo}, (SELECT MAX(GRP) FROM TRIPLISTBBS), SYSDATE)
+	</insert>
+</mapper>

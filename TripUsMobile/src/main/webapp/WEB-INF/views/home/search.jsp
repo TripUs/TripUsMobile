@@ -39,7 +39,7 @@
                     <c:forEach items="${keywordList }" var="bean">
 	            		<li>
 	                        <a href="detail/${bean.contentid }">
-	                            <img src="${bean.firstimage }"/>
+	                            <img src="${bean.firstimage }" style="width: 100%; height: 100%;"/>
 	                            <span><strong>${bean.title }</strong></span><br/>
 	                            <span>${bean.addr1 }</span>
 	                            <span class="ui-li-count">11</span>
@@ -125,10 +125,10 @@
                             <a data-icon='home' class="ui-btn-active ui-state-persist" href="main">Home</a>
                         </li>
                         <li>
-                            <a data-icon='calendar' href="#">내 여행</a>
+                            <a data-icon='calendar' href="mytrip">내 여행</a>
                         </li>
                         <li>
-                            <a data-icon='edit' href="#">여행노트</a>
+                            <a data-icon='edit' href="tripnote">여행노트</a>
                         </li>
                         <li>
                             <a data-icon='gear' href="setting">설정</a>

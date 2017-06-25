@@ -4,6 +4,13 @@
 
 <mapper namespace="home">
 	<select id="searchArea" parameterType="String" resultType="com.hb.tripus.model.dto.AreaDto">
-		SELECT * FROM area WHERE name LIKE '%'||#{keyword}||'%'
+		SELECT * FROM AREA WHERE NAME LIKE '%'||#{keyword}||'%'
 	</select>
+	<select id="getRecentSearch" parameterType="String" resultType="com.hb.tripus.model.dto.RecentSearchDto">
+		SELECT ROWNUM, RS.* FROM (SELECT * FROM RECENTSEARCH WHERE USERID=#{value} ORDER BY IDX DESC) RS
+		WHERE ROWNUM<![CDATA[ <= ]]>5
+	</select>
+	<insert id="insertRecentSearch" parameterType="java.util.Map">
+		INSERT INTO RECENTSEARCH VALUES(RECENTSEARCH_IDX_SEQ.NEXTVAL, #{userid}, #{contentid}, #{firstimage}, #{title})
+	</insert>
 </mapper>
