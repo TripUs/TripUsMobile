@@ -16,8 +16,6 @@
                   crossorigin="anonymous"></script>
         <script src="resources/js/jquery.mobile-1.4.5.min.js"></script>
         <script src="resources/js/swiper.min.js"></script>
-        <script type="text/javascript" src="resources/js/hello.all.min.js"></script>
-        <script type="text/javascript" src="resources/js/google-oauth.js"></script>
 	    <title>Document</title>
     </head>
     <body>
@@ -54,7 +52,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="friendlist">
                             <img src=""/>	<!-- 이미지 아이콘 -->
                             <p>친구 목록</p>
                         </a>

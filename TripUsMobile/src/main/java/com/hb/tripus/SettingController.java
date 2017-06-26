@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hb.tripus.model.dao.SettingDao;
+import com.hb.tripus.model.dto.FriendListDto;
 import com.hb.tripus.model.dto.UserDto;
 
 @Controller
@@ -216,7 +217,7 @@ public class SettingController {
 		if (bean.getId() != null && bean.getPw() != null) {
 			try {
 				UserDto userInfo = dao.loginUser(bean);
-				if (userInfo.getId() == null) {
+				if (userInfo == null) {
 					System.out.println("로그인 실패");
 					System.out.println("id : " + userInfo.getId());
 				} else {
@@ -276,4 +277,16 @@ public class SettingController {
 		return "redirect:main";
 	}
 
+	@RequestMapping("friendlist")
+	public String friendlist(Model model, HttpSession session) {
+		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		try {
+			List<FriendListDto> list = dao.getFriendList(userInfo.getId());
+			model.addAttribute("friendList", list);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "setting/friendlist";
+	}
+	
 }

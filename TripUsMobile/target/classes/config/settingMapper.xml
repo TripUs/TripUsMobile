@@ -15,4 +15,12 @@
 	<select id="loginUser" parameterType="com.hb.tripus.model.dto.UserDto" resultType="com.hb.tripus.model.dto.UserDto">
 		SELECT * FROM userinfo WHERE id=#{id} and pw=#{pw}
 	</select>
+	
+	<select id="getSearchUserInfo" parameterType="String" resultType="com.hb.tripus.model.dto.UserDto">
+		SELECT * FROM USERINFO WHERE NAME=#{value}
+	</select>
+	
+	<select id="getFriendList" parameterType="String" resultType="com.hb.tripus.model.dto.FriendListDto">
+		SELECT * FROM FRIENDLIST WHERE USERID=#{value}
+	</select>
 </mapper>
