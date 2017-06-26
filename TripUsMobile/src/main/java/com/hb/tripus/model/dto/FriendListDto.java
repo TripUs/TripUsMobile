@@ -2,18 +2,21 @@ package com.hb.tripus.model.dto;
 
 public class FriendListDto {
 
-	private String userid, friendid, friendprofile, friendnicname;
+	private String userid, friendid, friendprofile, friendname, friendnicname;
+	private int flag;
 	
 	public FriendListDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public FriendListDto(String userid, String friendid, String friendprofile, String friendnicname) {
+	public FriendListDto(String userid, String friendid, String friendprofile, String friendname, String friendnicname, int flag) {
 		super();
 		this.userid = userid;
 		this.friendid = friendid;
 		this.friendprofile = friendprofile;
+		this.friendname = friendname;
 		this.friendnicname = friendnicname;
+		this.flag = flag;
 	}
 
 	public String getUserid() {
@@ -40,6 +43,14 @@ public class FriendListDto {
 		this.friendprofile = friendprofile;
 	}
 
+	public String getFriendname() {
+		return friendname;
+	}
+
+	public void setFriendname(String friendname) {
+		this.friendname = friendname;
+	}
+
 	public String getFriendnicname() {
 		return friendnicname;
 	}
@@ -48,10 +59,18 @@ public class FriendListDto {
 		this.friendnicname = friendnicname;
 	}
 
+	public int getFlag() {
+		return flag;
+	}
+
+	public void setFlag(int flag) {
+		this.flag = flag;
+	}
+
 	@Override
 	public String toString() {
 		return "FriendListDto [userid=" + userid + ", friendid=" + friendid + ", friendprofile=" + friendprofile
-				+ ", friendnicname=" + friendnicname + "]";
+				+ ", friendname=" + friendname + ", friendnicname=" + friendnicname + ", flag=" + flag + "]";
 	}
 	
 }

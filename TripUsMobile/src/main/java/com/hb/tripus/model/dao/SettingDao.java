@@ -1,7 +1,9 @@
 package com.hb.tripus.model.dao;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -24,6 +26,10 @@ public class SettingDao implements DaoInterface {
 		return sqlSession.selectOne("setting.searchUser", id);
 	}
 	
+	public UserDto getUserInfo(String id) throws SQLException {
+		return sqlSession.selectOne("setting.getUserInfo", id);
+	}
+	
 	public UserDto loginUser(UserDto bean) throws SQLException {
 		return sqlSession.selectOne("setting.loginUser", bean);
 	}
@@ -32,8 +38,15 @@ public class SettingDao implements DaoInterface {
 		return sqlSession.selectList("setting.getFriendList", id);
 	}
 	
-	public UserDto getSearchUserInfo(String name) throws SQLException {
-		return sqlSession.selectOne("setting.getSearchUserInfo", name);
+	public List<UserDto> getSearchUserInfo(String userid, String name) throws SQLException {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userid", userid);
+		map.put("name", name);
+		return sqlSession.selectList("setting.getSearchUserInfo", map);
+	}
+	
+	public void insertFriend(FriendListDto bean) throws SQLException {
+		sqlSession.insert("setting.insertFriend", bean);
 	}
 	
 }

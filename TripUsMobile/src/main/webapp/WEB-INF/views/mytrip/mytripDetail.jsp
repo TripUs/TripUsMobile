@@ -34,8 +34,8 @@
             	<div id="mytrip-story">
 	            	<div data-role="controlgroup" data-type="horizontal">
 	            		<img class="mytrip-cover" src="${mytrip.coverimg }"/>
-	               		<a data-role="button" href="#">커버 이미지 변경</a>
-	               		<a data-role="button" href="#">친구 초대</a>
+	               		<a class="mytrip-detail-btn" data-role="button" href="#">커버 이미지 변경</a>
+	               		<a class="mytrip-detail-btn" data-role="button" href="#">친구 초대</a>
 	               	</div>
 	               	<c:forEach items="${tripList }" var="bean">
 	               		<div class="ui-corner-all custom-corners">

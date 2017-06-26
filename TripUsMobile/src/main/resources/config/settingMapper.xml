@@ -4,23 +4,31 @@
 
 <mapper namespace="setting">
 	<insert id="insertUser" parameterType="com.hb.tripus.model.dto.UserDto">
-		INSERT INTO userinfo VALUES
-		(#{id}, #{pw}, #{name}, #{nicname}, #{email}, #{profile}, #{usertype})
+		INSERT INTO USERINFO(ID, PW, NAME, NICNAME, EMAIL, USERTYPE)
+		VALUES (#{id}, #{pw}, #{name}, #{nicname}, #{email}, #{usertype})
 	</insert>
 	
 	<select id="searchUser" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM USERINFO WHERE ID=#{id}
 	</select>
 	
+	<select id="getUserInfo" parameterType="String" resultType="com.hb.tripus.model.dto.UserDto">
+		SELECT * FROM USERINFO WHERE ID=#{id}
+	</select>
+	
 	<select id="loginUser" parameterType="com.hb.tripus.model.dto.UserDto" resultType="com.hb.tripus.model.dto.UserDto">
 		SELECT * FROM userinfo WHERE id=#{id} and pw=#{pw}
 	</select>
 	
-	<select id="getSearchUserInfo" parameterType="String" resultType="com.hb.tripus.model.dto.UserDto">
-		SELECT * FROM USERINFO WHERE NAME=#{value}
+	<select id="getSearchUserInfo" parameterType="java.util.Map" resultType="com.hb.tripus.model.dto.UserDto">
+		SELECT * FROM USERINFO WHERE ID!=#{userid} AND NAME LIKE '%'||#{name}||'%'
 	</select>
 	
 	<select id="getFriendList" parameterType="String" resultType="com.hb.tripus.model.dto.FriendListDto">
 		SELECT * FROM FRIENDLIST WHERE USERID=#{value}
 	</select>
+	
+	<insert id="insertFriend" parameterType="com.hb.tripus.model.dto.FriendListDto">
+		INSERT INTO FRIENDLIST VALUES (#{userid}, #{friendid}, #{friendprofile}, #{friendname}, #{friendnicname}, #{flag})
+	</insert>
 </mapper>

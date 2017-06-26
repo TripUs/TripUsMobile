@@ -20,3 +20,14 @@
 #mytrip-maps {
 	display: none;
 }
+
+.mytrip-detail-btn {
+	box-sizing: border-box;
+	position: relative;
+	display: inline-block;
+	top: -48px;
+	width: 50%;
+	background-color: black;
+	color: white;
+	opacity: 0.5;
+}

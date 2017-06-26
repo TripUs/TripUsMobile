@@ -25,8 +25,8 @@
                 </form>
                 <a data-role='button' href="signin">회원가입</a><br/><br/>
                 <div id="login-icon">
-	                <a href="${google_url}"><img src="resources/imgs/icon/google_login.jpg" /></a>
-	                <a href="${kakao_url }"><img src="resources/imgs/icon/kakao_login_en.png" /></a>
+	                <a href="${google_url}" data-ajax="false"><img src="resources/imgs/icon/google_login.jpg" /></a>
+	                <a href="${kakao_url }" data-ajax="false"><img src="resources/imgs/icon/kakao_login_en.png" /></a>
             	</div>
             </div>
             <div data-role='footer' data-position='fixed'>

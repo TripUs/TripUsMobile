@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpResponse;
@@ -30,6 +31,7 @@ import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -269,7 +271,6 @@ public class SettingController {
 	public String signin(@ModelAttribute UserDto bean, Model model) {
 		try {
 			bean.setUsertype("tripus");
-			bean.setProfile("");
 			dao.insertUser(bean);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -277,16 +278,40 @@ public class SettingController {
 		return "redirect:main";
 	}
 
-	@RequestMapping("friendlist")
-	public String friendlist(Model model, HttpSession session) {
+	@RequestMapping("friendlist/{flag}")
+	public String friendlist(@PathVariable int flag, Model model, HttpServletRequest req, HttpSession session) {
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
 		try {
-			List<FriendListDto> list = dao.getFriendList(userInfo.getId());
-			model.addAttribute("friendList", list);
+			if(flag == 0) {
+				String name = req.getParameter("name");
+				List<UserDto> userList = dao.getSearchUserInfo(userInfo.getId(), name);
+				model.addAttribute("userList", userList);
+			}
+			List<FriendListDto> friendList = dao.getFriendList(userInfo.getId());
+			model.addAttribute("friendList", friendList);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return "setting/friendlist";
+	}
+	
+	@RequestMapping(value="searchfriend", method=RequestMethod.POST)
+	public String searchFriend(@RequestParam String name, Model model) {
+		model.addAttribute("name", name);
+		return "redirect:friendlist/" + 0;
+	}
+	
+	@RequestMapping("addfriend/{friendid}")
+	public String addFriend(@PathVariable String friendid, HttpSession session) {
+		try {
+			UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+			UserDto friendInfo = dao.getUserInfo(friendid);
+			dao.insertFriend(new FriendListDto(userInfo.getId(), friendid, friendInfo.getProfile(), friendInfo.getName(), friendInfo.getNicname(), 0));
+			dao.insertFriend(new FriendListDto(friendid, userInfo.getId(), userInfo.getProfile(), userInfo.getName(), userInfo.getNicname(), 1));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "redirect:../friendlist/" + 1;
 	}
 	
 }

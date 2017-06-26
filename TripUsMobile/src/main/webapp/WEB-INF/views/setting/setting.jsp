@@ -52,7 +52,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="friendlist">
+                        <a href="friendlist/1">
                             <img src=""/>	<!-- 이미지 아이콘 -->
                             <p>친구 목록</p>
                         </a>
