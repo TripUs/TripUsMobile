@@ -33,8 +33,30 @@
 		VALUES (TRIPLIST_DETAIL_IDX_SEQ.NEXTVAL, #{mytripcode}, #{tripdate}, #{contentid}, #{content_title}, #{content_img}, #{mapx}, #{mapy})
 	</insert>
 	
+	<select id="getGrpCnt" resultType="int">
+		SELECT MAX(GRP) FROM TRIPLISTBBS
+	</select>
+	
 	<insert id="insertTripStory" parameterType="com.hb.tripus.model.dto.MyTripBbsDto">
+		INSERT INTO TRIPLISTBBS (IDX, TRIPCODE, TRIPNUM, TRIPDATE, USERID, USERPROFILE, MEMO, GRP, REPORTING_DATE)
+		VALUES (TRIPLISTBBS_IDX_SEQ.NEXTVAL, #{tripcode}, #{tripnum}, #{tripdate}, #{userid}, #{userprofile}, #{memo}, 
+		#{grp}, SYSDATE)
+	</insert>
+	
+	<select id="getTripStory" parameterType="int" resultType="com.hb.tripus.model.dto.MyTripBbsDto">
+		SELECT * FROM TRIPLISTBBS WHERE TRIPCODE=#{tripcode} ORDER BY GRP, SEQ
+	</select>
+	
+	<select id="getOneTripStory" parameterType="int" resultType="com.hb.tripus.model.dto.MyTripBbsDto">
+		SELECT * FROM TRIPLISTBBS WHERE IDX=#{value}
+	</select>
+	
+	<update id="updateStorySeqLvl" parameterType="java.util.Map">
+		UPDATE TRIPLISTBBS SET SEQ=#{seq1} WHERE GRP=#{grp} AND SEQ <![CDATA[ > ]]> #{seq2}
+	</update>
+	
+	<insert id="insertStoryReple" parameterType="com.hb.tripus.model.dto.MyTripBbsDto">
 		INSERT INTO TRIPLISTBBS
-		VALUES (TRIPLISTBBS_IDX_SEQ.NEXTVAL, #{tripdate}, #{userid}, #{userprofile}, #{memo}, (SELECT MAX(GRP) FROM TRIPLISTBBS), SYSDATE)
+		VALUES (TRIPLISTBBS_IDX_SEQ.NEXTVAL, #{tripcode}, #{tripnum}, #{tripdate}, #{userid}, #{userprofile}, #{memo}, #{grp}, #{seq}, #{lvl}, SYSDATE)
 	</insert>
 </mapper>

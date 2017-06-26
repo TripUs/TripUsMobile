@@ -1,11 +1,13 @@
 package com.hb.tripus.model.dao;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.hb.tripus.model.dto.MyTripBbsDto;
 import com.hb.tripus.model.dto.MyTripDetailDto;
 import com.hb.tripus.model.dto.MyTripDto;
 import com.hb.tripus.model.dto.MyTripListDto;
@@ -45,4 +47,34 @@ public class MyTripDao implements DaoInterface {
 	public void insertMyTripDetail(MyTripDetailDto bean) throws SQLException {
 		sqlSession.insert("mytrip.insertMyTripDetail", bean);
 	}
+	
+	public void insertStoryReple(MyTripBbsDto bean) throws SQLException {
+		sqlSession.insert("mytrip.insertStoryReple", bean);
+	}
+	
+	public void insertTripStory(MyTripBbsDto bean) throws SQLException {
+		sqlSession.insert("mytrip.insertTripStory", bean);
+	}
+	
+	public List<MyTripBbsDto> getTripStory(int code) throws SQLException {
+		return sqlSession.selectList("mytrip.getTripStory", code);
+	}
+	
+	public int getGrpCnt() throws SQLException {
+		if(sqlSession.selectOne("mytrip.getGrpCnt") == null) return 0;
+		return sqlSession.selectOne("mytrip.getGrpCnt");
+	}
+	
+	public void updateStorySeqLvl(int seq, int grp) throws SQLException {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("seq1", seq+1);
+		map.put("seq2", seq);
+		map.put("grp", grp);
+		sqlSession.update("mytrip.updateStorySeqLvl", map);
+	}
+	
+	public MyTripBbsDto getOneTripStory(int idx) throws SQLException {
+		return sqlSession.selectOne("mytrip.getOneTripStory", idx);
+	}
+	
 }

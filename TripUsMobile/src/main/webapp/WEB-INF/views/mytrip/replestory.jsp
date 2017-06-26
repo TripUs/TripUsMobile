@@ -22,7 +22,7 @@
         <div id="main" data-role='page'>
             <div data-role='header'>
             	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
-                <h2>여행 Story 작성</h2>
+                <h2>댓글 작성</h2>
                 <a href="#" data-rel="back" class="ui-btn ui-shadow">작성</a>
             </div>
         

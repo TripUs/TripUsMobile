@@ -19,7 +19,7 @@
 	    <title>Document</title>
     </head>
     <body>
-        <div id="main" data-role='page'>
+        <div data-role='page'>
             <div data-role='header'>
                 <h1>내 여행 관리</h1>
             </div>

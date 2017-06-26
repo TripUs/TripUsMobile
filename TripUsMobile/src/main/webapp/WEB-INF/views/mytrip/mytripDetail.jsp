@@ -56,8 +56,22 @@
 	               				<!-- 메모 공간 -->
 	               				<div data-role="collapsible" data-theme="b" data-content-theme="a">
 	               					<h4>${bean.daynum }일차 Story</h4>
-	               					<p>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</p>
-	               					<a data-role="button" href="../addstory">글 쓰기</a>
+	               					<ul data-role="listview" data-inset="true">
+		               					<c:forEach items="${tripStory }" var="story">
+		               						<c:if test="${bean.tripdate eq story.tripdate }">
+		               							<li data-icon="comment">
+		               								<a href="#"><img class="ui-li-icon" src="${story.userprofile }" style="width: 100%; height: 100%;"/>
+		               								${story.memo }</a>
+		               								<a href="../replestory/${story.idx }">댓글</a>
+		               							</li>
+		               							<%-- <p>
+		               								<img src="${story.userprofile }" style="width: 50px; height: 50px;"/> 
+		               								&nbsp; &nbsp;${story.memo }
+		               							</p> --%>
+		               						</c:if>
+		               					</c:forEach>
+	               					</ul>
+	               					<a data-role="button" href="../addstory/${bean.daynum }/${bean.tripdate }">글 쓰기</a>
 	               				</div>
 	               				
 	               			</div>
@@ -66,6 +80,9 @@
 	            </div>
 				<div id="mytrip-maps">
 	               	<h3>지도</h3>
+	               	<c:forEach items="${tripDetail}" var="detail">
+	               		<h4>${detail.mapx } : ${detail.mapy }</h4>
+	               	</c:forEach>
 	            </div>
             </div>
             

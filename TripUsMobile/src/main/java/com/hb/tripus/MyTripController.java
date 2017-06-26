@@ -111,6 +111,9 @@ public class MyTripController {
 			model.addAttribute("tripDetail", list2);
 			System.out.println("tripDetail : " + list2.size());
 			session.setAttribute("mytripCode", bean.getCode());
+			
+			List<MyTripBbsDto> list3 = dao.getTripStory(bean.getCode());
+			model.addAttribute("tripStory", list3);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -149,20 +152,62 @@ public class MyTripController {
 		return "redirect:../mytripdetail/" + code;
 	}
 	
-	@RequestMapping(value="addstory", method=RequestMethod.GET)
-	public String addTripStory() {
+	@RequestMapping(value="addstory/{tripnum}/{tripdate}", method=RequestMethod.GET)
+	public String addTripStory(@PathVariable int tripnum, @PathVariable String tripdate, Model model) {
+		System.out.println("1. tripnum : " + tripnum + ", tripdate : " + tripdate);
+		model.addAttribute("tripnum", tripnum);
+		model.addAttribute("tripdate", tripdate);
 		return "mytrip/addstory";
 	}
 	
-	@RequestMapping(value="addstory", method=RequestMethod.POST)
-	public String insertTripStory(@RequestParam String story, HttpSession session) {
+	@RequestMapping(value="addstory/{tripnum}/{tripdate}", method=RequestMethod.POST)
+	public String insertTripStory(@PathVariable int tripnum, @PathVariable String tripdate, @RequestParam String memo, HttpSession session) {
 		int code = (Integer) session.getAttribute("mytripCode");
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
-		
-		MyTripBbsDto bean = new MyTripBbsDto();
-		bean.setTripdate("");
-		
-		return "redirect:mytripdetail/" + code;
+		System.out.println("2. tripnum : " + tripnum + ", tripdate : " + tripdate);
+		MyTripBbsDto bean = null;
+		try {
+			int grp = dao.getGrpCnt() + 1;
+			System.out.println(grp);
+			bean = new MyTripBbsDto(0, code, tripnum, grp, 0, 0, 
+					tripdate, userInfo.getId(),	userInfo.getProfile(), memo, null);
+			dao.insertTripStory(bean);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "redirect:../../mytripdetail/" + code;
 	}
 	
+	@RequestMapping(value="replestory/{idx}", method=RequestMethod.GET)
+	public String repleTripStory(@PathVariable int idx, Model model) {
+		model.addAttribute("idx", idx);
+		return "mytrip/replestory";
+	}
+	
+	@RequestMapping(value="replestory/{idx}", method=RequestMethod.POST)
+	public String insertRepleStory(@PathVariable int idx, @RequestParam String memo, HttpSession session) {
+		int code = (Integer)session.getAttribute("mytripCode");
+		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		MyTripBbsDto bean = null;
+		try {
+			bean = dao.getOneTripStory(idx);						// select grp, seq, lvl
+			dao.updateStorySeqLvl(bean.getSeq(), bean.getGrp());	// update seq
+			
+			bean.setUserid(userInfo.getId());
+			bean.setUserprofile(userInfo.getProfile());
+			bean.setSeq(bean.getSeq()+1);
+			bean.setLvl(bean.getLvl()+1);
+			String temp = "";
+			for(int i=0; i<bean.getLvl(); i++) {
+				temp += "&nbsp;&nbsp;";
+			}
+			bean.setMemo(temp + "¦¦re: " + memo);
+			System.out.println(bean.getMemo());
+			System.out.println("insert reple seq=" + bean.getSeq() + ", lvl=" + bean.getLvl());
+			dao.insertStoryReple(bean);								// insert bbs data
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "redirect:../mytripdetail/" + code;
+	}
 }
