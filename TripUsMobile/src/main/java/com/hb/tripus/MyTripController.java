@@ -88,13 +88,10 @@ public class MyTripController {
 			model.addAttribute("mytrip", bean);
 
 			List<MyTripListDto> list = dao.getMyTripList(bean.getCode());
-			System.out.println("list size : " + list.size());
 			
 			if(list.size() == 0) {
 				System.out.println("My Trip List is Null");
 				int daynum = diffOfDate(bean.getStartdate().toString(), bean.getEnddate().toString()) + 1;
-	//			System.out.println("date num : " + daynum);
-				
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 				Date date = null;
 				date = formatter.parse(bean.getStartdate().toString());
@@ -104,8 +101,7 @@ public class MyTripController {
 					cal.setTime(date);
 					cal.add(Calendar.DATE, i);
 					String tripdate = formatter.format(cal.getTime());
-	//				System.out.println("tripdate : " + tripdate);
-					
+
 					MyTripListDto dto = new MyTripListDto(bean.getCode(), (i+1), tripdate);
 					dao.insertMyTripList(dto);
 					list.add(dto);
@@ -115,7 +111,6 @@ public class MyTripController {
 			
 			List<MyTripDetailDto> list2 = dao.getMyTripDetail(bean.getCode());
 			model.addAttribute("tripDetail", list2);
-			System.out.println("tripDetail : " + list2.size());
 			session.setAttribute("mytripCode", bean.getCode());
 			
 			List<MyTripBbsDto> list3 = dao.getTripStory(bean.getCode());

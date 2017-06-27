@@ -17,8 +17,7 @@
 	padding: 0px;
 }
 
-#mytrip-invite,
-#mytrip-maps {
+#mytrip-invite, #mytrip-maps {
 	display: none;
 }
 
@@ -31,4 +30,13 @@
 	background-color: black;
 	color: white;
 	opacity: 0.5;
+}
+
+.slider-text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 200px;
+	height: 20px;
+	text-decoration: none;
 }
