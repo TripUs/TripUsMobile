@@ -4,24 +4,23 @@ import java.sql.Date;
 
 public class MyTripDto {
 
-	private int code, grp;
-	private String userid, title, coverimg, thema;
+	private int code, num;
+	private String title, coverimg, thema;
 	private Date startdate, enddate;
 	
 	public MyTripDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MyTripDto(int code, int grp, String userid, String title, String coverimg, Date startdate, Date enddate,	String thema) {
+	public MyTripDto(int code, int num, String title, String coverimg, String thema, Date startdate, Date enddate) {
 		super();
 		this.code = code;
-		this.grp = grp;
-		this.userid = userid;
+		this.num = num;
 		this.title = title;
 		this.coverimg = coverimg;
+		this.thema = thema;
 		this.startdate = startdate;
 		this.enddate = enddate;
-		this.thema = thema;
 	}
 
 	public int getCode() {
@@ -30,22 +29,6 @@ public class MyTripDto {
 
 	public void setCode(int code) {
 		this.code = code;
-	}
-
-	public int getGrp() {
-		return grp;
-	}
-
-	public void setGrp(int grp) {
-		this.grp = grp;
-	}
-
-	public String getUserid() {
-		return userid;
-	}
-
-	public void setUserid(String userid) {
-		this.userid = userid;
 	}
 
 	public String getTitle() {
@@ -88,10 +71,18 @@ public class MyTripDto {
 		this.thema = thema;
 	}
 
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
 	@Override
 	public String toString() {
-		return "MyTripDto [code=" + code + ", grp=" + grp + ", userid=" + userid + ", title=" + title + ", coverimg="
-				+ coverimg + ", startdate=" + startdate + ", enddate=" + enddate + ", thema=" + thema + "]";
+		return "MyTripDto [code=" + code + ", num=" + num + ", title=" + title + ", coverimg=" + coverimg + ", thema="
+				+ thema + ", startdate=" + startdate + ", enddate=" + enddate + "]";
 	}
 	
 }

@@ -35,7 +35,7 @@
 	            	<div data-role="controlgroup" data-type="horizontal">
 	            		<img class="mytrip-cover" src="${mytrip.coverimg }"/>
 	               		<a class="mytrip-detail-btn" data-role="button" href="#">커버 이미지 변경</a>
-	               		<a class="mytrip-detail-btn" data-role="button" href="#">친구 초대</a>
+	               		<a class="mytrip-detail-btn" data-role="button" href="../invitefriend">친구 초대</a>
 	               	</div>
 	               	<c:forEach items="${tripList }" var="bean">
 	               		<div class="ui-corner-all custom-corners">
@@ -81,8 +81,8 @@
 				<div id="mytrip-maps">
 	               	<h3>지도</h3>
 	               	<c:forEach items="${tripDetail}" var="detail">
-	               		<h4>${detail.mapx } : ${detail.mapy }</h4>
-	               	</c:forEach>
+		            	<h4>${detail.mapx } : ${detail.mapy }</h4>
+		            </c:forEach>
 	            </div>
             </div>
             

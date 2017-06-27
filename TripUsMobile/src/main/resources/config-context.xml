@@ -2,7 +2,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="tripuscorp@gmail.com" />
+		<property name="password" value="6class6class" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
@@ -23,15 +38,15 @@
 	<bean id="homeDao" class="com.hb.tripus.model.dao.HomeDao">
 		<property name="sqlSession" ref="sqlSession"></property>
 	</bean>
-	
+
 	<bean id="mytripDao" class="com.hb.tripus.model.dao.MyTripDao">
 		<property name="sqlSession" ref="sqlSession"></property>
 	</bean>
-	
+
 	<bean id="tripnoteDao" class="com.hb.tripus.model.dao.TripNoteDao">
 		<property name="sqlSession" ref="sqlSession"></property>
 	</bean>
-	
+
 	<bean id="settingDao" class="com.hb.tripus.model.dao.SettingDao">
 		<property name="sqlSession" ref="sqlSession"></property>
 	</bean>

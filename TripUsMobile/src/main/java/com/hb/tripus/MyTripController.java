@@ -6,9 +6,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage.RecipientType;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,6 +38,9 @@ public class MyTripController {
 	private MyTripDao dao;
 	private ServiceCommand service;
 
+	@Autowired
+	private JavaMailSender mailSender; 
+		
 	@RequestMapping("mytrip")
 	public String myTrip(HttpSession session, Model model) {
 		System.out.println("mytrip controller");
@@ -55,18 +62,17 @@ public class MyTripController {
 
 	@RequestMapping(value = "addmytrip", method = RequestMethod.GET)
 	public String addMyTripPage() {
-		System.out.println("addmytrip get controller");
 		return "mytrip/addmytrip";
 	}
 
 	@RequestMapping(value = "addmytrip", method = RequestMethod.POST)
 	public String addMyTrip(@ModelAttribute MyTripDto bean, HttpSession session) {
-		System.out.println("addmytrip post controller");
-		System.out.println(bean.getTitle());
 		try {
 			if (bean != null) {
-				bean.setUserid(((UserDto) session.getAttribute("userInfo")).getId());
+				bean.setCode(dao.getCodeCnt()+1);
+				String userid = ((UserDto) session.getAttribute("userInfo")).getId();
 				dao.insertMyTrip(bean);
+				dao.insertTripGroup(bean.getCode(), userid);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -210,4 +216,50 @@ public class MyTripController {
 		}
 		return "redirect:../mytripdetail/" + code;
 	}
+	
+	@RequestMapping("invitefriend")
+	public String inviteFriendPage(Model model, HttpSession session) {
+		try {
+			model.addAttribute("friendList", dao.getFriendList(((UserDto)session.getAttribute("userInfo")).getId()));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "mytrip/invitefriend";
+	}
+	
+	@RequestMapping("invitefriend/{friendid}")
+	public String inviteFriend(@PathVariable String friendid, HttpSession session) {
+		int code = (Integer)session.getAttribute("mytripCode");
+		try {
+			dao.insertTripGroup(code, friendid);
+			dao.updateTripUserNum(code);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "redirect:../mytripdetail/" + code;
+	}
+	
+	@RequestMapping("sendmail")
+	public String sendMail(@RequestParam String address, HttpSession session) { 
+		try {
+			String from = "tripuscorp@gmail.com"; 
+			String subject	= ((UserDto) session.getAttribute("userInfo")).getName() + " 님께서 TripUs로 초대하셨습니다.";	
+			
+			MimeMessage message = mailSender.createMimeMessage(); 
+
+			String content = "<h1>당신을 TripUs로 초대합니다.</h1>";
+			content += "<img src='http://localhost:8080/tripus/resources/imgs/tripus.png'/>";
+			content += "<a href='http://localhost:8080/tripus/'>Go To TripUs</a>";
+			
+			message.setFrom(new InternetAddress(from));  
+			message.addRecipient(RecipientType.TO, new InternetAddress(address));
+			message.setSubject(subject);
+			message.setText(content, "utf-8", "html");
+			mailSender.send(message); 
+		} catch(Exception e){ 
+			System.out.println(e); 
+		} 
+		return "redirect:invitefriend"; 
+	}
+	
 }

@@ -36,8 +36,9 @@
 			                	<c:forEach items="${tripList }" var="bean">
 			                		<li><a href="mytripdetail/${bean.code }">
 				                            <img src="${bean.coverimg }" style="height: 100%;"/>	<!-- 이미지 아이콘 -->
-				                            <h2>[${bean.thema}]&nbsp;${bean.title }</h2>
-				                            <p>${bean.startdate } ~ ${bean.enddate }</p>
+				                            <h2>${bean.title }</h2>
+				                            <p>[${bean.thema}]&nbsp;${bean.startdate } ~ ${bean.enddate }</p>
+				                            <span class="ui-li-count">참여 ${bean.num }명</span>
 				                        </a>
 				                    </li>		
 			                	</c:forEach>

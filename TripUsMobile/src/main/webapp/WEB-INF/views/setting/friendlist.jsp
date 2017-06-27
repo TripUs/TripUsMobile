@@ -24,7 +24,7 @@
             <div data-role='header'>
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
                 <h1>친구 목록</h1>
-                <a href="#add-friend" data-icon="plus" data-rel="popup" data-position-to="window" data-transition="pop">친구 추가</a>
+                <a href="#searchadd-friend" data-icon="plus" data-rel="popup" data-position-to="window" data-transition="pop">친구 추가</a>
             </div>
             <div data-role='content'>
             	<c:if test="${userList ne null }"><div>검색 목록 (${fn:length(userList)})</div></c:if>
@@ -38,27 +38,59 @@
                 	</c:forEach>
                 </ul>
                 
+                <div>친구요청 대기 목록 (${fn:length(waitList)})</div>
+                <ul data-role="listview" data-inset="true">
+                	<c:forEach items="${waitList }" var="bean">
+                		<li data-icon="delete">
+	                		<a href="#"><img src="${bean.friendprofile }"/>
+	                		<h2>${bean.friendnicname }
+		                		<c:if test="${bean.flag eq 0 }">(수락 대기중..)</c:if>
+		                		<c:if test="${bean.flag eq 1 }">(친구 요청)</c:if>
+	                		</h2></a>
+	                		<c:if test="${bean.flag eq 1 }">
+		                		<a href="#add-friend" onclick="addfriend('${bean.friendid }')" data-icon="plus" data-rel="popup" data-position-to="window" data-transition="pop">친구 추가</a>
+	                		</c:if>
+	                		<c:if test="${bean.flag eq 0 }">
+		                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
+	                		</c:if>
+	                	</li>
+                	</c:forEach>
+                </ul>
+                
             	<div>친구 목록 (${fn:length(friendList)})</div>
                 <ul data-role="listview" data-filter="true" data-filter-placeholder="Search Name" data-inset="true">
                 	<c:forEach items="${friendList }" var="bean">
                 		<li data-icon="delete">
-                			<a href="#"><img src="${bean.friendprofile }"/>
-                			<h2>${bean.friendnicname }
-	                			<c:if test="${bean.flag eq 0 }">(요청중..)</c:if>
-	                			<c:if test="${bean.flag eq 1 }">(대기중..)</c:if>
-                			</h2></a>
-                			<a href="#delete-friend" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
-                		</li>
-                	</c:forEach>
+	                		<a href="#"><img src="${bean.friendprofile }"/>
+	                		<h2>${bean.friendnicname }
+		                	</h2></a>
+	                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
+	                	</li>
+                   	</c:forEach>
                 </ul>
-                <div data-role="popup" id="delete-friend">
-                	<h3>친구 삭제</h3>
-                	<p>친구를 삭제하시겠습니까?</p>
-                	<a href="#" data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-left ui-btn-inline ui-mini">취소</a>
-                	<a href="#" data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">삭제</a>
-                </div>
-                <div data-role="popup" id="add-friend">
-                	<h3>친구 추가</h3>
+                
+                <script type="text/javascript">
+                	var addfriend = function(data) {
+                		console.log('add friend callback');
+                		$('#add-friend').html("<h3>친구 추가</h3>");
+                		$('#add-friend').append("<p>친구를 추가하시겠습니까?</p>");
+                		$('#add-friend').append("<a href='../updatefriend/" + data + "' data-ajax='false' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-plus ui-btn-inline ui-mini'>추가</a>");
+                		$('#add-friend').append("<a href='#' data-rel='back' class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>삭제</a>");
+                	};
+                	
+                	var deletefriend = function(data) {
+                		console.log('delete friend callback' + data);
+                		$('#delete-friend').html("<h3>친구 삭제</h3>");
+                		$('#delete-friend').append("<p>친구를 삭제하시겠습니까?</p>");
+                		$('#delete-friend').append("<a href='../deletefriend/" + data + "' data-ajax='false' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-delete ui-btn-inline ui-mini'>삭제</a>");
+                		$('#delete-friend').append("<a href='#' data-rel='back' class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>취소</a>");
+                	};
+                </script>
+                <div data-role="popup" id="add-friend"></div>
+                <div data-role="popup" id="delete-friend"></div>
+                
+                <div data-role="popup" id="searchadd-friend">
+                	<h3>친구 검색&추가</h3>
                 	<form action="../searchfriend" method="post" data-ajax="false">
 		            	<input type="text" name="name" placeholder="Search Name"/>
 		            	<button>검색</button>

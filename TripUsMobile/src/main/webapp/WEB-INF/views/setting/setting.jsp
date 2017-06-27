@@ -26,8 +26,7 @@
             <div data-role='content'>
                 <c:choose>
 	                <c:when test="${not empty sessionScope.userInfo}">
-	                	<h2>로그인 성공 </h2>
-				        <p><img src="${sessionScope.userInfo.profile}"/></p>
+	                	<p><img src="${sessionScope.userInfo.profile}" style="width: 30%;"/></p>
 				        <p>이름 : ${sessionScope.userInfo.name}</p>
 				 		<p>이메일 : ${sessionScope.userInfo.email}</p>
 				        <a data-role='button' href="logout">로그아웃</a>

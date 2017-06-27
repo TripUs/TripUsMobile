@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.hb.tripus.model.dto.FriendListDto;
 import com.hb.tripus.model.dto.MyTripBbsDto;
 import com.hb.tripus.model.dto.MyTripDetailDto;
 import com.hb.tripus.model.dto.MyTripDto;
@@ -18,6 +19,17 @@ public class MyTripDao implements DaoInterface {
 
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
+	}
+	
+	public int getCodeCnt() throws SQLException {
+		return sqlSession.selectOne("mytrip.getCodeCnt");
+	}
+	
+	public void insertTripGroup(int code, String userid) throws SQLException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("code", code);
+		map.put("userid", userid);
+		sqlSession.insert("mytrip.insertTripGroup", map);
 	}
 	
 	public List<MyTripDto> getMyTrip(String id) throws SQLException {
@@ -75,6 +87,14 @@ public class MyTripDao implements DaoInterface {
 	
 	public MyTripBbsDto getOneTripStory(int idx) throws SQLException {
 		return sqlSession.selectOne("mytrip.getOneTripStory", idx);
+	}
+
+	public List<FriendListDto> getFriendList(String id) throws SQLException {
+		return sqlSession.selectList("mytrip.getFriendList", id);
+	}
+	
+	public void updateTripUserNum(int code) throws SQLException {
+		sqlSession.update("mytrip.updateTripUserNum", code);
 	}
 	
 }

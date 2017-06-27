@@ -49,4 +49,18 @@ public class SettingDao implements DaoInterface {
 		sqlSession.insert("setting.insertFriend", bean);
 	}
 	
+	public void updateFriend(String userid, String friendid) throws SQLException {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userid", userid);
+		map.put("friendid", friendid);
+		sqlSession.update("setting.updateFriend", map);
+	}
+	
+	public void deleteFriend(String userid, String friendid) throws SQLException {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userid", userid);
+		map.put("friendid", friendid);
+		sqlSession.delete("setting.deleteFriend", map);
+	}
+	
 }

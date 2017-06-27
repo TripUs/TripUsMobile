@@ -4,8 +4,8 @@
 
 <mapper namespace="setting">
 	<insert id="insertUser" parameterType="com.hb.tripus.model.dto.UserDto">
-		INSERT INTO USERINFO(ID, PW, NAME, NICNAME, EMAIL, USERTYPE)
-		VALUES (#{id}, #{pw}, #{name}, #{nicname}, #{email}, #{usertype})
+		INSERT INTO USERINFO(ID, PW, NAME, NICNAME, EMAIL, PROFILE, USERTYPE)
+		VALUES (#{id}, #{pw}, #{name}, #{nicname}, #{email}, #{profile}, #{usertype})
 	</insert>
 	
 	<select id="searchUser" parameterType="String" resultType="int">
@@ -31,4 +31,12 @@
 	<insert id="insertFriend" parameterType="com.hb.tripus.model.dto.FriendListDto">
 		INSERT INTO FRIENDLIST VALUES (#{userid}, #{friendid}, #{friendprofile}, #{friendname}, #{friendnicname}, #{flag})
 	</insert>
+	
+	<update id="updateFriend" parameterType="java.util.Map">
+		UPDATE FRIENDLIST SET FLAG=2 WHERE USERID=#{userid} AND FRIENDID=#{friendid}
+	</update>
+	
+	<delete id="deleteFriend" parameterType="java.util.Map">
+		DELETE FROM FRIENDLIST WHERE USERID=#{userid} AND FRIENDID=#{friendid}
+	</delete>
 </mapper>

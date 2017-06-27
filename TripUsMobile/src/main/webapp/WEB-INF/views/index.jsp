@@ -15,29 +15,7 @@
                   crossorigin="anonymous"></script>
         <script src="resources/js/jquery.mobile-1.4.5.min.js"></script>
         <script src="resources/js/swiper.min.js"></script>
-        <script type="text/javascript" src="resources/js/hello.all.min.js"></script>
-        <script type="text/javascript" src="resources/js/google-oauth.js"></script>
 	    <title>Document</title>
-        <script type="application/javascript">
-        	document.addEventListener("deviceready", onDeviceReady, false);
-	        function onDeviceReady() {
-	            var geoSeccess = function(position) {
-	                $('p').html('위도 :' + position.coords.latitude + '<br/>경도 : ' + position.coords.longitude);
-	                alert(position.coords.latitude + ',' + position.coords.longitude);
-	            };
-	
-	            var geoErr = function(e) {
-	                alert(e.message);
-	            }
-	
-	            if (navigator.geolocation) {
-	                // 위치정보 갱신 성공
-	                navigator.geolocation.getCurrentPosition(geoSeccess, geoErr);
-	            } else {
-	                // 위치정보 갱신 실패
-	            }
-	        }
-        </script>
     </head>
 	<body>
 		<h1>TripUs Mobile</h1>

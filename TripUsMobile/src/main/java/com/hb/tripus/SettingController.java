@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -221,7 +224,6 @@ public class SettingController {
 				UserDto userInfo = dao.loginUser(bean);
 				if (userInfo == null) {
 					System.out.println("로그인 실패");
-					System.out.println("id : " + userInfo.getId());
 				} else {
 					System.out.println("로그인 성공");
 					System.out.println("id : " + userInfo.getId());
@@ -270,6 +272,7 @@ public class SettingController {
 	@RequestMapping(value = "signin", method = RequestMethod.POST)
 	public String signin(@ModelAttribute UserDto bean, Model model) {
 		try {
+			bean.setProfile("http://localhost:8080/tripus/resources/imgs/default_profile.png");
 			bean.setUsertype("tripus");
 			dao.insertUser(bean);
 		} catch (SQLException e) {
@@ -284,11 +287,18 @@ public class SettingController {
 		try {
 			if(flag == 0) {
 				String name = req.getParameter("name");
-				List<UserDto> userList = dao.getSearchUserInfo(userInfo.getId(), name);
-				model.addAttribute("userList", userList);
+				model.addAttribute("userList", dao.getSearchUserInfo(userInfo.getId(), name));
 			}
-			List<FriendListDto> friendList = dao.getFriendList(userInfo.getId());
+			List<FriendListDto> list = dao.getFriendList(userInfo.getId());
+			List<FriendListDto> friendList = new ArrayList<FriendListDto>();
+			List<FriendListDto> waitList = new ArrayList<FriendListDto>();
+			
+			for(int i=list.size()-1; i>=0; i--) {
+				if(list.get(i).getFlag()==2) friendList.add(list.get(i));
+				else waitList.add(list.get(i));
+			}
 			model.addAttribute("friendList", friendList);
+			model.addAttribute("waitList", waitList);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -308,6 +318,31 @@ public class SettingController {
 			UserDto friendInfo = dao.getUserInfo(friendid);
 			dao.insertFriend(new FriendListDto(userInfo.getId(), friendid, friendInfo.getProfile(), friendInfo.getName(), friendInfo.getNicname(), 0));
 			dao.insertFriend(new FriendListDto(friendid, userInfo.getId(), userInfo.getProfile(), userInfo.getName(), userInfo.getNicname(), 1));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "redirect:../friendlist/" + 1;
+	}
+	
+	@RequestMapping("updatefriend/{friendid}")
+	public String updateFriend(@PathVariable String friendid, HttpSession session) {
+		try {
+			String userid = ((UserDto) session.getAttribute("userInfo")).getId();
+			dao.updateFriend(userid, friendid);
+			dao.updateFriend(friendid, userid);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "redirect:../friendlist/" + 1;
+	}
+	
+	@RequestMapping("deletefriend/{friendid}")
+	public String deleteFriend(@PathVariable String friendid, HttpSession session) {
+		System.out.println("delete friend controller");
+		try {
+			String userid = ((UserDto) session.getAttribute("userInfo")).getId();
+			dao.deleteFriend(userid, friendid);
+			dao.deleteFriend(friendid, userid);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

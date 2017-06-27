@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="mytrip">
+	<select id="getCodeCnt" resultType="int">
+		SELECT COUNT(CODE) FROM MYTRIP
+	</select>
+
+	<insert id="insertTripGroup" parameterType="java.util.Map">
+		INSERT INTO TRIPGROUP VALUES (#{code}, #{userid})
+	</insert>
+
+	<insert id="insertMyTrip" parameterType="com.hb.tripus.model.dto.MyTripDto">
+		INSERT INTO MYTRIP(CODE, TITLE, STARTDATE, ENDDATE, THEMA)
+		VALUES (#{code}, #{title}, #{startdate}, #{enddate}, #{thema})
+	</insert>
+	
+	<update id="updateTripUserNum" parameterType="int">
+		UPDATE MYTRIP SET NUM=NUM+1 WHERE CODE=#{value}
+	</update>
+	
 	<select id="getMyTrip" parameterType="String" resultType="com.hb.tripus.model.dto.MyTripDto">
-		SELECT * FROM MYTRIP WHERE USERID=#{value}
+		SELECT A.CODE AS CODE, B.USERID AS USERID, A.TITLE AS TITLE, A.COVERIMG AS COVERIMG, 
+		A.STARTDATE AS STARTDATE, A.ENDDATE AS ENDDATE, A.THEMA AS THEMA, A.NUM AS NUM
+		FROM MYTRIP A, TRIPGROUP B 
+		WHERE A.CODE=B.CODE AND B.USERID=#{value}
 	</select>
 	
 	<select id="getMyTripSelectOne" parameterType="int" resultType="com.hb.tripus.model.dto.MyTripDto">
 		SELECT * FROM MYTRIP WHERE CODE=#{value}
 	</select>
-	
-	<insert id="insertMyTrip" parameterType="com.hb.tripus.model.dto.MyTripDto">
-		INSERT INTO MYTRIP(CODE, GRP, USERID, TITLE, STARTDATE, ENDDATE, THEMA)
-		VALUES (MYTRIP_CODE_SEQ.NEXTVAL, MYTRIP_GRP_SEQ.NEXTVAL, #{userid}, #{title}, #{startdate}, #{enddate}, #{thema})
-	</insert>
 	
 	<select id="getMyTripList" parameterType="int" resultType="com.hb.tripus.model.dto.MyTripListDto">
 		SELECT * FROM TRIPLIST WHERE CODE=#{value}
@@ -59,4 +73,8 @@
 		INSERT INTO TRIPLISTBBS
 		VALUES (TRIPLISTBBS_IDX_SEQ.NEXTVAL, #{tripcode}, #{tripnum}, #{tripdate}, #{userid}, #{userprofile}, #{memo}, #{grp}, #{seq}, #{lvl}, SYSDATE)
 	</insert>
+	
+	<select id="getFriendList" parameterType="String" resultType="com.hb.tripus.model.dto.FriendListDto">
+		SELECT * FROM FRIENDLIST WHERE USERID=#{value} AND FLAG=2 
+	</select>
 </mapper>
