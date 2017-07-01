@@ -63,4 +63,13 @@ public class SettingDao implements DaoInterface {
 		sqlSession.delete("setting.deleteFriend", map);
 	}
 	
+	public void updateUser(UserDto bean) throws SQLException {
+		sqlSession.update("setting.updateUser", bean);
+	}
+
+	public void updateProfile(UserDto bean)  throws SQLException {
+		System.out.println(bean.getProfile());
+		sqlSession.update("setting.updateProfile", bean);
+	}
+	
 }

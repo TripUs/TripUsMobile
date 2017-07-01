@@ -18,6 +18,7 @@
                   crossorigin="anonymous"></script>
         <script type="text/javascript" src="resources/js/jquery-migrate-1.4.1.min.js"></script>
         <script type="text/javascript" src="resources/js/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.form.min.js"></script>
         <script type="text/javascript" src="resources/js/slick.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
 	    <title>Document</title>

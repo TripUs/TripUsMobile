@@ -25,10 +25,17 @@
                 </form>
                 <a data-role='button' href="signin">회원가입</a><br/><br/>
                 <div id="login-icon">
-	                <a href="${google_url}" data-ajax="false"><img src="resources/imgs/icon/google_login.jpg" /></a>
-	                <a href="${kakao_url }" data-ajax="false"><img src="resources/imgs/icon/kakao_login_en.png" /></a>
+	                <a id="google-login" href="${google_url }" data-ajax="false">
+	                	<img src="resources/imgs/icon/google_login.jpg" />
+	                	<input type="hidden" name="google" id="google" value="google"/>
+	                </a>
+	                <a id="kakao-login" href="${kakao_url }" data-ajax="false">
+	                	<img src="resources/imgs/icon/kakao_login_en.png" />
+	                	<input type="hidden" name="kakao" id="kakao" value="kakao"/>
+	                </a>
             	</div>
             </div>
+            
             <div data-role='footer' data-position='fixed'>
                 <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->
                 <div data-role='navbar'>

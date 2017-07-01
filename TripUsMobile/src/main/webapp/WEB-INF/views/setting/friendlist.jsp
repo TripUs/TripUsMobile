@@ -8,48 +8,39 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css"/>
-        <link rel="stylesheet" href="../resources/css/jquery.mobile.theme-1.4.5.min.css"/>
-        <link rel="stylesheet" href="../resources/css/swiper.min.css">
-        <link rel="stylesheet" href="../resources/css/slick.css"/>
-		<link rel="stylesheet" href="../resources/css/slick-theme.css"/>
-        <link rel="stylesheet" href="../resources/css/tripus.css">
+        <link rel="stylesheet" href="resources/css/jquery.mobile-1.4.5.min.css"/>
+        <link rel="stylesheet" href="resources/css/jquery.mobile.theme-1.4.5.min.css"/>
+        <link rel="stylesheet" href="resources/css/swiper.min.css">
+        <link rel="stylesheet" href="resources/css/slick.css"/>
+		<link rel="stylesheet" href="resources/css/slick-theme.css"/>
+        <link rel="stylesheet" href="resources/css/tripus.css">
         <script src="http://code.jquery.com/jquery-1.12.4.min.js"
                   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
                   crossorigin="anonymous"></script>
-        <script type="text/javascript" src="../resources/js/jquery-migrate-1.4.1.min.js"></script>
-        <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
-        <script type="text/javascript" src="../resources/js/slick.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery-migrate-1.4.1.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" src="resources/js/slick.min.js"></script>
 	    <title>Document</title>
     </head>
     <body>
         <div data-role='page'>
             <div data-role='header'>
-                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
+                <a href="setting" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
                 <h1>친구 목록</h1>
-                <a href="#searchadd-friend" data-icon="plus" data-rel="popup" data-position-to="window" data-transition="pop">친구 추가</a>
+                <a href="addfriend" data-icon="plus">친구 추가</a>
             </div>
             <div data-role='content'>
-            	<c:if test="${userList ne null }"><div>검색 목록 (${fn:length(userList)})</div></c:if>
-                <ul data-role="listview" data-inset="true">
-                	<c:forEach items="${userList }" var="bean2">
-                		<li data-icon="delete">
-                			<a href="#"><img src="${bean2.profile }"/>
-                			<h2>${bean2.name }</h2></a>
-                			<a href="../addfriend/${bean2.id }" data-icon="plus">친구 추가</a>
-                		</li>
-                	</c:forEach>
-                </ul>
-                
-                <div>친구요청 대기 목록 (${fn:length(waitList)})</div>
-                <ul data-role="listview" data-inset="true">
+            	<div id="friend-stay-num">친구요청 대기 목록 (${fn:length(waitList)})</div>
+                <ul id="friend-stay-listview" data-role="listview" data-inset="true">
                 	<c:forEach items="${waitList }" var="bean">
-                		<li data-icon="delete">
+                		<c:set value="staylist_${bean.friendid }" var="stlistid"></c:set>
+                		<li class="cate-stay" id="${stlistid }" data-icon="delete">
 	                		<a href="#"><img src="${bean.friendprofile }"/>
-	                		<h2>${bean.friendnicname }
-		                		<c:if test="${bean.flag eq 0 }">(수락 대기중..)</c:if>
-		                		<c:if test="${bean.flag eq 1 }">(친구 요청)</c:if>
-	                		</h2></a>
+	                		<h2>${bean.friendname } (${bean.friendnicname }) 
+		                		<c:if test="${bean.flag eq 1 }"> - 친구 요청</c:if>
+		                		<c:if test="${bean.flag eq 0 }"> - 수락 대기중..</c:if>
+	                		</h2>
+	                		<p>${friendemail }</p></a>
 	                		<c:if test="${bean.flag eq 1 }">
 		                		<a href="#add-friend" onclick="addfriend('${bean.friendid }')" data-icon="plus" data-rel="popup" data-position-to="window" data-transition="pop">친구 추가</a>
 	                		</c:if>
@@ -60,60 +51,118 @@
                 	</c:forEach>
                 </ul>
                 
-            	<div>친구 목록 (${fn:length(friendList)})</div>
-                <ul data-role="listview" data-filter="true" data-filter-placeholder="Search Name" data-inset="true">
+            	<div id="friend-list-num">친구 목록 (${fn:length(friendList)})</div>
+                <ul id="friend-list-listview" data-role="listview" data-filter="true" data-filter-placeholder="Search Name" data-inset="true">
                 	<c:forEach items="${friendList }" var="bean">
-                		<li data-icon="delete">
+                		<c:set value="staylist_${bean.friendid }" var="listid"></c:set>
+                		<li id="${listid }" class="cate-list" data-icon="delete">
 	                		<a href="#"><img src="${bean.friendprofile }"/>
-	                		<h2>${bean.friendnicname }
-		                	</h2></a>
+	                		<h2>${bean.friendname } (${bean.friendnicname })</h2>
+	                		<p>${bean.friendemail }</p></a>
 	                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
 	                	</li>
                    	</c:forEach>
                 </ul>
                 
                 <script type="text/javascript">
+	                function addfriend_list(data) {
+	                	$('#add-friend').hide();
+						var url = "updatefriend/" + data;
+						var removelist = "#staylist_" + data;
+						$.ajax({ 
+				        	url: url,
+				            type:'POST', 					 
+				            data:{ 
+				            	friendid: data
+				            }, 
+				            success : function(data2){
+				            	$(removelist).remove();
+				            	$('#friend-stay-listview').listview('refresh');
+				            	$('#friend-list-listview').append("<li id='staylist_" + data2['id'] + "' class='cate-list ui-li-has-thumb ui-first-child ui-last-child' data-icon='delete'>"
+				            										+ "<a href='#'>"
+					            									+ "<img src='" + data2['profile'] + "' style='width:100%; height:100%;'/>"
+					            									+ "<h2>" + data2['name'] + " (" + data2['nicname'] + ")</h2>"
+					            									+ "<p>" + data2['email'] + "</p></a>"
+																	+ "<a href='#delete-friend' onclick=deletefriend('" + data2['id'] + "')" 
+																	+ " data-rel='popup' data-position-to='window' data-transition='pop' aria-haspopup='true'"
+																	+ " aria-owns='delete-friend' aria-expanded='false' class='ui-btn ui-btn-icon-notext ui-icon-plus' title='친구 추가'>친구 추가</a>"	    				
+				            										+ "</li>");
+				            	$('#friend-list-listview').listview('refresh');
+				            	var staynum = $('.cate-stay').length;
+				            	var listnum = $('.cate-list').length;
+				            	console.log(staynum + " : " + listnum);
+				            	$('#friend-stay-num').html('친구요청 대기 목록 (' + staynum + ')');
+				            	$('#friend-list-num').html('친구 목록 (' + listnum + ')');
+				            }, 
+				            error : function(){ 
+				            	alert('AJAX 통신 실패'); 
+				            } 
+				        });
+					};
+					
+					function delfriend_list(data) {
+	                	$('#delete-friend').hide();
+						var url = "deletefriend/" + data;
+						var removelist = "#staylist_" + data;
+						$.ajax({ 
+				        	url: url,
+				            type:'POST', 					 
+				            data:{ 
+				            	friendid: data
+				            }, 
+				            success : function(data2){
+				            	$(removelist).remove();
+				            	$('#friend-stay-listview').listview('refresh');
+				            	$('#friend-list-listview').listview('refresh');
+				            	var staynum = $('.cate-stay').length;
+				            	var listnum = $('.cate-list').length;
+				            	console.log(staynum + " : " + listnum);
+				            	$('#friend-stay-num').html('친구요청 대기 목록 (' + staynum + ')');
+				            	$('#friend-list-num').html('친구 목록 (' + listnum + ')');
+				            }, 
+				            error : function(){ 
+				            	alert('AJAX 통신 실패'); 
+				            } 
+				        });
+					};
+                
+					function hidepop() {
+                		$('#delete-friend').hide();
+                	};
+                	
                 	var addfriend = function(data) {
-                		console.log('add friend callback');
                 		$('#add-friend').html("<h3>친구 추가</h3>");
                 		$('#add-friend').append("<p>친구를 추가하시겠습니까?</p>");
-                		$('#add-friend').append("<a href='../updatefriend/" + data + "' data-ajax='false' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-plus ui-btn-inline ui-mini'>추가</a>");
-                		$('#add-friend').append("<a href='#' data-rel='back' class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>삭제</a>");
+                		$('#add-friend').append("<a id='add-friend-list' onclick=addfriend_list('" + data + "') href='#' data-ajax='false' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-plus ui-btn-inline ui-mini'>추가</a>");
+                		$('#add-friend').append("<a href='#' onclick=delfriend_list('" + data + "') class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>삭제</a>");
+                		$('#add-friend').show();
                 	};
                 	
                 	var deletefriend = function(data) {
-                		console.log('delete friend callback' + data);
                 		$('#delete-friend').html("<h3>친구 삭제</h3>");
                 		$('#delete-friend').append("<p>친구를 삭제하시겠습니까?</p>");
-                		$('#delete-friend').append("<a href='../deletefriend/" + data + "' data-ajax='false' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-delete ui-btn-inline ui-mini'>삭제</a>");
-                		$('#delete-friend').append("<a href='#' data-rel='back' class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>취소</a>");
+                		$('#delete-friend').append("<a id='del-friend-list' href='#' onclick=delfriend_list('" + data + "') data-ajax='false' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-delete ui-btn-inline ui-mini'>삭제</a>");
+                		$('#delete-friend').append("<a href='#' onclick=hidepop() class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>취소</a>");
+                		$('#delete-friend').show();
                 	};
                 </script>
                 <div data-role="popup" id="add-friend"></div>
                 <div data-role="popup" id="delete-friend"></div>
-                
-                <div data-role="popup" id="searchadd-friend">
-                	<h3>친구 검색&추가</h3>
-                	<form action="../searchfriend" method="post" data-ajax="false">
-		            	<input type="text" name="name" placeholder="Search Name"/>
-		            	<button>검색</button>
-		            </form>
-            	</div>
             </div>
             <div data-role='footer' data-position='fixed'>
                 <div data-role='navbar'>
                     <ul>
                         <li>
-                            <a data-icon='home' href="../main">Home</a>
+                            <a data-icon='home' href="main">Home</a>
                         </li>
                         <li>
-                            <a data-icon='calendar' href="../mytrip">내 여행</a>
+                            <a data-icon='calendar' href="mytrip">내 여행</a>
                         </li>
                         <li>
-                            <a data-icon='edit' href="../tripnote">여행노트</a>
+                            <a data-icon='edit' href="tripnote">여행노트</a>
                         </li>
                         <li>
-                            <a data-icon='gear' class="ui-btn-active ui-state-persist" href="../setting">설정</a>
+                            <a data-icon='gear' class="ui-btn-active ui-state-persist" href="setting">설정</a>
                         </li>
                     </ul>
                 </div>

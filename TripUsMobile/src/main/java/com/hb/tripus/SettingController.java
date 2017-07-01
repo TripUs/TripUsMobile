@@ -1,20 +1,17 @@
 package com.hb.tripus;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -38,6 +35,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -281,14 +281,10 @@ public class SettingController {
 		return "redirect:main";
 	}
 
-	@RequestMapping("friendlist/{flag}")
-	public String friendlist(@PathVariable int flag, Model model, HttpServletRequest req, HttpSession session) {
+	@RequestMapping("friendlist")
+	public String friendlist(Model model, HttpSession session) {
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
 		try {
-			if(flag == 0) {
-				String name = req.getParameter("name");
-				model.addAttribute("userList", dao.getSearchUserInfo(userInfo.getId(), name));
-			}
 			List<FriendListDto> list = dao.getFriendList(userInfo.getId());
 			List<FriendListDto> friendList = new ArrayList<FriendListDto>();
 			List<FriendListDto> waitList = new ArrayList<FriendListDto>();
@@ -305,39 +301,55 @@ public class SettingController {
 		return "setting/friendlist";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="searchfriend", method=RequestMethod.POST)
-	public String searchFriend(@RequestParam String name, Model model) {
-		model.addAttribute("name", name);
-		return "redirect:friendlist/" + 0;
+	public List<UserDto> searchFriend(@RequestParam String friendname, HttpSession session) {
+		List<UserDto> list = null;
+		try {
+			list = dao.getSearchUserInfo(((UserDto)session.getAttribute("userInfo")).getId(), friendname);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@RequestMapping(value="addfriend", method=RequestMethod.GET)
+	public String addFriendPage() {
+		return "setting/addfriend";
 	}
 	
 	@RequestMapping("addfriend/{friendid}")
 	public String addFriend(@PathVariable String friendid, HttpSession session) {
 		try {
+			System.out.println(friendid);
 			UserDto userInfo = (UserDto) session.getAttribute("userInfo");
 			UserDto friendInfo = dao.getUserInfo(friendid);
-			dao.insertFriend(new FriendListDto(userInfo.getId(), friendid, friendInfo.getProfile(), friendInfo.getName(), friendInfo.getNicname(), 0));
-			dao.insertFriend(new FriendListDto(friendid, userInfo.getId(), userInfo.getProfile(), userInfo.getName(), userInfo.getNicname(), 1));
+			dao.insertFriend(new FriendListDto(userInfo.getId(), friendid, friendInfo.getProfile(), friendInfo.getName(), friendInfo.getNicname(), friendInfo.getEmail(), 0));
+			dao.insertFriend(new FriendListDto(friendid, userInfo.getId(), userInfo.getProfile(), userInfo.getName(), userInfo.getNicname(), userInfo.getEmail(), 1));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "redirect:../friendlist/" + 1;
+		return "redirect:../friendlist";
 	}
 	
+	@ResponseBody
 	@RequestMapping("updatefriend/{friendid}")
-	public String updateFriend(@PathVariable String friendid, HttpSession session) {
+	public UserDto updateFriend(@PathVariable String friendid, HttpSession session) {
+		UserDto friendInfo = null;
 		try {
 			String userid = ((UserDto) session.getAttribute("userInfo")).getId();
 			dao.updateFriend(userid, friendid);
 			dao.updateFriend(friendid, userid);
+			friendInfo = dao.getUserInfo(friendid);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "redirect:../friendlist/" + 1;
+		return friendInfo;
 	}
 	
+	@ResponseBody
 	@RequestMapping("deletefriend/{friendid}")
-	public String deleteFriend(@PathVariable String friendid, HttpSession session) {
+	public void deleteFriend(@PathVariable String friendid, HttpSession session) {
 		System.out.println("delete friend controller");
 		try {
 			String userid = ((UserDto) session.getAttribute("userInfo")).getId();
@@ -346,7 +358,55 @@ public class SettingController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "redirect:../friendlist/" + 1;
 	}
 	
+	
+	// MyPage - By.지원
+	@RequestMapping(value="myPage", method=RequestMethod.GET)
+	public String myPage() {
+		return "setting/myPage";
+	}
+		
+	@RequestMapping(value="myEdit", method=RequestMethod.GET)
+	public String myEdit() {
+		return "setting/myEdit";
+	}
+
+	@RequestMapping(value="myEdit", method=RequestMethod.POST)
+	public String myUpdate(@ModelAttribute UserDto bean, Model model, HttpSession session) {
+		try {
+			dao.updateUser(bean);
+			bean.setProfile(((UserDto)session.getAttribute("userInfo")).getProfile());
+			session.setAttribute("userInfo", bean);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "redirect:myPage";
+	}
+
+	@RequestMapping(value="myImg", method = RequestMethod.GET)
+	public String myImg() {
+		return "setting/myImg";
+	}
+
+	// 프로필(이미지) 바꾸는 부분
+	@RequestMapping(value = "myPage", headers = "content-type=multipart/form-data", method = RequestMethod.POST)
+	public void myUpload(@RequestPart("profile") MultipartFile profile, Model model, HttpSession session, HttpServletRequest req) {
+		@SuppressWarnings("deprecation")
+		String path = req.getRealPath("/resources/upload/profile").replaceAll("\\\\", "/");
+		File f = new File(path + "\\" + profile.getOriginalFilename());
+		String profileName="http://localhost:8080/tripus/resources/upload/profile/" + profile.getOriginalFilename();
+			
+		UserDto userInfo = (UserDto)session.getAttribute("userInfo");
+		userInfo.setProfile(profileName);
+		System.out.println(userInfo.toString());
+		try {
+			profile.transferTo(f);
+			dao.updateProfile(userInfo);
+			session.setAttribute("userInfo", userInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

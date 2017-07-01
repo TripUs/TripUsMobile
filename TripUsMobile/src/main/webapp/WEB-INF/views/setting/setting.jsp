@@ -18,6 +18,7 @@
                   crossorigin="anonymous"></script>
         <script type="text/javascript" src="resources/js/jquery-migrate-1.4.1.min.js"></script>
         <script type="text/javascript" src="resources/js/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.form.min.js"></script>
         <script type="text/javascript" src="resources/js/slick.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
 	    <title>Document</title>
@@ -28,22 +29,47 @@
                 <h1>TripUs</h1>
             </div>
             <div data-role='content'>
-                <c:choose>
+            	<div class="ui-corner-all custom-corners">
+                	<div class="ui-body ui-body-a">
+                		<c:choose>
+			                <c:when test="${not empty sessionScope.userInfo}">
+			               		<table style="width: 100%">
+		                			<tr>
+		                				<td style="width: 25%">
+		                					<img src="${sessionScope.userInfo.profile }" style="width: 100%;"/>
+		                				</td>
+		                				<td style="width: 75%">
+		                					&nbsp; &nbsp; &nbsp; &nbsp; ${sessionScope.userInfo.name } (${sessionScope.userInfo.nicname })<br/><br/>
+		                					&nbsp; &nbsp; &nbsp; &nbsp; ${sessionScope.userInfo.email }<br/>
+		                				</td>
+		                			</tr>
+		                			<tr>
+		                				<td colspan="2"><a data-role='button' href="logout">로그아웃</a></td>
+		                			</tr>
+		                		</table>
+		                	</c:when>
+			                <c:otherwise>
+			                	<a data-role='button' href="login">로그인</a>
+			                </c:otherwise>
+		                </c:choose>	
+                	</div>
+                </div><br/>
+                <%-- <c:choose>
 	                <c:when test="${not empty sessionScope.userInfo}">
 	                	<p><img src="${sessionScope.userInfo.profile}" style="width: 30%;"/></p>
 				        <p>이름 : ${sessionScope.userInfo.name}</p>
 				 		<p>이메일 : ${sessionScope.userInfo.email}</p>
-				        <a data-role='button' href="logout">로그아웃</a>
+				        
 	                </c:when>
 	                <c:otherwise>
 	                	<a data-role='button' href="login">로그인</a>
 	                </c:otherwise>
-                </c:choose>
+                </c:choose> --%>
                 <ul data-role='listview' data-inset='true'>
                     <!-- 하나의 li에는 두개의 링크까지만 추가될 수 있다. -->
                     <!-- img를 class="ui-li-icon" 속성을 적용하면 아이콘 형태로사용가능하다. -->
                     <li>
-                        <a href="#">
+                        <a href="myPage">
                             <img src=""/>	<!-- 이미지 아이콘 -->
                             <p>My Page</p>
                         </a>
@@ -55,7 +81,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="friendlist/1">
+                        <a href="friendlist">
                             <img src=""/>	<!-- 이미지 아이콘 -->
                             <p>친구 목록</p>
                         </a>
@@ -69,11 +95,10 @@
                 </ul>
             </div>
             <div data-role='footer' data-position='fixed'>
-                <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->
                 <div data-role='navbar'>
                     <ul>
                         <li>
-                            <a data-icon='home' href="main">Home</a>
+                            <a data-icon='home' href="/">Home</a>
                         </li>
                         <li>
                             <a data-icon='calendar' href="mytrip">내 여행</a>

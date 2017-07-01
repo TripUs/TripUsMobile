@@ -2,38 +2,37 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-	<head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=width, initial-scale=1">
-        <title>Document</title>
-    </head>
     <body>
         <div data-role='page'>
             <div data-role='header'>
-                <h1>TripUs</h1>
+            	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
+                <h1>회원정보 수정</h1>
             </div>
             <div data-role='content'>
-                <h2>회원가입 페이지</h2>
-                <form action="signin" method="post">
+            	<form method="post">
                 	<ul data-role="listview" data-inset="true">
                 		<li class="ui-field-contain">
-	                		<input id="id" name="id" type="text" placeholder="ID를 입력하세요"/>
+	                		<label>아 이 디 </label>
+                			<input id="id" name="id" type="text" value="${sessionScope.userInfo.id }" readonly/>
                 		</li>
                 		<li class="ui-field-contain">
-    	            		<input id="pw" name="pw" type="password" placeholder="Password를 입력하세요"/>
+                			<label>비밀번호 </label>
+                			<input id="pw" name="pw" type="password" value="${sessionScope.userInfo.pw }" />
                 		</li>
                 		<li class="ui-field-contain">
-	                		<input id="name" name="name" type="text" placeholder="이름을 입력하세요"/>
+                			<label>이 &nbsp; &nbsp; 름 </label>
+                			<input id="name" name="name" type="text" value="${sessionScope.userInfo.name }"/>
                 		</li>
                 		<li class="ui-field-contain">
-                			<input id="nicname" name="nicname" type="text" placeholder="닉네임을 입력하세요"/>
+                			<label>닉 네 임</label>
+                			<input id="nicname" name="nicname" type="text" value="${sessionScope.userInfo.nicname }" />
                 		</li>
                 		<li class="ui-field-contain">
-	                		<input id="email" name="email" type="email" placeholder="E-Mail을 입력하세요"/>
+                			<label>E - Mail</label>
+                			<input id="email" name="email" type="email" value="${sessionScope.userInfo.email }" />
                 		</li>
                 	</ul>
-                	<button>회원가입</button>
+	                <button>수정완료</button>
                 </form>
             </div>
             <div data-role='footer' data-position='fixed'>

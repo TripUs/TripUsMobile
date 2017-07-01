@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,6 +19,77 @@
                 <div>
 					<img class="detail-area-img" src="${basicInfo.firstimage }"/>			
 				</div>
+				
+				
+				<div>
+					<a href="../likeflag_updown/${basicInfo.contentid }/${sessionScope.userInfo.id} ">
+					<button id='recommend_btn'>♥</button></a>
+				</div><br/>
+				<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+				<script type="text/javascript">
+					$(function() {
+						$('#recommend_btn').click( function() {
+					    	if( $(this).html() == '♥' ) {
+						      	$(this).html('♡');
+					      		var cnt = $("input[name=likeflag]").val();
+						    } else {
+						    	$(this).html('♥');
+						    }
+						});
+					});
+				</script>
+
+				<div style="width: 100%;">
+					<table style="width: 100%; border: 1px solid #ccc;">
+						<colgroup>
+							<col width="80%" />
+							<col width="20%" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col">댓 글</th>
+								<th scope="col">닉네임</th>
+							</tr>
+						</thead>
+						<tbody id="review-body">
+							<c:forEach items="${list }" var="row">
+								<tr>
+									<td>${row.review }</td>
+									<td>${row.nicname }</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+
+				<div data-role='fieldcontain'>
+					<input id="review" name="review" type="text" placeholder="리뷰를 등록하세요" />
+					<input id="contentid" type="hidden" name="contentid" value="${basicInfo.contentid }" />
+				</div>
+				<button id="review_add">입력</button>
+				
+				<script type="text/javascript">				
+					$("#review_add").click(function(){
+						var url = $('contentid').val();
+						$.ajax({ 
+				        	url: url, 	 
+				            type:'POST', 					 
+				            data:{ 
+				            	review: $('#review').val(),
+				            	contentid: $('#contentid').val()
+				            }, 
+				            success : function(data){ 
+				            	var review = $("#review").val();
+								var nicname = $("#nicname").val();
+							    $("#review-body").append("<tr><td>" + review + "</td><td>" + nicname + "</td><tr>");
+				            }, 
+				            error : function(){ 
+				            	alert('AJAX 통신 실패'); 
+				            } 
+				        });					       
+					});
+				</script>
+				
 				<div>
 					<a data-role="button" href="../addmytrip_list/${basicInfo.contentid }">내 여행지 추가하기</a>
 				</div><br/>

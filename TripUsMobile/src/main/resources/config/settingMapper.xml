@@ -21,7 +21,8 @@
 	</select>
 	
 	<select id="getSearchUserInfo" parameterType="java.util.Map" resultType="com.hb.tripus.model.dto.UserDto">
-		SELECT * FROM USERINFO WHERE ID!=#{userid} AND NAME LIKE '%'||#{name}||'%'
+		SELECT * FROM USERINFO WHERE ID!=#{userid} AND NAME LIKE '%'||#{name}||'%' 
+		AND ID NOT IN (SELECT FRIENDID FROM FRIENDLIST WHERE USERID=#{userid})
 	</select>
 	
 	<select id="getFriendList" parameterType="String" resultType="com.hb.tripus.model.dto.FriendListDto">
@@ -29,7 +30,7 @@
 	</select>
 	
 	<insert id="insertFriend" parameterType="com.hb.tripus.model.dto.FriendListDto">
-		INSERT INTO FRIENDLIST VALUES (#{userid}, #{friendid}, #{friendprofile}, #{friendname}, #{friendnicname}, #{flag})
+		INSERT INTO FRIENDLIST VALUES (#{userid}, #{friendid}, #{friendprofile}, #{friendname}, #{friendnicname}, #{friendemail}, #{flag})
 	</insert>
 	
 	<update id="updateFriend" parameterType="java.util.Map">
@@ -39,4 +40,12 @@
 	<delete id="deleteFriend" parameterType="java.util.Map">
 		DELETE FROM FRIENDLIST WHERE USERID=#{userid} AND FRIENDID=#{friendid}
 	</delete>
+	
+	<update id="updateUser">
+		UPDATE USERINFO SET PW=#{pw}, NAME=#{name}, NICNAME=#{nicname}, EMAIL=#{email} WHERE ID=#{id}
+	</update>
+	
+	<update id="updateProfile">
+		UPDATE USERINFO SET PROFILE=#{profile} WHERE ID=#{id}
+	</update>
 </mapper>
