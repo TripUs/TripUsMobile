@@ -9,7 +9,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="../resources/css/jquery.mobile.theme-1.4.5.min.css"/>
-        <link rel="stylesheet" href="../resources/css/swiper.min.css">
         <link rel="stylesheet" href="../resources/css/slick.css"/>
 		<link rel="stylesheet" href="../resources/css/slick-theme.css"/>
         <link rel="stylesheet" href="../resources/css/tripus.css">
@@ -24,7 +23,7 @@
     <body>
         <div id="main" data-role='page'>
             <div data-role='header'>
-            	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
+            	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
                 <h2>${mytrip.title }</h2>
             </div>
         	<div data-role='content'>
@@ -37,8 +36,8 @@
             	<div id="mytrip-story">
 	            	<div data-role="controlgroup" data-type="horizontal">
 	            		<img class="mytrip-cover" src="${mytrip.coverimg }"/>
-	               		<a class="mytrip-detail-btn" data-role="button" href="#">커버 이미지 변경</a>
-	               		<a class="mytrip-detail-btn" data-role="button" href="../invitefriend">친구 초대</a>
+	               		<a class="mytrip-detail-btn" data-role="button" href="#" style="background-color: black; color: white;">커버 변경</a>
+	               		<a class="mytrip-detail-btn" data-role="button" href="../invitefriend" style="background-color: black; color: white;">친구 초대</a>
 	               	</div>
 	               	<c:forEach items="${tripList }" var="bean">
 	               		<div class="ui-corner-all custom-corners">
@@ -105,7 +104,7 @@
                 <div data-role='navbar'>
                     <ul>
                         <li>
-                            <a data-icon='home' href="../main">Home</a>
+                            <a data-icon='home' href="../../tripus/">Home</a>
                         </li>
                         <li>
                             <a data-icon='calendar' class="ui-btn-active ui-state-persist" href="../mytrip">내 여행</a>

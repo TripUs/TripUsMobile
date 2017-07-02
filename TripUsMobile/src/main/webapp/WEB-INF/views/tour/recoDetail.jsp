@@ -72,7 +72,7 @@
                 <div data-role='navbar'>
                     <ul>
                         <li>
-                            <a data-icon='home' class="ui-btn-active ui-state-persist" href="../main">Home</a>
+                            <a data-icon='home' class="ui-btn-active ui-state-persist" href="../../tripus/">Home</a>
                         </li>
                         <li>
                             <a data-icon='calendar' href="../mytrip">내 여행</a>

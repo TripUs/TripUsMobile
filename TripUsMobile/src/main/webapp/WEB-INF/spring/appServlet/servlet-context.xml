@@ -25,7 +25,7 @@
 	
 	<!-- 파일 업로드 시 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="102400"></beans:property>
+		<beans:property name="maxUploadSize" value="502400"></beans:property>
 	</beans:bean>
 	
 	<!-- google Class Bean설정 추가 -->

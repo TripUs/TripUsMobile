@@ -35,7 +35,7 @@
                 <div data-role='navbar'>
                     <ul>
                         <li>
-                            <a data-icon='home' href="main">Home</a>
+                            <a data-icon='home' href="../tripus/">Home</a>
                         </li>
                         <li>
                             <a data-icon='calendar' href="mytrip">내 여행</a>

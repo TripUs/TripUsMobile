@@ -391,7 +391,7 @@ public class SettingController {
 
 	// 프로필(이미지) 바꾸는 부분
 	@RequestMapping(value = "myPage", headers = "content-type=multipart/form-data", method = RequestMethod.POST)
-	public void myUpload(@RequestPart("profile") MultipartFile profile, Model model, HttpSession session, HttpServletRequest req) {
+	public String myUpload(@RequestPart("profile") MultipartFile profile, Model model, HttpSession session, HttpServletRequest req) {
 		@SuppressWarnings("deprecation")
 		String path = req.getRealPath("/resources/upload/profile").replaceAll("\\\\", "/");
 		File f = new File(path + "\\" + profile.getOriginalFilename());
@@ -407,6 +407,7 @@ public class SettingController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return "setting/myPage";
 	}
 
 }

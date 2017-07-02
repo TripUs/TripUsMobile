@@ -2,10 +2,12 @@ package com.hb.tripus;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +30,7 @@ import com.hb.tripus.model.dto.AreaDto;
 import com.hb.tripus.model.dto.LikeFlagDto;
 import com.hb.tripus.model.dto.ReviewDto;
 import com.hb.tripus.model.dto.TourAreaBasicDto;
+import com.hb.tripus.model.dto.TourAreaInterface;
 import com.hb.tripus.model.dto.UserDto;
 import com.hb.tripus.service.MainService;
 import com.hb.tripus.service.ServiceCommand;
@@ -43,7 +46,7 @@ public class HomeController {
 //	public String home(Locale locale, Model model) {
 //		return "redirect:main";
 //	}
-
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model, HttpSession session) {
 		service = new MainService();
@@ -63,6 +66,11 @@ public class HomeController {
 		return "home/main";
 	}
 
+	@RequestMapping("home")
+	public String goHome() {
+		return "redirect:/";
+	}
+	
 	@RequestMapping(value = "search", method = RequestMethod.GET)
 	public String search() {
 		return "home/search";
@@ -76,21 +84,34 @@ public class HomeController {
 		return "home/search";
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "search", method = RequestMethod.POST)
-	public String searchKeyword(@RequestParam String keyword, Model model) {
-		System.out.println(keyword);
+	public List<Object> searchKeyword(@RequestParam String keyword) {
+		List<Object> result = new ArrayList<Object>();
 		try {
-			List<AreaDto> list = dao.searchArea(keyword);
-			model.addAttribute("areaList", list);
-
 			service = new MainService();
-			model.addAttribute("keywordList", ((MainService) service).searchKeyword(keyword));
-		} catch (SQLException e) {
+			String url = "searchKeyword?keyword=" + URLEncoder.encode(keyword, "UTF-8") + "&MobileOS=ETC&MobileApp=AppTesting";
+			
+			result.add(dao.searchArea(keyword));
+			result.add(((MainService) service).searchKeyword(keyword, 1));
+			result.add(((MainService) service).pageParser(url));
+			result.add(1);
+			result.add(keyword);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "home/search";
+		return result;
 	}
-
+	
+	@ResponseBody
+	@RequestMapping(value = "addsearchlist", method = RequestMethod.POST)
+	public List<Object> addSearchList(@RequestParam int page, @RequestParam String keyword) {
+		List<Object> list = new ArrayList<Object>();
+		list.add(((MainService) service).searchKeyword(keyword, page+1));
+		list.add(page+1);
+		return list;
+	}
+	
 	@RequestMapping("basicInfo")
 	public String basicInfo(@RequestParam("areacode") int areacode, @RequestParam("sigungucode") int sigungucode,
 			Model model) {
@@ -153,7 +174,7 @@ public class HomeController {
 			TourAreaBasicDto bean = (TourAreaBasicDto) ((MainService) service).getAreaInfo(contentid);
 			
 			// 최근 검색지 추가
-			if(userInfo != null) {
+			if(userInfo != null && dao.checkRecentSearch(userInfo.getId(), contentid) == 0) {
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("userid", userInfo.getId());
 				map.put("contentid", bean.getContentid());
@@ -165,13 +186,17 @@ public class HomeController {
 					e.printStackTrace();
 				}
 			}
-				
-			int likeflag = dao.getLikeFlag(contentid);
-			System.out.println(likeflag);
-			List<ReviewDto> list = dao.getReview(contentid);
-			System.out.println("review size : " + list.size());
-			mav.addObject("list", list);
+			int likeflag = 0;
+			if(userInfo != null) likeflag = dao.getUserLikeFlag(new LikeFlagDto(0, contentid, ((UserDto)session.getAttribute("userInfo")).getId()));
+			int likeCnt = dao.getLikeFlag(contentid);
+			List<ReviewDto> review = dao.getReview(contentid);
+			List<String> areaImg = dao.getAreaImg(contentid);
 			
+			System.out.println("size : " + review.size());
+			
+			mav.addObject("areaImg", areaImg);
+			mav.addObject("review", review);
+			mav.addObject("likeCnt",likeCnt);
 			mav.addObject("likeflag",likeflag);
 			mav.addObject("basicInfo", bean);
 			mav.addObject("detailInfo", ((MainService) service).getAreaDetailInfo(contentid, contenttypeid, DtoClassName));
@@ -184,45 +209,46 @@ public class HomeController {
 
 	@ResponseBody
 	@RequestMapping(value="detail/{contentid}", method=RequestMethod.POST)
-	public void tourDetailInsertReview(@PathVariable String contentid, @RequestParam String review, HttpSession session) throws SQLException{
-		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
-		ReviewDto bean = new ReviewDto();
-		bean.setContentid(contentid);
-		bean.setUserid(userInfo.getId());
-		bean.setNicname(userInfo.getNicname());
-		bean.setReview(review);
-		dao.getReview_add(bean);
+	public void tourDetailInsertReview(@PathVariable String contentid, @RequestParam String review, HttpSession session) {
+		System.out.println("review id" + contentid);
+		try {
+			UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+			ReviewDto bean = new ReviewDto(contentid, userInfo.getId(), userInfo.getNicname(), userInfo.getProfile(), review, null);
+			dao.getReview_add(bean);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	@RequestMapping(value = "upload", headers = "content-type=multipart/*", method = RequestMethod.POST)
-	public String ImgUpload(@RequestParam String contentid, @RequestParam String contenttypeid, @RequestPart("file") MultipartFile file, Model model) {
-		String path = "C:\\workspace\\sts_workspace\\TripUsMobile\\src\\main\\webapp\\resources\\upload\\detailImg\\";
-		System.out.println("id:" + contentid);
-		File f = new File(path + file.getOriginalFilename());
-		System.out.println("파일경로:" + path + file.getOriginalFilename());
+	@ResponseBody
+	@RequestMapping(value = "uploadImg", headers = "content-type=multipart/form-data", method = RequestMethod.POST)
+	public String ImgUpload(@RequestParam String contentid, @RequestPart("file") MultipartFile file, Model model, HttpServletRequest req) {
+		@SuppressWarnings("deprecation")
+		String path = req.getRealPath("/resources/upload/detailImg").replaceAll("\\\\", "/");
+		File f = new File(path + "\\" + file.getOriginalFilename());
+		String fileName = "http://localhost:8080/tripus/resources/upload/detailImg/" + file.getOriginalFilename();
+		
 		try {
 			file.transferTo(f);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			dao.insertAreaImg(contentid, fileName);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("imgFileDown", file.getOriginalFilename());
-		return "redirect:detail?contentid=" + contentid + "&contenttypeid=" + contenttypeid;
+		return fileName;
 	}
 	
-	@RequestMapping("likeflag_updown/{contentid}/{userid}")
-	public void likeflag_test(@PathVariable String contentid, @PathVariable String userid) throws SQLException{
-		LikeFlagDto bean = new LikeFlagDto();
-		bean.setUserid(userid);
-		bean.setContentid(contentid);
-		int likeflag_t = dao.getLikeFlag_Test(bean);
-		if(likeflag_t==0){
+	@ResponseBody
+	@RequestMapping(value = "likeupdate", method = RequestMethod.POST)
+	public int likeFlag(@RequestParam String contentid, @RequestParam int likeflag, HttpSession session) throws SQLException{
+		LikeFlagDto bean = new LikeFlagDto(likeflag, contentid, ((UserDto)session.getAttribute("userInfo")).getId());
+		if(likeflag == 0) {
 			dao.getLikeUp(bean);
-		}else{
-			
+			likeflag = 1;
+		} else {
 			dao.getLikeDown(bean);
+			likeflag = 0;
 		}
+		return likeflag;
 	}
 	
 }

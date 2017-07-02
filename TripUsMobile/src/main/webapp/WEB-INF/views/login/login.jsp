@@ -10,21 +10,22 @@
         
     </head>
     <body>
-        <div data-role='page'>
-            <div data-role='header'>
-                <h1>TripUs</h1>
+        <div data-role='page' style="background-color: white;">
+            <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
+                <h1 style="color: white;">TripUs Login</h1>
             </div>
-            <div data-role='content'>
-                <h2>로그인 페이지</h2>
+            <div data-role='content' style="padding-left: 10px; padding-right: 10px;">
                 <form action="login" method="post">
                 	<div data-role='fieldcontain'>
                 		<input id="id" name="id" type="text" placeholder="ID를 입력하세요"/>
                 		<input id="pw" name="pw" type="password" placeholder="Password를 입력하세요"/>
                 	</div>
-                	<button>로그인</button>
+                	<button style="background-color: white; color: #F05562; border: 2px solid #F05562">로그인</button>
                 </form>
-                <a data-role='button' href="signin">회원가입</a><br/><br/>
+    
+    
                 <div id="login-icon">
+	                <a data-role='button' href="signin" style="background-color: white; color: #F05562; border: 2px solid #F05562">회원가입</a><br/><br/>
 	                <a id="google-login" href="${google_url }" data-ajax="false">
 	                	<img src="resources/imgs/icon/google_login.jpg" />
 	                	<input type="hidden" name="google" id="google" value="google"/>
@@ -37,11 +38,10 @@
             </div>
             
             <div data-role='footer' data-position='fixed'>
-                <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->
                 <div data-role='navbar'>
                     <ul>
                         <li>
-                            <a data-icon='home' href="main">Home</a>
+                            <a data-icon='home' href="../tripus/">Home</a>
                         </li>
                         <li>
                             <a data-icon='calendar' href="mytrip">내 여행</a>

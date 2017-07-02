@@ -4,27 +4,24 @@
 <!DOCTYPE html>
 <html>
 	<body>
-		<div data-role='page'>
-            <div data-role='header'>
-                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
-                <h1>친구 추가</h1>
+		<div data-role='page' style="background-color: white;">
+            <div data-role='header' style="background-color: #F05562;">
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
+                <h1 style="color: white;">친구 추가</h1>
             </div>
-            <div data-role='content'>
+            <div data-role='content' style="padding-left: 10px; padding-right: 10px; background-color: white;">
 				<div class="ui-conner-all">
-					<div class="ui-bar ui-bar-a">
-						<h3>친구 검색</h3>
-					</div>
-					<div class="ui-body ui-body-a">
+					<div class="ui-body ui-body-a" style="border: none;">
 						<input type="search" name="friendname" id="friendname" data-mini="true" placeholder="친구 이름을 입력하세요"/>
 						<button id="search-friend">찾기</button>
 					</div>
-				</div><br/>
+				</div>
 				
 				<div class="ui-conner-all">
-					<div id="frind-search-header" class="ui-bar ui-bar-a">
-						<h3>검색 결과</h3>
+					<div id="frind-search-header" class="ui-bar ui-bar-a" style="background-color: #F05562; border: 2px solid #F05562; border-radius: 10px;">
+						<h3 style="color: white;">검색 결과</h3>
 					</div>
-					<div id="friend-search-result" class='ui-body ui-body-a'>
+					<div id="friend-search-result" class='ui-body ui-body-a' style="border: none;">
 						<ul id="friend-listview" data-role='listview' data-inset='true'></ul>
 					</div>
 				</div>
@@ -40,12 +37,12 @@
 				            	friendname: $('#friendname').val()
 				            }, 
 				            success : function(data){
-				            	$('#frind-search-header').html("<h3>검색결과 : " + data.length + "명</h3>");
+				            	$('#frind-search-header').html("<h3 style='color: white;'>검색결과 : " + data.length + "명</h3>");
 				            	for(var i=0; i<data.length; i++) { //  class='ui-btn ui-btn-icon-right ui-icon-plus'
 				            		$('#friend-listview').append("<li class='ui-li-has-thumb ui-first-child ui-last-child' data-icon='plus'>"
 				            										+ "<a href='#'>"
 					            									+ "<img src='" + data[i]['profile'] + "' style='width:100%; height:100%;'/>"
-					            									+ "<h2>" + data[i]['name'] + "</h2>"
+					            									+ "<h2>" + data[i]['name'] + " (" + data[i]['nicname'] + ")</h2>"
 					            									+ "<p>" + data[i]['email'] + "</p></a>"
 																	+ "<a href='#add-friend-pop' onclick=addfriend_search('" + data[i]['id'] + "')" 
 																	+ " data-rel='popup' data-position-to='window' data-transition='pop' aria-haspopup='true'"

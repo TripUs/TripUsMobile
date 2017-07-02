@@ -6,21 +6,38 @@
 	<select id="searchArea" parameterType="String" resultType="com.hb.tripus.model.dto.AreaDto">
 		SELECT * FROM AREA WHERE NAME LIKE '%'||#{keyword}||'%'
 	</select>
+	
 	<select id="getRecentSearch" parameterType="String" resultType="com.hb.tripus.model.dto.RecentSearchDto">
 		SELECT ROWNUM, RS.* FROM (SELECT * FROM RECENTSEARCH WHERE USERID=#{value} ORDER BY IDX DESC) RS
 		WHERE ROWNUM<![CDATA[ <= ]]>5
 	</select>
+	
+	<select id="checkRecentSearch" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(CONTENTID) FROM RECENTSEARCH WHERE USERID=#{userid} AND CONTENTID=#{contentid} 
+	</select>
+	
 	<insert id="insertRecentSearch" parameterType="java.util.Map">
 		INSERT INTO RECENTSEARCH VALUES(RECENTSEARCH_IDX_SEQ.NEXTVAL, #{userid}, #{contentid}, #{firstimage}, #{title})
 	</insert>
 	
-	
-	<select id = "likeflag" parameterType="String" resultType="int">
-		select count(*) from likeflag where contentid = #{contentid} and likeflag=1
+	<select id="getAreaImgCnt" parameterType="String" resultType="int">
+		SELECT COUNT(IMGNAME) FROM UPLOADAREAIMG WHERE CONTENTID=#{value}
 	</select>
 	
-	<select id = "likeflag_test" parameterType ="com.hb.tripus.model.dto.LikeFlagDto" resultType="int">
-		select count(*) from likeflag where contentid = #{contentid} and userid=#{userid}
+	<select id="getAreaImg" parameterType="String" resultType="String">
+		SELECT IMGNAME FROM UPLOADAREAIMG WHERE CONTENTID=#{value} ORDER BY IDX DESC
+	</select>
+	
+	<insert id="insertAreaImg" parameterType="java.util.Map">
+		INSERT INTO UPLOADAREAIMG VALUES(UPLOADAREAIMG_IDX_SEQ.NEXTVAL, #{contentid}, #{imgname})
+	</insert>
+	
+	<select id = "likeflag" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM LIKEFLAG WHERE CONTENTID=#{contentid} AND LIKEFLAG=1
+	</select>
+	
+	<select id = "userlikeflag" parameterType ="com.hb.tripus.model.dto.LikeFlagDto" resultType="int">
+		SELECT COUNT(*) FROM LIKEFLAG WHERE CONTENTID=#{contentid} AND USERID=#{userid}
 	</select>
 	
 	<insert id = "likeflag_up" parameterType="com.hb.tripus.model.dto.LikeFlagDto" >
@@ -32,10 +49,10 @@
 	</delete> 
 	
 	<select id = "reveiw" resultType="com.hb.tripus.model.dto.ReviewDto" parameterType="String">
-		select nicname,review from review where contentid = #{contentid}
+		SELECT NICNAME, PROFILE, REVIEW, WRITETIME FROM REVIEW WHERE CONTENTID = #{contentid}
 	</select>
 	
 	<insert id = "review_add"  parameterType="com.hb.tripus.model.dto.ReviewDto">
-		insert into review values (#{contentid},#{userid},#{nicname},#{review})
+		INSERT INTO REVIEW VALUES (#{contentid}, #{userid}, #{nicname}, #{profile}, #{review}, SYSDATE)
 	</insert>
 </mapper>

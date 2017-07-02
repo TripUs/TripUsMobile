@@ -23,46 +23,59 @@
 	    <title>Document</title>
     </head>
     <body>
-        <div data-role='page'>
-            <div data-role='header'>
-                <a href="setting" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
-                <h1>친구 목록</h1>
-                <a href="addfriend" data-icon="plus">친구 추가</a>
+        <div data-role='page' style="background-color: white;">
+            <div data-role='header' style="background-color: #F05562;">
+                <a href="setting" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
+                <h1 style="color: white;">친구 목록</h1>
+                <a href="addfriend" class="ui-btn ui-icon-plus ui-btn-icon-notext ui-corner-all">친구 추가</a>
             </div>
-            <div data-role='content'>
-            	<div id="friend-stay-num">친구요청 대기 목록 (${fn:length(waitList)})</div>
-                <ul id="friend-stay-listview" data-role="listview" data-inset="true">
-                	<c:forEach items="${waitList }" var="bean">
-                		<c:set value="staylist_${bean.friendid }" var="stlistid"></c:set>
-                		<li class="cate-stay" id="${stlistid }" data-icon="delete">
-	                		<a href="#"><img src="${bean.friendprofile }"/>
-	                		<h2>${bean.friendname } (${bean.friendnicname }) 
-		                		<c:if test="${bean.flag eq 1 }"> - 친구 요청</c:if>
-		                		<c:if test="${bean.flag eq 0 }"> - 수락 대기중..</c:if>
-	                		</h2>
-	                		<p>${friendemail }</p></a>
-	                		<c:if test="${bean.flag eq 1 }">
-		                		<a href="#add-friend" onclick="addfriend('${bean.friendid }')" data-icon="plus" data-rel="popup" data-position-to="window" data-transition="pop">친구 추가</a>
-	                		</c:if>
-	                		<c:if test="${bean.flag eq 0 }">
-		                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
-	                		</c:if>
-	                	</li>
-                	</c:forEach>
-                </ul>
+            <div data-role='content' style="padding-left: 10px; padding-right: 10px;">
+            	<br/>
+            	<div class="ui-conner-all">
+					<div id="friend-stay-num" class="ui-bar ui-bar-a" style="background-color: #F05562; border: 2px solid #F05562; border-radius: 10px;">
+						<h3 style="color: white;">친구요청 대기 목록 (${fn:length(waitList)})</h3>
+					</div>
+					<div id="friend-search-result" class='ui-body ui-body-a' style="border: none;">
+		            	<ul id="friend-stay-listview" data-role="listview" data-inset="true">
+		                	<c:forEach items="${waitList }" var="bean">
+		                		<c:set value="staylist_${bean.friendid }" var="stlistid"></c:set>
+		                		<li class="cate-stay" id="${stlistid }" data-icon="delete">
+			                		<a href="#"><img src="${bean.friendprofile }"/>
+			                		<h2>${bean.friendname } (${bean.friendnicname })</h2>
+			                		<c:if test="${bean.flag eq 1 }"><p> -친구 요청</p></c:if>
+				                	<c:if test="${bean.flag eq 0 }"><p> - 수락 대기중..</p></c:if>
+			                		</a>
+			                		<c:if test="${bean.flag eq 1 }">
+				                		<a href="#add-friend" onclick="addfriend('${bean.friendid }')" data-icon="plus" data-rel="popup" data-position-to="window" data-transition="pop">친구 추가</a>
+			                		</c:if>
+			                		<c:if test="${bean.flag eq 0 }">
+				                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
+			                		</c:if>
+			                	</li>
+		                	</c:forEach>
+		                </ul>
+					</div>
+				</div>
                 
-            	<div id="friend-list-num">친구 목록 (${fn:length(friendList)})</div>
-                <ul id="friend-list-listview" data-role="listview" data-filter="true" data-filter-placeholder="Search Name" data-inset="true">
-                	<c:forEach items="${friendList }" var="bean">
-                		<c:set value="staylist_${bean.friendid }" var="listid"></c:set>
-                		<li id="${listid }" class="cate-list" data-icon="delete">
-	                		<a href="#"><img src="${bean.friendprofile }"/>
-	                		<h2>${bean.friendname } (${bean.friendnicname })</h2>
-	                		<p>${bean.friendemail }</p></a>
-	                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
-	                	</li>
-                   	</c:forEach>
-                </ul>
+                <div class="ui-conner-all">
+					<div id="friend-list-num" class="ui-bar ui-bar-a" style="background-color: #F05562; border: 2px solid #F05562; border-radius: 10px;">
+						<h3 style="color: white;">친구 목록 (${fn:length(friendList)})</h3>
+					</div>
+					<div id="friend-search-result" class='ui-body ui-body-a' style="border: none;">
+		            	<ul id="friend-list-listview" data-role="listview" data-filter="true" data-filter-placeholder="Search Name" data-inset="true">
+		                	<c:forEach items="${friendList }" var="bean">
+		                		<c:set value="staylist_${bean.friendid }" var="listid"></c:set>
+		                		<li id="${listid }" class="cate-list" data-icon="delete">
+			                		<a href="#"><img src="${bean.friendprofile }"/>
+			                		<h2>${bean.friendname } (${bean.friendnicname })</h2>
+			                		<p>${bean.friendemail }</p></a>
+			                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
+			                	</li>
+		                   	</c:forEach>
+		                </ul>
+		            </div>
+				</div>
+                
                 
                 <script type="text/javascript">
 	                function addfriend_list(data) {
@@ -91,8 +104,8 @@
 				            	var staynum = $('.cate-stay').length;
 				            	var listnum = $('.cate-list').length;
 				            	console.log(staynum + " : " + listnum);
-				            	$('#friend-stay-num').html('친구요청 대기 목록 (' + staynum + ')');
-				            	$('#friend-list-num').html('친구 목록 (' + listnum + ')');
+				            	$('#friend-stay-num h3').html('친구요청 대기 목록 (' + staynum + ')');
+				            	$('#friend-list-num h3').html('친구 목록 (' + listnum + ')');
 				            }, 
 				            error : function(){ 
 				            	alert('AJAX 통신 실패'); 
@@ -117,8 +130,8 @@
 				            	var staynum = $('.cate-stay').length;
 				            	var listnum = $('.cate-list').length;
 				            	console.log(staynum + " : " + listnum);
-				            	$('#friend-stay-num').html('친구요청 대기 목록 (' + staynum + ')');
-				            	$('#friend-list-num').html('친구 목록 (' + listnum + ')');
+				            	$('#friend-stay-num h3').html('친구요청 대기 목록 (' + staynum + ')');
+				            	$('#friend-list-num h3').html('친구 목록 (' + listnum + ')');
 				            }, 
 				            error : function(){ 
 				            	alert('AJAX 통신 실패'); 
@@ -153,7 +166,7 @@
                 <div data-role='navbar'>
                     <ul>
                         <li>
-                            <a data-icon='home' href="main">Home</a>
+                            <a data-icon='home' href="../tripus/">Home</a>
                         </li>
                         <li>
                             <a data-icon='calendar' href="mytrip">내 여행</a>

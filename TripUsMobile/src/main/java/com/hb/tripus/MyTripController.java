@@ -242,9 +242,9 @@ public class MyTripController {
 			
 			MimeMessage message = mailSender.createMimeMessage(); 
 
-			String content = "<h1>당신을 TripUs로 초대합니다.</h1>";
-			content += "<img src='http://localhost:8080/tripus/resources/imgs/tripus.png'/>";
-			content += "<a href='http://localhost:8080/tripus/'>Go To TripUs</a>";
+			String content = "<img src='http://localhost:8080/tripus/resources/imgs/mail/webMailImg2_h.png'/><br/>";
+			content += "<h1><a href='http://localhost:8080/tripus/' style='text-decoration: none; color: blue;'>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Go To TripUs</a></h1><br/><br/>";
+			content += "<img src='http://localhost:8080/tripus/resources/imgs/mail/webMailImg2_f.png'/>";
 			
 			message.setFrom(new InternetAddress(from));  
 			message.addRecipient(RecipientType.TO, new InternetAddress(address));

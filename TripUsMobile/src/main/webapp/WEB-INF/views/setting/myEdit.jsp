@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <div data-role='page'>
-            <div data-role='header'>
-            	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
-                <h1>회원정보 수정</h1>
+        <div data-role='page' style="background-color: white;">
+            <div data-role='header' style="background-color: #F05562; color: white;">
+            	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
+                <h1 style="color: white;">회원정보 수정</h1>
             </div>
-            <div data-role='content'>
+            <div data-role='content' style="padding-left: 10px; padding-right: 10px;">
             	<form method="post">
                 	<ul data-role="listview" data-inset="true">
                 		<li class="ui-field-contain">
@@ -32,14 +32,14 @@
                 			<input id="email" name="email" type="email" value="${sessionScope.userInfo.email }" />
                 		</li>
                 	</ul>
-	                <button>수정완료</button>
+	                <button style="background: #F05562; color: white;">수정완료</button>
                 </form>
             </div>
             <div data-role='footer' data-position='fixed'>
                 <div data-role='navbar'>
                     <ul>
                         <li>
-                            <a data-icon='home' href="/">Home</a>
+                            <a data-icon='home' href="../tripus/">Home</a>
                         </li>
                         <li>
                             <a data-icon='calendar' href="mytrip">내 여행</a>

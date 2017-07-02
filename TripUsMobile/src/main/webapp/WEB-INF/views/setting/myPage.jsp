@@ -23,32 +23,36 @@
 	    <title>Document</title>
     </head>
     <body>
-        <div data-role='page'>
-            <div data-role='header'>
-            	<a href="setting" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
-                <h1>마이 페이지</h1>
+        <div data-role='page' style="background-color: white;">
+            <div data-role='header' style="background-color: #F05562; color: white;">
+            	<a href="setting" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
+                <h1 style="color: white;">마이 페이지</h1>
             </div>
-            <div data-role='content'>
-            	<div class="ui-corner-all custom-corners">
-            		<div class="ui-bar ui-bar-a">
-            	   		<h3>회원 프로필</h3>
+            <div data-role='content' style="padding-left: 10px; padding-right: 10px;">
+            	<div class="ui-corner-all custom-corners" style="margin-top: 10px;">
+            		<div class="ui-bar ui-bar-a" style="background-color: #F05562; border: 2px solid #F05562; border-radius: 10px;">
+            	   		<h3 style="color: white;">회원 프로필</h3>
                 	</div>
-                	<div class="ui-body ui-body-a">
+                	<div class="ui-body ui-body-a" style="border: none;">
                 		<table style="width: 100%;">
                 			<tr>
                 				<td id="profile-td" style="width: 25%">
                 					<img src="${sessionScope.userInfo.profile }" style="width: 100%;"/>
                 				</td>
                 				<td style="width: 75%">
-                					&nbsp; &nbsp; &nbsp; &nbsp; ${sessionScope.userInfo.name } (${sessionScope.userInfo.nicname })<br/><br/>
-                					&nbsp; &nbsp; &nbsp; &nbsp; ${sessionScope.userInfo.email }<br/><br/>
-                					<a href="#" data-role="button" id="profile-edit-btn" style="width: 60%; margin-left: 5%;">프로필 사진 변경</a>
+                					&nbsp; &nbsp; &nbsp; &nbsp; <strong>${sessionScope.userInfo.name } (${sessionScope.userInfo.nicname })</strong><br/><br/>
+                					&nbsp; &nbsp; &nbsp; &nbsp; <strong>${sessionScope.userInfo.email }</strong><br/>
+                				</td>
+                			</tr>
+							<tr>
+                				<td colspan="2">
+                					<a href="#" data-role="button" id="profile-edit-btn" style="border: 2px solid #F05562; background-color: white; color: #F05562;">프로필 사진 변경</a>
                 				</td>
                 			</tr>
                 		</table>
                 	</div>
-               		<div id="profile-table"></div>
-                </div><br/>
+               		<div id="profile-table" style="display: none; position: fixed; top: 50%; width: 80%; left: 7%; z-index: 100; background-color: white; border: 2px solid #F05562; border-radius: 20px; padding: 10px;"></div>
+                </div>
                  
                  <script type="text/javascript">
                  	$('#profile-edit-btn').click(function() {
@@ -57,13 +61,15 @@
                  			$('#profile-edit-btn').html('프로필 사진 변경 취소');
 	                 		$('#profile-table').append('<div data-role="controlgroup" data-type="horizontal"><div class="ui-controltroup-controls">'
 	                 					+ '<input type="hidden" value="1" id="profileflag" />'
-	                 					+ '<div class="ui-input-text ui-body-inherit ui-corner-all ui-controlgroup-textinput ui-btn ui-first-child ui-shaow-inset">'				
-	                 					+ '<form id="fileForm" method="post" enctype="multipart/form-data">'
+	                 					+ '<div class="ui-input-text ui-body-inherit ui-corner-all ui-controlgroup-textinput ui-btn ui-first-child ui-shaow-inset" style="background-color: white; border: none;">'				
+	                 					+ '<form id="fileForm" method="post" enctype="multipart/form-data" data-ajax="false">'
 	                 					+ '<input id="profileimg" name="profile" type="file" data-wrapper-class="controlgroup-textinput ui-btn"/>'
-	                 					+ '<button onclick="uploadProfile();" class="ui-btn ui-shadow ui-corner-all ui-last-child">바꾸기</button></form></div></div></div>');
+	                 					+ '<button onclick="uploadProfile();" class="ui-btn ui-shadow ui-corner-all ui-last-child" style="background-color: #F05562; color: white;">프로필 이미지 변경</button></form></div></div></div>');
+	                 		$('#profile-table').show();
                  		} else {
                  			$('#profile-edit-btn').html('프로필 사진 변경');
                  			$('.ui-controltroup-controls').remove();
+                 			$('#profile-table').hide();
                  		}
                  	});
                  
@@ -74,22 +80,21 @@
                         	url: 'myPage',
                             processData: false,
                             contentType: false,
-                            
                             data: formData,
                             type: 'POST',
                             success: function(data){
-                            	alert("업로드 성공!!");
+                            	//$('#profile-td').html('<img src="${sessionScope.userInfo.profile }" style="width: 100%;"/>');
                             }
                     	});
-                    }
+                    };
 				</script>
 
                  
                  <div class="ui-corner-all custom-corners">
-                	<div class="ui-bar ui-bar-a">
-                		<h3>회원 정보</h3>
+                	<div class="ui-bar ui-bar-a" style="background-color: #F05562; border: 2px solid #F05562; border-radius: 10px;">
+                		<h3 style="color: white;">회원 정보</h3>
                 	</div>
-                	<div class="ui-body ui-body-a">
+                	<div class="ui-body ui-body-a" style="border: none;">
                 		<table style="width: 100%">
                 			<tr>
                 				<th>&nbsp;</th>
@@ -102,7 +107,7 @@
                 				<th>&nbsp;</th>
                 			</tr>
                 			<tr>
-                				<th>이 름</th>
+                				<th>이 &nbsp; 름</th>
                 				<td>${sessionScope.userInfo.name}</td>
                 			</tr>
                 			<tr>
@@ -124,7 +129,7 @@
                 			</tr>
                 			<tr>
                 				<td colspan="2">
-                					<a href="myEdit" data-role="button" class="ui-btn ui-corner-all">회원정보 수정</a>
+                					<a href="myEdit" data-role="button" class="ui-btn ui-corner-all" style="border: 2px solid #F05562; background-color: white; color: #F05562;">회원정보 수정</a>
                 				</td>
                 			</tr>
                 		</table>
@@ -136,7 +141,7 @@
             	<div data-role='navbar'>
                     <ul>
                         <li>
-                            <a data-icon='home' href="/">Home</a>
+                            <a data-icon='home' href="../tripus/">Home</a>
                         </li>
                         <li>
                             <a data-icon='calendar' href="mytrip">내 여행</a>

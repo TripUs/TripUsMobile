@@ -4,6 +4,17 @@ public class LikeFlagDto {
 	private int likeflag;
 	private String contentid, userid;
 	
+	public LikeFlagDto() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public LikeFlagDto(int likeflag, String contentid, String userid) {
+		super();
+		this.likeflag = likeflag;
+		this.contentid = contentid;
+		this.userid = userid;
+	}
+
 	public int getLikeflag() {
 		return likeflag;
 	}
