@@ -3,6 +3,9 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="setting">
+	<update id="updateLanguage" parameterType="com.hb.tripus.model.dto.UserDto">
+		UPDATE USERINFO SET LANG=#{lang} WHERE ID=#{id} 
+	</update>
 	<insert id="insertUser" parameterType="com.hb.tripus.model.dto.UserDto">
 		INSERT INTO USERINFO(ID, PW, NAME, NICNAME, EMAIL, PROFILE, USERTYPE)
 		VALUES (#{id}, #{pw}, #{name}, #{nicname}, #{email}, #{profile}, #{usertype})

@@ -55,4 +55,19 @@
 	<insert id = "review_add"  parameterType="com.hb.tripus.model.dto.ReviewDto">
 		INSERT INTO REVIEW VALUES (#{contentid}, #{userid}, #{nicname}, #{profile}, #{review}, SYSDATE)
 	</insert>
+	
+	<select id="getMyTrip" parameterType="String" resultType="com.hb.tripus.model.dto.MyTripDto">
+		SELECT A.CODE AS CODE, B.USERID AS USERID, A.TITLE AS TITLE, A.COVERIMG AS COVERIMG, 
+		A.STARTDATE AS STARTDATE, A.ENDDATE AS ENDDATE, A.THEMA AS THEMA, A.NUM AS NUM
+		FROM MYTRIP A, TRIPGROUP B 
+		WHERE A.CODE=B.CODE AND B.USERID=#{value}
+	</select>
+	
+	<select id="getMyTripSelectOne" parameterType="int" resultType="com.hb.tripus.model.dto.MyTripDto">
+		SELECT * FROM MYTRIP WHERE CODE=#{value}
+	</select>
+	
+	<select id="getMyTripList" parameterType="int" resultType="com.hb.tripus.model.dto.MyTripListDto">
+		SELECT * FROM TRIPLIST WHERE CODE=#{value}
+	</select>
 </mapper>

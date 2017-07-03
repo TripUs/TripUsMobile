@@ -41,12 +41,11 @@
     <body>
         <div id="main" data-role='page' style="background-color: white;">
             <div id="main-header" data-role='header' data-position='fixed' style="background-image: url('resources/imgs/banner/mainbanner.jpg');">
-            	<h1>&nbsp;</h1>
-            	<img src="resources/imgs/logo/headerlogo.png" style="width: 40%; margin-left: 30%;"/>
-                <div style="width: 60%; margin-left: 20%;">
+            	<!-- <h1>&nbsp;</h1> -->
+            	<img src="resources/imgs/logo/headerlogo.png" style="margin-top: 30px; width: 70%; margin-left: 15%;"/>
+                <div style="width: 80%; margin-left: 10%; margin-top: 20px; margin-bottom: 40px;">
 	                <input type="text" id="search-area" name="search" placeholder="어디로 가고 싶으신가요?"/>
                 </div>
-                <h1>&nbsp;</h1>
             </div>
         
         	<script type="text/javascript">

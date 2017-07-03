@@ -24,6 +24,21 @@
     </head>
     <body>
         <div data-role='page' style="background-color: white;">
+            <!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 0 }">
+        		<c:set value="로그아웃" var="logoutBtn"></c:set>
+        		<c:set value="리뷰 작성" var="review"></c:set>
+        		<c:set value="친구 목록" var="friend"></c:set>
+        		<c:set value="언어 설정" var="language"></c:set>
+        	</c:if>
+        	<!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="LogOut" var="logoutBtn"></c:set>
+        		<c:set value="Review" var="review"></c:set>
+        		<c:set value="Friend List" var="friend"></c:set>
+        		<c:set value="Setting Language" var="language"></c:set>
+        	</c:if>
+        	
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
                 <h1 style="color: white;">TripUs Setting</h1>
             </div>
@@ -43,13 +58,10 @@
 		                				</td>
 		                			</tr>
 		                			<tr>
-		                				<td colspan="2"><a data-role='button' href="logout" style="background-color: #F05562; color: white;">로그아웃</a></td>
+		                				<td colspan="2"><a data-role='button' href="logout" style="background-color: #F05562; color: white;">${logoutBtn }</a></td>
 		                			</tr>
 		                		</table>
 		                	</c:when>
-			                <c:otherwise>
-			                	<a data-role='button' href="login">로그인</a>
-			                </c:otherwise>
 		                </c:choose>	
                 	</div>
                 </div>
@@ -64,19 +76,19 @@
 	                    <li>
 	                        <a href="#" style="background-color: white; border: 1px solid #F05562; border-top: none;">
 	                            <img src=""/>	<!-- 이미지 아이콘 -->
-	                            <h2>리뷰 작성</h2>
+	                            <h2>${review }</h2>
 	                        </a>
 	                    </li>
 	                    <li>
 	                        <a href="friendlist" style="background-color: white; border: 1px solid #F05562; border-top: none;">
 	                            <img src=""/>	<!-- 이미지 아이콘 -->
-	                            <h2>친구 목록</h2>
+	                            <h2>${friend }</h2>
 	                        </a>
 	                    </li>
 	                    <li>
-	                        <a href="#" style="background-color: white; border: 1px solid #F05562; border-top: none;">
+	                        <a href="language" style="background-color: white; border: 1px solid #F05562; border-top: none;">
 	                            <img src=""/>	<!-- 이미지 아이콘 -->
-	                            <h2>언어 설정</h2>
+	                            <h2>${language }</h2>
 	                        </a>
 	                    </li>
 	                </ul>

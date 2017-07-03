@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +31,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hb.tripus.model.dao.HomeDao;
 import com.hb.tripus.model.dto.AreaDto;
 import com.hb.tripus.model.dto.LikeFlagDto;
+import com.hb.tripus.model.dto.MyTripBbsDto;
+import com.hb.tripus.model.dto.MyTripDetailDto;
+import com.hb.tripus.model.dto.MyTripDto;
+import com.hb.tripus.model.dto.MyTripListDto;
 import com.hb.tripus.model.dto.ReviewDto;
 import com.hb.tripus.model.dto.TourAreaBasicDto;
 import com.hb.tripus.model.dto.TourAreaInterface;
@@ -49,14 +56,19 @@ public class HomeController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model, HttpSession session) {
+		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		int userLang = 0;
+		if(userInfo != null) {
+			userLang = userInfo.getLang();
+		}
+		
 		service = new MainService();
 		session.setAttribute("mytripCode", null);
 		session.setAttribute("mytripDate", null);
-		model.addAttribute("list", ((MainService) service).getAreaList());
+		model.addAttribute("list", ((MainService) service).getAreaList(userLang));
 		
 		// 최근검색지
 		try {
-			UserDto userInfo = (UserDto) session.getAttribute("userInfo");
 			if(userInfo != null) {
 				model.addAttribute("recentSearch", dao.getRecentSearch(userInfo.getId()));
 			}
@@ -79,22 +91,26 @@ public class HomeController {
 	
 	@RequestMapping(value = "search_mytrip", method = RequestMethod.GET)
 	public String search(@RequestParam String tripdate, HttpSession session) {
-		System.out.println("tripdate : " + tripdate);
 		if(tripdate != null) session.setAttribute("mytripDate", tripdate);
 		return "home/search";
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "search", method = RequestMethod.POST)
-	public List<Object> searchKeyword(@RequestParam String keyword) {
+	public List<Object> searchKeyword(@RequestParam String keyword, HttpSession session) {
+		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		int userLang = 0;
+		if(userInfo != null) {
+			userLang = userInfo.getLang();
+		}
 		List<Object> result = new ArrayList<Object>();
 		try {
 			service = new MainService();
 			String url = "searchKeyword?keyword=" + URLEncoder.encode(keyword, "UTF-8") + "&MobileOS=ETC&MobileApp=AppTesting";
 			
 			result.add(dao.searchArea(keyword));
-			result.add(((MainService) service).searchKeyword(keyword, 1));
-			result.add(((MainService) service).pageParser(url));
+			result.add(((MainService) service).searchKeyword(keyword, 1, userLang));
+			result.add(((MainService) service).pageParser(url, userLang));
 			result.add(1);
 			result.add(keyword);
 		} catch (Exception e) {
@@ -105,18 +121,30 @@ public class HomeController {
 	
 	@ResponseBody
 	@RequestMapping(value = "addsearchlist", method = RequestMethod.POST)
-	public List<Object> addSearchList(@RequestParam int page, @RequestParam String keyword) {
+	public List<Object> addSearchList(@RequestParam int page, @RequestParam String keyword, HttpSession session) {
+		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		int userLang = 0;
+		if(userInfo != null) {
+			userLang = userInfo.getLang();
+		}
+		
 		List<Object> list = new ArrayList<Object>();
-		list.add(((MainService) service).searchKeyword(keyword, page+1));
+		list.add(((MainService) service).searchKeyword(keyword, page+1, userLang));
 		list.add(page+1);
 		return list;
 	}
 	
 	@RequestMapping("basicInfo")
 	public String basicInfo(@RequestParam("areacode") int areacode, @RequestParam("sigungucode") int sigungucode,
-			Model model) {
+			Model model, HttpSession session) {
+		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		int userLang = 0;
+		if(userInfo != null) {
+			userLang = userInfo.getLang();
+		}
+		
 		service = new MainService();
-		model.addAttribute("tourList", ((MainService) service).getAreaList(areacode, sigungucode));
+		model.addAttribute("tourList", ((MainService) service).getAreaList(areacode, sigungucode, userLang));
 		return "tour/basiclist";
 	}
 
@@ -124,12 +152,14 @@ public class HomeController {
 	public ModelAndView detailPage(@PathVariable("contentid") String contentid, Model model, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		int userLang = 0;
+		if(userInfo != null) {
+			userLang = userInfo.getLang();
+		}
 		service = new MainService();
-		System.out.println("\ndetail Controller");
-		System.out.println("contentid :" + contentid);
 		
 		try {
-			String contenttypeid = ((MainService) service).getContentTypeInfo(contentid);
+			String contenttypeid = ((MainService) service).getContentTypeInfo(contentid, userLang);
 			String DtoClassName = "";
 			String viewPath = "";
 			
@@ -148,7 +178,7 @@ public class HomeController {
 					break;
 				case 25: // 여행코스
 					DtoClassName = "TourAreaRecommendDto";
-					mav.addObject("subList", ((MainService) service).getSubDetailList(contentid, contenttypeid, "TourAreaRecommendDto2"));
+					mav.addObject("subList", ((MainService) service).getSubDetailList(contentid, contenttypeid, "TourAreaRecommendDto2", userLang));
 					viewPath = "tour/recoDetail";
 					break;
 				case 28: // 레포츠
@@ -157,7 +187,7 @@ public class HomeController {
 					break;
 				case 32: // 숙박
 					DtoClassName = "TourAreaStayDto";
-					mav.addObject("subList", ((MainService) service).getSubDetailList(contentid, contenttypeid, "TourAreaStaySubDto"));
+					mav.addObject("subList", ((MainService) service).getSubDetailList(contentid, contenttypeid, "TourAreaStaySubDto", userLang));
 					viewPath = "tour/stayDetail";
 					break;
 				case 38: // 쇼핑
@@ -171,7 +201,7 @@ public class HomeController {
 				default:
 					break;
 			}
-			TourAreaBasicDto bean = (TourAreaBasicDto) ((MainService) service).getAreaInfo(contentid);
+			TourAreaBasicDto bean = (TourAreaBasicDto) ((MainService) service).getAreaInfo(contentid, userLang);
 			
 			// 최근 검색지 추가
 			if(userInfo != null && dao.checkRecentSearch(userInfo.getId(), contentid) == 0) {
@@ -199,7 +229,7 @@ public class HomeController {
 			mav.addObject("likeCnt",likeCnt);
 			mav.addObject("likeflag",likeflag);
 			mav.addObject("basicInfo", bean);
-			mav.addObject("detailInfo", ((MainService) service).getAreaDetailInfo(contentid, contenttypeid, DtoClassName));
+			mav.addObject("detailInfo", ((MainService) service).getAreaDetailInfo(contentid, contenttypeid, DtoClassName, userLang));
 			mav.setViewName(viewPath);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -215,6 +245,43 @@ public class HomeController {
 			UserDto userInfo = (UserDto) session.getAttribute("userInfo");
 			ReviewDto bean = new ReviewDto(contentid, userInfo.getId(), userInfo.getNicname(), userInfo.getProfile(), review, null);
 			dao.getReview_add(bean);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="getMyTrip", method=RequestMethod.POST)
+	public List<MyTripDto> myTrip(HttpSession session) {
+		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		List<MyTripDto> list = null;
+		try {
+			list = dao.getMyTrip(userInfo.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@ResponseBody
+	@RequestMapping("getMyTripDetail")
+	public List<MyTripListDto> myTripDetail(@RequestParam int mytripcode, HttpSession session) {
+		List<MyTripListDto> list = null;
+		try {
+			list = dao.getMyTripList(mytripcode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@ResponseBody
+	@RequestMapping("addTrip")
+	public void addMyTripList(@RequestParam String contentid, @RequestParam int code, @RequestParam String title, @RequestParam String tripdate,
+			@RequestParam String firstimage, @RequestParam String mapx, @RequestParam String mapy, HttpSession session) {
+		try {
+			MyTripDetailDto bean = new MyTripDetailDto(0, code, 0, tripdate, contentid, title, firstimage, mapx, mapy);
+			dao.insertMyTripDetail(bean);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

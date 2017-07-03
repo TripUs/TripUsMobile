@@ -9,6 +9,9 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.hb.tripus.model.dto.AreaDto;
 import com.hb.tripus.model.dto.LikeFlagDto;
+import com.hb.tripus.model.dto.MyTripDetailDto;
+import com.hb.tripus.model.dto.MyTripDto;
+import com.hb.tripus.model.dto.MyTripListDto;
 import com.hb.tripus.model.dto.RecentSearchDto;
 import com.hb.tripus.model.dto.ReviewDto;
 
@@ -82,4 +85,21 @@ public class HomeDao implements DaoInterface {
 		return list;
 		
 	}
+	
+	public List<MyTripDto> getMyTrip(String id) throws SQLException {
+		return sqlSession.selectList("mytrip.getMyTrip", id);
+	}
+	
+	public MyTripDto getMyTripSelectOne(int code) throws SQLException {
+		return sqlSession.selectOne("mytrip.getMyTripSelectOne", code);
+	}
+	
+	public List<MyTripListDto> getMyTripList(int code) throws SQLException {
+		return sqlSession.selectList("mytrip.getMyTripList", code);
+	}
+	
+	public void insertMyTripDetail(MyTripDetailDto bean) throws SQLException {
+		sqlSession.insert("mytrip.insertMyTripDetail", bean);
+	}
+	
 }

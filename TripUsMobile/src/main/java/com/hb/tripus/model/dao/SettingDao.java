@@ -18,6 +18,10 @@ public class SettingDao implements DaoInterface {
 		this.sqlSession = sqlSession;
 	}
 	
+	public void updateLanguage(UserDto bean) throws SQLException {
+		sqlSession.update("setting.updateLanguage", bean);
+	}
+	
 	public void insertUser(UserDto bean) throws SQLException {
 		sqlSession.insert("setting.insertUser", bean);
 	}

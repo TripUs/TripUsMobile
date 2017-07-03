@@ -13,16 +13,30 @@ import com.hb.tripus.model.dto.TourAreaInterface;
 public class JsonParserModule {
 
 	private String[] value;
-	private String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/";
-	private String serviceKey = "&_type=json&ServiceKey=aBAaB1yK%2F7pFbW7tF9gKOjONRTvNPTJ8ggpIDYUyEltqfm2lkiB0uy1x1SrKGEnPiXfOXBRsBwn%2FBzuBsW1meA%3D%3D";
+	private String url;
+	private String serviceKey;
 	private String className;
 
-	public JsonParserModule(String url) {
+	public JsonParserModule(String url, int lang) {
+		if(lang == 0){
+			this.url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/";
+			serviceKey = "&_type=json&ServiceKey=aBAaB1yK%2F7pFbW7tF9gKOjONRTvNPTJ8ggpIDYUyEltqfm2lkiB0uy1x1SrKGEnPiXfOXBRsBwn%2FBzuBsW1meA%3D%3D";
+		} else {
+			this.url = "http://api.visitkorea.or.kr/openapi/service/rest/EngService/";
+			serviceKey = "&_type=json&ServiceKey=EcMXJ8m%2BSXdOi98cTdU1pI8zFtqv%2B5e79u2WOJ7kZf8IF8c9r%2FgUlgipI%2B69CBmz5uIruHVlArrpssnOaz9sKQ%3D%3D";
+		}
 		this.url += (url + serviceKey);
 		System.out.println("json url : " + this.url);
 	}
 
-	public JsonParserModule(String url, int page, String className) {
+	public JsonParserModule(String url, int page, String className, int lang) {
+		if(lang == 0){
+			this.url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/";
+			serviceKey = "&_type=json&ServiceKey=aBAaB1yK%2F7pFbW7tF9gKOjONRTvNPTJ8ggpIDYUyEltqfm2lkiB0uy1x1SrKGEnPiXfOXBRsBwn%2FBzuBsW1meA%3D%3D";
+		} else {
+			this.url = "http://api.visitkorea.or.kr/openapi/service/rest/EngService/";
+			serviceKey = "&_type=json&ServiceKey=EcMXJ8m%2BSXdOi98cTdU1pI8zFtqv%2B5e79u2WOJ7kZf8IF8c9r%2FgUlgipI%2B69CBmz5uIruHVlArrpssnOaz9sKQ%3D%3D";
+		}
 		String pageUrl = ("&pageNo=" + page);
 		this.url += (url + serviceKey + pageUrl);
 		this.className = className;

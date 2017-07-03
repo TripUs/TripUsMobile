@@ -3,12 +3,12 @@ package com.hb.tripus.model.dto;
 public class UserDto {
 
 	private String id, pw, name, nicname, email, profile, usertype, token;
-	
+	private int lang;
 	public UserDto() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public UserDto(String id, String pw, String name, String nicname, String birthday, String email, String profile, String usertype, String token) {
+	public UserDto(String id, String pw, String name, String nicname, String birthday, String email, String profile, String usertype, String token, int lang) {
 		this.id = id;
 		this.pw = pw;
 		this.name = name;
@@ -17,6 +17,15 @@ public class UserDto {
 		this.profile = profile;
 		this.usertype = usertype;
 		this.token = token;
+		this.lang = lang;
+	}
+
+	public int getLang() {
+		return lang;
+	}
+
+	public void setLang(int lang) {
+		this.lang = lang;
 	}
 
 	public String getToken() {
@@ -85,8 +94,8 @@ public class UserDto {
 
 	@Override
 	public String toString() {
-		return "UserDto [id=" + id + ", pw=" + pw + ", name=" + name + ", nicname=" + nicname
-				+ ", email=" + email + ", profile=" + profile + ", usertype=" + usertype + "]";
+		return "UserDto [id=" + id + ", pw=" + pw + ", name=" + name + ", nicname=" + nicname + ", email=" + email
+				+ ", profile=" + profile + ", usertype=" + usertype + ", token=" + token + ", lang=" + lang + "]";
 	}
 	
 }

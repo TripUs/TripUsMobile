@@ -137,12 +137,17 @@ public class MyTripController {
 	public String addMyTripList(@PathVariable String contentid, HttpSession session) {
 		int code = 0;
 		String tripdate = null;
+		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		int userLang = 0;
+		if(userInfo != null) {
+			userLang = userInfo.getLang();
+		}
 		try {
 			if((code = (Integer)session.getAttribute("mytripCode")) != 0) {
 				tripdate = (String)session.getAttribute("mytripDate");
 				System.out.println("code : " + code + ", date : " + tripdate);
 				service = new MainService();
-				TourAreaBasicDto bean = (TourAreaBasicDto) ((MainService) service).getAreaInfo(contentid);
+				TourAreaBasicDto bean = (TourAreaBasicDto) ((MainService) service).getAreaInfo(contentid, userLang);
 				
 				MyTripDetailDto dto = new MyTripDetailDto(0, code, 0, tripdate, contentid, bean.getTitle(), bean.getFirstimage(), bean.getMapx(), bean.getMapy());
 				dao.insertMyTripDetail(dto);

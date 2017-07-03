@@ -410,4 +410,25 @@ public class SettingController {
 		return "setting/myPage";
 	}
 
+	// 언어 설정
+	@RequestMapping(value = "language", method = RequestMethod.GET)
+	public String language(Model model, HttpSession session) {
+		int language = ((UserDto)session.getAttribute("userInfo")).getLang();
+		model.addAttribute("lang", language);
+		return "setting/language";
+	}
+	
+	@RequestMapping(value = "language", method = RequestMethod.POST)
+	public String changelanguage(@RequestParam int language , HttpSession session) {
+		UserDto user = (UserDto)session.getAttribute("userInfo");
+		user.setLang(language);
+		try {
+			dao.updateLanguage(user);
+			session.setAttribute("userInfo", user);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "setting/setting";
+	}
+	
 }
