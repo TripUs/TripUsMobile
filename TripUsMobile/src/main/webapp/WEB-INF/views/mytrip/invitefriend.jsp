@@ -7,7 +7,7 @@
         <div id="main" data-role='page'>
             <div data-role='header'>
             	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
-                <h2>내 여행일정 공유하기</h2>
+                <h2>여행일정 공유</h2>
             </div>
         	<div data-role='content'>
         		<div data-role="navbar">

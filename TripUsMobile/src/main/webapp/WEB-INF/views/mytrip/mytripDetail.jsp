@@ -21,8 +21,8 @@
 	    <title>Document</title>
     </head>
     <body>
-        <div id="main" data-role='page'>
-            <div data-role='header'>
+        <div id="main" data-role='page' style="background-color: white;">
+            <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
             	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
                 <h2>${mytrip.title }</h2>
             </div>
@@ -36,9 +36,11 @@
             	<div id="mytrip-story">
 	            	<div data-role="controlgroup" data-type="horizontal">
 	            		<img class="mytrip-cover" src="${mytrip.coverimg }"/>
-	               		<a class="mytrip-detail-btn" data-role="button" href="#" style="background-color: black; color: white;">커버 변경</a>
-	               		<a class="mytrip-detail-btn" data-role="button" href="../invitefriend" style="background-color: black; color: white;">친구 초대</a>
+	               		<a class="mytrip-detail-btn" data-role="button" href="#" style="background-color: white; color: black;">커버 변경</a>
+	               		<a class="mytrip-detail-btn" data-role="button" href="../invitefriend" style="background-color: white; color: black;">친구 초대</a>
 	               	</div>
+	               	
+	               	<div style="position: relative; top: -48px;">
 	               	<c:forEach items="${tripList }" var="bean">
 	               		<div class="ui-corner-all custom-corners">
 	               			<div class="ui-bar ui-bar-a">
@@ -79,7 +81,9 @@
 	               			</div>
 	               		</div><br/>
 	               	</c:forEach>
+	            	</div>
 	            </div>
+	            
 				<div id="mytrip-maps">
 	               	<h3>지도</h3>
 	               	<c:forEach items="${tripDetail}" var="detail">

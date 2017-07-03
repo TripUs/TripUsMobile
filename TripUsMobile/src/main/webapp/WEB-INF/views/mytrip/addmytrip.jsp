@@ -22,28 +22,25 @@
 	    <title>Document</title>
     </head>
     <body>
-        <div data-role='page'>
-            <div data-role='header'>
-                <h1>내 여행 관리</h1>
+        <div data-role='page' style="background-color: white;">
+            <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
+                <h1>내 여행 추가</h1>
             </div>
         	
-            <div data-role='content'>
-      			<h2>내 여행 추가 페이지</h2>
-                <form action="addmytrip" method="post" accept-charset="UTF-8" data-ajax="false">
+            <div data-role='content' style="padding: 0px 10px;">
+      			<form action="addmytrip" method="post" accept-charset="UTF-8" data-ajax="false">
                 	<div data-role='fieldcontain'>
-                		<input id="title" name="title" type="text" placeholder="여행 제목을 입력하세요"/>
-                	</div>
-                	<div data-role='fieldcontain'>
-                		<label for="startdate">여행 시작일</label>
-                		<input id="startdate" name="startdate" type="date"/>
-                	</div>
-                	<div data-role='fieldcontain'>
-                		<label for="enddate">여행 종료일</label>
+                		<label for="title">&nbsp; <strong>여행 제목</strong></label>
+                		<input id="title" name="title" type="text" placeholder="여행 제목을 입력하세요"/><br/>
+                		<label for="startdate">&nbsp; <strong>여행 시작일</strong></label>
+                		<input id="startdate" name="startdate" type="date"/><br/>
+                		<label for="enddate">&nbsp; <strong>여행 종료일</strong></label>
                 		<input id="enddate" name="enddate" type="date"/>
                 	</div>
                 	<div data-role='fieldcontain'>
                 		<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-                			<legend>여행 테마</legend>
+                			<legend>&nbsp; <strong>여행 테마</strong></legend>
                 			<input type="radio" name="thema" id="thema1" value="나홀로" checked="checked"/>
                 			<label for="thema1">나홀로</label>
                 			<input type="radio" name="thema" id="thema2" value="친구와 함께"/>
@@ -54,7 +51,7 @@
                 			<label for="thema4">커플</label>
                 		</fieldset>
                 	</div>
-                	<button>여행 등록</button>
+                	<button style="background-color: #F05562; color: white; border-radius: 5px;">여행 등록</button>
                 </form>
             </div>
             

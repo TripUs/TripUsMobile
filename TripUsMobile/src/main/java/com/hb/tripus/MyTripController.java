@@ -73,6 +73,21 @@ public class MyTripController {
 				String userid = ((UserDto) session.getAttribute("userInfo")).getId();
 				dao.insertMyTrip(bean);
 				dao.insertTripGroup(bean.getCode(), userid);
+			
+				int daynum = diffOfDate(bean.getStartdate().toString(), bean.getEnddate().toString()) + 1;
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				Date date = null;
+				date = formatter.parse(bean.getStartdate().toString());
+				
+				for(int i=0; i<daynum; i++) {
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(date);
+					cal.add(Calendar.DATE, i);
+					String tripdate = formatter.format(cal.getTime());
+
+					MyTripListDto dto = new MyTripListDto(bean.getCode(), (i+1), tripdate);
+					dao.insertMyTripList(dto);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,25 +103,6 @@ public class MyTripController {
 			model.addAttribute("mytrip", bean);
 
 			List<MyTripListDto> list = dao.getMyTripList(bean.getCode());
-			
-			if(list.size() == 0) {
-				System.out.println("My Trip List is Null");
-				int daynum = diffOfDate(bean.getStartdate().toString(), bean.getEnddate().toString()) + 1;
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-				Date date = null;
-				date = formatter.parse(bean.getStartdate().toString());
-				
-				for(int i=0; i<daynum; i++) {
-					Calendar cal = Calendar.getInstance();
-					cal.setTime(date);
-					cal.add(Calendar.DATE, i);
-					String tripdate = formatter.format(cal.getTime());
-
-					MyTripListDto dto = new MyTripListDto(bean.getCode(), (i+1), tripdate);
-					dao.insertMyTripList(dto);
-					list.add(dto);
-				}
-			}
 			model.addAttribute("tripList", list);
 			
 			List<MyTripDetailDto> list2 = dao.getMyTripDetail(bean.getCode());

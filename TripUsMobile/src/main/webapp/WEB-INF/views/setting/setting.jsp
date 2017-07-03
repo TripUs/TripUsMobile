@@ -74,7 +74,7 @@
 	                        </a>
 	                    </li>
 	                    <li>
-	                        <a href="#" style="background-color: white; border: 1px solid #F05562; border-top: none;">
+	                        <a href="search" style="background-color: white; border: 1px solid #F05562; border-top: none;">
 	                            <img src=""/>	<!-- 이미지 아이콘 -->
 	                            <h2>${review }</h2>
 	                        </a>

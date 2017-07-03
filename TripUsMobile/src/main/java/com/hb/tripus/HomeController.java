@@ -280,6 +280,7 @@ public class HomeController {
 	public void addMyTripList(@RequestParam String contentid, @RequestParam int code, @RequestParam String title, @RequestParam String tripdate,
 			@RequestParam String firstimage, @RequestParam String mapx, @RequestParam String mapy, HttpSession session) {
 		try {
+			System.out.println(contentid + " : " + code + " : " + title + " : " + tripdate + " : " + firstimage + " : " + mapx + " : " + mapy);
 			MyTripDetailDto bean = new MyTripDetailDto(0, code, 0, tripdate, contentid, title, firstimage, mapx, mapy);
 			dao.insertMyTripDetail(bean);
 		} catch (SQLException e) {

@@ -43,9 +43,10 @@
 					</c:if>
 				</div>
 				
-				<div id="mytrip-food" style="display: none; position: fixed; top: 30%; width: 80%; left: 5%; z-index: 100; background-color: white; border: 5px solid #F05562; border-radius: 20px; padding: 15px;">
+				<div id="mytrip-food" style="display: none; position: fixed; top: 10%; width: 80%; left: 5%; z-index: 100; background-color: white; border: 5px solid #F05562; border-radius: 20px; padding: 15px;">
 					<h4></h4>
 					<ul id="mytripfood" data-role="listview" data-inset="true"></ul>
+					<div></div>
 				</div>
 				
 				<input type="hidden" id="usertripcode" value="${sessionScope.mytripCode }">
@@ -54,6 +55,9 @@
 				<input id="usernicname" type="hidden" name="usernicname" value="${sessionScope.userInfo.nicname }" />
 				<input id="mytripcode" type="hidden" name="mytripcode" value="${sessionScope.mytripCode }" />
 				<input id="firstimage" type="hidden" name="firstimage" value="${basicInfo.firstimage }" />
+				<input id="title" type="hidden" name="title" value="${basicInfo.title }" />
+				<input id="mapx" type="hidden" name="mapx" value="${basicInfo.mapx }" />
+				<input id="mapy" type="hidden" name="mapy" value="${basicInfo.mapy }" />
 				
 								
 				<script type="text/javascript">
@@ -109,25 +113,27 @@
 					            type:'POST', 					 
 					            success : function(data){
 					            	var usernicname = $('#usernicname').val();
+					            	$('#mytrip-food div').html('');
 					            	if(data.length != 0) {
 					            		$('#mytrip-food h4').html(usernicname + '님의 여행목록');
 					            		$('#mytripfood').html("<li class='ui-li-has-thumb ui-first-child ui-last-child' data-icon='plus'>"
-												+ "<a onclick=tripDetail('"+data[0]['code']+"') href='#'><img src='" + data[0]['coverimg'] + "' style='width: 100%; height: 100%;'/>"
-										        + "<h2>[" + data[0]['thema'] + "] " + data[0]['title'] + "</h2>"
-										        + "<p>" + data[0]['startdate'] + " ~ " + data[0]['enddate'] + "</p></a></li>");
-						            	for(var i=1; i<data.length; i++) {
+													+ "<a onclick='tripDetail(" + data[0]['code'] + ")' href='#'>"
+					            					+ "<img src='" + data[0]['coverimg'] + "' style='width: 100%; height: 100%;'/>"
+					            					+ "<h2>[" + data[0]['thema'] + "] " + data[0]['title'] + "</h2>"
+					            					+ "<p>" + data[0]['startdate'] + " ~ " + data[0]['enddate'] + "</p></a></li>");
+					            		for(var i=1; i<data.length; i++) {
 						            		$('#mytripfood').html("<li class='ui-li-has-thumb ui-first-child ui-last-child' data-icon='plus'>"
-													+ "<a onclick=tripDetail('"+data[i]['code']+"') href='#'><img src='" + data[i]['coverimg'] + "' style='width: 100%; height: 100%;'/>"
+													+ "<a onclick='tripDetail("+data[i]['code']+")' href='#'><img src='" + data[i]['coverimg'] + "' style='width: 100%; height: 100%;'/>"
 											        + "<h2>[" + data[i]['thema'] + "] " + data[i]['title'] + "</h2>"
 											        + "<p>" + data[i]['startdate'] + " ~ " + data[i]['enddate'] + "</p></a></li>");
 							            }
 					            		$('#mytripfood').append('<button onclick="removeTripPop()" class="ui-btn ui-shadow ui-corner-all ui-last-child" style="background-color: #F05562; color: white;">취소</button>');
 								        $('#mytripfood').listview('refresh');
 					            	} else {
-					            		$('#mytrip-food').html('<h4>' + usernicname + '님의</h4><h4>여행목록이 없습니다.</h4>'
-					            				+ '<p>새로운 여행을 추가하시겠습니까?</p>'
-					            				+ '<a class="ui-btn ui-btn-icon-notext" href="#">여행 추가</a>'
-					            				+ '<a onclick="removeTripPop()" class="ui-btn ui-btn-icon-notext" href="#">취소</a><br/>');
+					            		$('#mytrip-food').html('<h4>' + usernicname + '님의 여행목록이 없습니다.</h4>'
+						            				+ '<p>새로운 여행을 추가하시겠습니까?</p>'
+						            				+ '<a class="ui-btn" href="../addmytrip">여행 추가</a>'
+						            				+ '<a onclick="removeTripPop()" class="ui-btn" href="#">취소</a><br/>');
 					            	} 
 					            	$('#mytrip-food').show();
 					            }, 
@@ -146,14 +152,15 @@
 				            	mytripcode: paramdata
 				            },
 				            success : function(data){
+				            	$('#mytrip-food div').html('');
 				            	$('#mytrip-food h4').html('여행지 추가');
 				            	$('#mytripfood').html('<li class="ui-first-child ui-last-child" data-icon="plus">'
-										+ '<a onclick=addTrip("' + data[0] + '"); href="#">'
+										+ '<a onclick="addTrip(' + data[0]['code'] + ', \'' + data[0]['tripdate'] + '\')" href="#">'
 								        + '<h2>여행 ' + data[0]['daynum'] + '일차 - ' + data[0]['tripdate'] + '</h2></a></li>');
 								for(var i=1; i<data.length; i++) {
 									$('#mytripfood').append('<li class="ui-first-child ui-last-child" data-icon="plus">'
-										+ '<a onclick=addTrip("' + data[i] + '"); href="#">'
-								        + '<h2>여행 ' + data[i]['daynum'] + '일차 - ' + data[i]['tripdate'] + '</h2></a></li>');
+										+ '<a onclick="addTrip(' + data[i]['code'] + ', \'' + data[i]['tripdate'] + '\')" href="#">'
+									    + '<h2>여행 ' + data[i]['daynum'] + '일차 - ' + data[i]['tripdate'] + '</h2></a></li>');
 								}
 			            		$('#mytripfood').append('<button onclick="removeTripPop()" class="ui-btn ui-shadow ui-corner-all ui-last-child" style="background-color: #F05562; color: white;">취소</button>');
 				            	$('#mytripfood').listview('refresh');
@@ -165,38 +172,43 @@
 				        });
 					};
 					
-					function addTrip(data) {
-						alert('addTrip');
+					function addTrip(code, tripdate) {
+						$('#mytrip-food h4').html('<h4>여행지에 추가하시겠습니까?</h4>');
+						$('#mytripfood').html('');
+						$('#mytripfood').listview('refresh');
+						$('#mytrip-food div').html('<button onclick="addTrip2(' + code + ', \'' + tripdate + '\')">추가</button><button onclick="removeTripPop()">취소</button>');
+					};
+					
+					function addTrip2(code, tripdate) {
+						alert(tripdate);
 						$.ajax({ 
 				        	url: "../addTrip",
 				            type:'POST',
 				            data: {
 				            	contentid: contentid,
-				            	code: data['code'],
-				            	title: ${basicInfo.title },
-				            	tripdate: data['tripdate'],
+				            	code: code,
+				            	title: $('#title').val(),
+				            	tripdate: tripdate,
 				            	firstimage: $('#firstimage').val(),
-				            	mapx: ${basicInfo.mapx },
-				            	mapy: ${basicInfo.mapy }
+				            	mapx: $('#mapx').val(),
+				            	mapy: $('#mapy').val()
 				            },
 				            success : function(data){
-				            	alert('성공');
-				            	
-				            	//$('#mytrip-food').show();
-				            }, 
+				            	$('#mytrip-food').hide();
+				           	}, 
 				            error : function(){ 
 				            	alert('AJAX 통신 실패'); 
 				            } 
 				        });
-					}
+					};
 				</script>
 				
 				<div style="padding-left: 10px; padding-right: 10px; position: relative; top: -48px;">
-					<div style="border: 2px solid #F05562; border-radius: 5px; padding: 5px;">
+					<div style="padding: 5px;">
 						<table>
 							<c:if test="${basicInfo.overview ne '데이터 없음' }">
 								<tr>
-									<th colspan="4">${basicInfo.title } 소개</th>
+									<th colspan="4" style="text-align: left;">${basicInfo.title } 소개</th>
 								</tr>
 								<tr>
 									<td colspan="4">${basicInfo.overview }</td>
@@ -205,24 +217,24 @@
 							</c:if>
 							<c:if test="${basicInfo.addr1 ne '데이터 없음' }">						
 								<tr>
-									<th>위치</th>
+									<th style="text-align: left;">위치</th>
 									<td colspan="3">${basicInfo.addr1 }</td>
 								</tr>
 							</c:if>
 							<c:if test="${basicInfo.tel ne '데이터 없음' }">
 								<tr>
-									<th>전화</th>
+									<th style="text-align: left;">전화</th>
 									<td colspan="3">${basicInfo.tel }</td>
 								</tr>
 							</c:if>
 							<c:if test="${basicInfo.homepage ne '데이터 없음' }">
 								<tr>
-									<th colspan="4">${basicInfo.homepage }</th>
+									<th colspan="4" style="text-align: left;">${basicInfo.homepage }</th>
 								</tr>
 							</c:if>
 							<c:if test="${detailInfo.firstmenu ne '데이터 없음' }">
 								<tr>
-									<th>대표메뉴</th>
+									<th style="text-align: left;">대표메뉴</th>
 									<td colspan="3">${detailInfo.firstmenu }</td>
 								</tr>
 							</c:if>
@@ -230,7 +242,7 @@
 					</div>
 					<div data-role="collapsible" data-enhanced="true" class="ui-collapsible ui-collapsible-inset ui-corner-all ui-collapsible-collapsed">
 						<h4 class="ui-collapsible-heading ui-collapsible-heading-collapsed">
-							<a href="#" class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-icon-plus" style="border: 2px solid #F05562; background-color: white;">
+							<a href="#" class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-icon-plus" style="border-bottom: 2px solid #cccccc; background-color: white;">
 								식당 상세정보
 								<div class="ui-collapsible-heading-status">click to expand contents</div>
 							</a>

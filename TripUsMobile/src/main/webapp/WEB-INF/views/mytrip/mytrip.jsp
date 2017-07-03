@@ -22,12 +22,12 @@
 	    <title>Document</title>
     </head>
     <body>
-        <div id="main" data-role='page'>
-            <div data-role='header'>
-                <h1>내 여행 관리</h1>
+        <div id="main" data-role='page' style="background-color: white;">
+            <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
+                <h1>내 여행관리</h1>
             </div>
         	
-            <div data-role='content'>
+            <div data-role='content' style="padding: 0px 10px;">
             	<c:choose>
 	                <c:when test="${not empty sessionScope.userInfo}">
 	                	<!-- 로그인이 되어 있는 경우 -->
@@ -41,7 +41,6 @@
 				                            <img src="${bean.coverimg }" style="height: 100%;"/>	<!-- 이미지 아이콘 -->
 				                            <h2>[${bean.thema}] ${bean.title }</h2>
 				                            <p>${bean.startdate } ~ ${bean.enddate }</p>
-				                            <span class="ui-li-count">참여 ${bean.num }명</span>
 				                        </a>
 				                    </li>		
 			                	</c:forEach>
@@ -51,16 +50,21 @@
 			                <c:otherwise>
 			                	<!-- 여행 목록이 없는 경우 -->
 			                	<h2>${sessionScope.userInfo.nicname }님의 여행목록이 없습니다</h2>
-			                	<p>지금 여행 계획을 세우시겠어요? &nbsp; &nbsp; <a href="addmytrip">여행 추가</a></p>
+			                	<p>지금 여행 계획을 세우시겠어요?</p>
+			                	<p><a href="addmytrip">여행 추가</a></p>
 			                </c:otherwise>
 		                </c:choose>
-		                <a href="addmytrip">여행계획 세우기</a>
-	                </c:when>
+		                <a href="addmytrip" style="position: fixed; top: 80%; left: 80%;">
+		                	<img style="width: 50px; height: 50px; border-radius: 50px;" src="resources/imgs/icon/addbtn3.png"/>
+		                </a>
+	                </c:when> 
 	                
 	                <c:otherwise>
 	                	<!-- 로그인이 되어 있지 않은 경우 -->
-	                	<h2>내 여행 탭을 사용하기 위해선 로그인이 필요합니다</h2>
-	                	<p>지금 로그인 하시겠습니까? &nbsp; &nbsp; <a href="setting">로그인 하기</a></p>
+	                	<h2>&nbsp;</h2>
+	                	<h2> &nbsp;로그인이 필요한 기능입니다.</h2>
+	                	<h4>&nbsp;</h4>
+	                	<p> &nbsp; 지금 로그인 하시겠습니까? &nbsp; <a href="setting">로그인</a></p>
 	                </c:otherwise>
                 </c:choose>
             </div>

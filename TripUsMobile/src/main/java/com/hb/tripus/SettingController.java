@@ -376,6 +376,7 @@ public class SettingController {
 	public String myUpdate(@ModelAttribute UserDto bean, Model model, HttpSession session) {
 		try {
 			dao.updateUser(bean);
+			bean.setLang(((UserDto)session.getAttribute("userInfo")).getLang());
 			bean.setProfile(((UserDto)session.getAttribute("userInfo")).getProfile());
 			session.setAttribute("userInfo", bean);
 		} catch (SQLException e) {
