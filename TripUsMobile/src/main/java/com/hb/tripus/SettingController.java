@@ -122,7 +122,7 @@ public class SettingController {
 	}
 
 	// 카카오 Callback호출 메소드
-	@RequestMapping(value = "oauth2kakao", produces = "application/json", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "oauth2kakao", produces = "application/json", method = {RequestMethod.GET, RequestMethod.POST })
 	public String kakaoCallback(@RequestParam String code, Model model, HttpSession session) throws IOException {
 
 		JsonNode jsonToken = getAccessToken(code);
@@ -233,7 +233,7 @@ public class SettingController {
 				e.printStackTrace();
 			}
 		}
-		return "setting/setting";
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = "logout", method = RequestMethod.GET)

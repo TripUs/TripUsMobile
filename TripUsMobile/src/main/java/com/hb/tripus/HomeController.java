@@ -250,6 +250,14 @@ public class HomeController {
 		}
 	}
 	
+	@RequestMapping("detailmap")
+	public String detailMap(@RequestParam String mapx, @RequestParam String mapy, @RequestParam String title, Model model){
+		model.addAttribute("title", title);
+		model.addAttribute("mapx", 33.450701);
+		model.addAttribute("mapy", 126.570667);
+		return "tour/detailmap";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="getMyTrip", method=RequestMethod.POST)
 	public List<MyTripDto> myTrip(HttpSession session) {

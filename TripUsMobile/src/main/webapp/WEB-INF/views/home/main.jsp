@@ -21,20 +21,18 @@
         <script type="text/javascript" src="resources/js/slick.min.js"></script>
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
-	    <title>Document</title>
+	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=0f2e3ff280f258cf4dc5f49a68d055b8&libraries=services"></script>
+        <title>Document</title>
 	    <script type="text/javascript">
 		    $(document).ready(function() {
-	        	$('.img-slider').slick({
-	        		dots : false,
+		    	//$('.img-slider').slick({
+	        		/* dots : false,
 	        		infinite : true,
 	        		speed : 300,
 	        		slidesToShow : 1,
 	        		centerMode : true,
-	        		variableWidth : false
-	        	});
-	        	var carousel;
-	        	carousel = $(".scrolling ul");
-	        	carousel.itemslide();
+	        		variableWidth : false */
+	        	//});
 	        });            	
 	    </script>
     </head>
@@ -127,6 +125,25 @@
             </div>
             
             <script type="text/javascript">
+            	function createSlick() {
+            		$(".img-slider").not('.slick-initialized').slick({
+        	        	autoplay: false,
+        		    	dots: true,
+        		    		responsive: [{ 
+        		    		breakpoint: 500,
+        		    		settings: {
+        		    			dots: false,
+        		    			arrows: false,
+        		    			infinite: false,
+        		    			slidesToshow: 1,
+        		    			slidesToScroll: 1
+        		    		}
+        		    	}]
+        		    });		
+            	}
+            	createSlick();
+            	//Now it will not throw error, even if called multiple times.
+            	$(window).on( 'resize', createSlick );
 	        </script>
             
             <div data-role='footer' data-position='fixed'>

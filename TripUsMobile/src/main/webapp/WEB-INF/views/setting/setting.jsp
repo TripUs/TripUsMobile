@@ -19,8 +19,22 @@
         <script type="text/javascript" src="resources/js/jquery.mobile-1.4.5.min.js"></script>
         <script type="text/javascript" src="resources/js/jquery.form.min.js"></script>
         <script type="text/javascript" src="resources/js/slick.min.js"></script>
+        <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
-	    <title>Document</title>
+	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=0f2e3ff280f258cf4dc5f49a68d055b8&libraries=services"></script>
+        <title>Document</title>
+	    <script type="text/javascript">
+		    $(document).ready(function() {
+	        	$('.img-slider').slick({
+	        		dots : false,
+	        		infinite : true,
+	        		speed : 300,
+	        		slidesToShow : 1,
+	        		centerMode : true,
+	        		variableWidth : false
+	        	});
+	        });            	
+	    </script>
     </head>
     <body>
         <div data-role='page' style="background-color: white;">

@@ -17,8 +17,24 @@
                   crossorigin="anonymous"></script>
         <script type="text/javascript" src="../resources/js/jquery-migrate-1.4.1.min.js"></script>
         <script type="text/javascript" src="../resources/js/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" src="../resources/js/jquery.form.min.js"></script>
+        <script type="text/javascript" src="../resources/js/slick.min.js"></script>
+        <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="../resources/js/tripus.js"></script>
-	    <title>Document</title>
+	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=0f2e3ff280f258cf4dc5f49a68d055b8&libraries=services"></script>
+        <title>Document</title>
+	    <script type="text/javascript">
+		    $(document).ready(function() {
+	        	$('.img-slider').slick({
+	        		dots : false,
+	        		infinite : true,
+	        		speed : 300,
+	        		slidesToShow : 1,
+	        		centerMode : true,
+	        		variableWidth : false
+	        	});
+	        });            	
+	    </script>
     </head>
     <body>
         <div data-role='page'>
@@ -56,8 +72,6 @@
 				<input id="mytripcode" type="hidden" name="mytripcode" value="${sessionScope.mytripCode }" />
 				<input id="firstimage" type="hidden" name="firstimage" value="${basicInfo.firstimage }" />
 				<input id="title" type="hidden" name="title" value="${basicInfo.title }" />
-				<input id="mapx" type="hidden" name="mapx" value="${basicInfo.mapx }" />
-				<input id="mapy" type="hidden" name="mapy" value="${basicInfo.mapy }" />
 				
 								
 				<script type="text/javascript">
@@ -204,6 +218,13 @@
 				</script>
 				
 				<div style="padding-left: 10px; padding-right: 10px; position: relative; top: -48px;">
+					<form action="../detailmap" method="post">
+						<input type="hidden" name="title" value="${basicInfo.title }" />
+						<input id="mapx" type="hidden" name="mapx" value="${basicInfo.mapx }" />
+						<input id="mapy" type="hidden" name="mapy" value="${basicInfo.mapy }" />
+						<button>지도보기</button>
+					</form>
+					
 					<div style="padding: 5px;">
 						<table>
 							<c:if test="${basicInfo.overview ne '데이터 없음' }">
@@ -303,13 +324,13 @@
 			           	</div>
 			           	<div id="foodupimg" class="ui-body ui-body-a img-slider" style="border: none;">
 							<c:forEach items="${areaImg }" var="imgName">
-					           	<div class="swiper-slide">
+					           	<div>
 							    	<a href="#" style="text-decoration: none; color: gray;">
 						            	<img class="slide-img" src="${imgName }" style="border-radius: 10px;"/>
 						            </a>
 						       	</div>    
 					        </c:forEach>
-					        <div class="swiper-slide">
+					        <div>
 							    <a href="#" style="text-decoration: none; color: gray;">
 						           	<img class="slide-img" src="../resources/imgs/addImg.png" style="border-radius: 10px;"/>
 						       	</a>
@@ -352,6 +373,26 @@
 				        function hidefoodImg() {
 				        	$('#foodpop').hide();
 				        };
+				    
+				        function createSlick() {
+		            		$(".img-slider").not('.slick-initialized').slick({
+		        	        	autoplay: false,
+		        		    	dots: true,
+		        		    		responsive: [{ 
+		        		    		breakpoint: 500,
+		        		    		settings: {
+		        		    			dots: false,
+		        		    			arrows: false,
+		        		    			infinite: false,
+		        		    			slidesToshow: 1,
+		        		    			slidesToScroll: 1
+		        		    		}
+		        		    	}]
+		        		    });		
+		            	}
+		            	createSlick();
+		            	//Now it will not throw error, even if called multiple times.
+		            	$(window).on('resize', createSlick);
 				        
 				        function uploadimage(){
 	                 		var form = $('#fileFormFood')[0];
@@ -364,14 +405,16 @@
 	                            type: 'POST',
 	                            success: function(data){
 	                            	$('#foodpop').hide();
-	                            	$('#foodupimg').prepend('<div class="swiper-slide">'
+	                            	$('#foodupimg').append('<div>'
 	    					    			+ '<a href="#" style="text-decoration: none; color: gray;">'
 	    				            		+ '<img class="slide-img" src="' + data + '" style="border-radius: 10px;"/></a></div>');
+	                            	createSlick();
+	                            	$(window).on('resize', createSlick);
 	                            }
 	                    	});
 	                    };
 			        </script>
-			        
+	                
 			        <div class="ui-corner-all custom-corners">
 			        	<div class="ui-bar ui-bar-a" style="background-color: #F05562; border: 2px solid #F05562; border-radius: 5px;">
 			           		<h3 style="color: white;">리뷰</h3>
@@ -425,7 +468,6 @@
 							}
 						});
 					</script>
-					
 				</div>
 			</div>
             <div data-role='footer' data-position='fixed'>
