@@ -63,7 +63,7 @@
                 	<button>회원가입</button>
                 </form>
             </div>
-            <div data-role='footer' data-position='fixed'>
+            <div data-role='footer' data-position='fixed' data-theme="c">
                 <div data-role='navbar'>
                     <ul>
                         <li>

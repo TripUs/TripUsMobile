@@ -6,6 +6,10 @@
 		SELECT COUNT(CODE) FROM MYTRIP
 	</select>
 
+	<delete id="deleteMyTripList" parameterType="java.util.Map">
+		DELETE FROM TRIPLIST_DETAIL WHERE MYTRIPCODE=#{code} AND CONTENTID=#{contentid}
+	</delete>
+
 	<insert id="insertTripGroup" parameterType="java.util.Map">
 		INSERT INTO TRIPGROUP VALUES (#{code}, #{userid})
 	</insert>

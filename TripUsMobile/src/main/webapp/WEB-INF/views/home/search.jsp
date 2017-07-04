@@ -140,7 +140,7 @@
 				};
             </script>
             
-            <div data-role='footer' data-position='fixed'>
+            <div data-role='footer' data-position='fixed' data-theme="c">
                 <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->
                 <div data-role='navbar'>
                     <ul>

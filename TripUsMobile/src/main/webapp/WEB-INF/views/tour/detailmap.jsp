@@ -25,8 +25,8 @@
                	<button onclick="map.relayout();"></button>
                	
                	<script type="text/javascript">
-               		var x = $("#mapy").val();
-               		var y = $("#mapx").val();
+               		var y = $("#mapy").val();
+               		var x = $("#mapx").val();
                	
                		var map;
 	               	function setmap(){

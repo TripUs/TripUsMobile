@@ -40,6 +40,13 @@ public class MyTripDao implements DaoInterface {
 		return sqlSession.selectOne("mytrip.getMyTripSelectOne", code);
 	}
 	
+	public void deleteMyTripList(int code, String contentid) throws SQLException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("code", code);
+		map.put("contentid", contentid);
+		sqlSession.delete("mytrip.deleteMyTripList", code);
+	}
+	
 	public void insertMyTrip(MyTripDto bean) throws SQLException {
 		sqlSession.insert("mytrip.insertMyTrip", bean);
 	}

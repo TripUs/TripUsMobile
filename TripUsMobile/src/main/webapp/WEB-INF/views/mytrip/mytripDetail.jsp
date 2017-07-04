@@ -23,7 +23,7 @@
         <script type="text/javascript" src="../resources/js/tripus.js"></script>
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=0f2e3ff280f258cf4dc5f49a68d055b8&libraries=services"></script>
         <title>Document</title>
-	    <script type="text/javascript">
+        <script type="text/javascript">
 		    $(document).ready(function() {
 	        	$('.img-slider').slick({
 	        		dots : false,
@@ -39,44 +39,92 @@
     <body>
     	<div id="main" data-role='page' style="background-color: white;">
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
-            	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
+            	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
                 <h2>${mytrip.title }</h2>
             </div>
         	<div data-role='content'>
-        		<div data-role="navbar" style="width: 100%; z-index: 100; top: 42px; position: fixed;">
+        		<div style="width: 100%; height: 42px;; z-index: 90; top: 0px; position: fixed; background-color: #F05562; color: white; line-height: 42px; text-align: center;">${mytrip.title }</div>
+        		<div data-role="navbar" style="width: 100%; z-index: 100; top: 42px; position: fixed;" data-theme="c">
         			<ul>
         				<li><a id="nav-story" href="#" class="ui-btn-active">여행 스토리</a></li>
         				<li><a id="nav-maps" href="#">여행 경로</a></li>
         			</ul>
         		</div>
-            	<div id="mytrip-story">
+        		<div id="mytrip-story">
 	            	<div data-role="controlgroup" data-type="horizontal">
 	            		<img class="mytrip-cover" src="${mytrip.coverimg }"/>
 	               		<a class="mytrip-detail-btn" data-role="button" href="#" style="background-color: white; color: black;">커버 변경</a>
 	               		<a class="mytrip-detail-btn" data-role="button" href="../invitefriend" style="background-color: white; color: black;">친구 초대</a>
 	               	</div>
 	               	
+	               	<a href="#" data-role="../shareTripnote/{}"></a>
+	               	
 	               	<div style="position: relative; top: -48px;">
 	               	<c:forEach items="${tripList }" var="bean">
 	               		<div class="ui-corner-all custom-corners">
-	               			<div class="ui-bar ui-bar-a">
-		               			<h3>여행 ${bean.daynum }일차</h3><small>(${bean.tripdate })</small>
-		               			<a class="addtrip" href="../search_mytrip?tripdate=${bean.tripdate}"> 여행지 추가 + </a>
-	               			</div>
-	               			<div class="ui-body ui-body-a">
-	               				<c:forEach items="${tripDetail }" var="detail">
-	               					<c:if test="${bean.tripdate eq detail.tripdate }">
-	               						<div><a href="../detail/${detail.contentid }">
-	               							<img src="${detail.content_img }" style="width: 50%;"/>
-	               							<strong>${detail.content_title }</strong></a>
-	               						</div>	               						
-	               					</c:if>
-	               				</c:forEach>
-	               				
+	               			<div class="ui-bar ui-bar-a" style="background: white; border: none;">
+		               			<div style="border-bottom: 3px solid gray; padding-bottom: 5px;">
+			               			<img src="../resources/imgs/icon/tripcon2.png" style="width: 30px; height: 23px; position: relative; top: 5px;"/>
+			               			<h3>여행 ${bean.daynum }일차</h3><small>&nbsp; (${bean.tripdate })</small>
+		               			</div>
+		               		</div>
+	               			<div class="ui-body ui-body-a" style="border: none;">
+	               				<table>
+		               				<c:forEach items="${tripDetail }" var="detail" varStatus="status">
+		               					<c:if test="${bean.tripdate eq detail.tripdate }">
+	               							<tr height="30px">
+		               							<th style="height: 30px;">
+		               								<span style="width: 30px; height: 30px; border-radius: 30px; background-color: #F05562; color: white;">&nbsp; ${status.index }&nbsp;&nbsp;</span></th>
+		               							<td width="60%"><a href="../detail/${detail.contentid }" style="text-decoration: none; color: gray;"><strong>${detail.content_title }</strong></a></td>
+		               							<td></td>	
+		               						</tr>
+		               						<tr>
+		               							<td><img src="../resources/imgs/icon/tripline.png" style="width: 100%;"/></td>
+		               							<td><img src="${detail.content_img }" style="width: 100%; border-radius: 5px;"/></td>
+		               							<th>
+		               								<span style="color: red;">♥</span>11<br/><br/>
+		               								<a href="../delTrip/${detail.contentid }" style="text-decoration: none;">삭제</a>
+		               							</th>
+		               						</tr>
+	               						</c:if>
+	               					</c:forEach>
+	               					<tr>
+	               						<th>
+	               							<span style="width: 30px; height: 30px; border-radius: 30px; background-color: #F05562; color: white;">&nbsp; +&nbsp;&nbsp;</span></th>
+	               						<td colspan="2"><a style="text-decoration: none; color: gray;" href="../search_mytrip?tripdate=${bean.tripdate}"> 여행지 추가 + </a></td>
+	               					</tr>
+	               				</table>
+	               					
 	               				<!-- 메모 공간 -->
 	               				<div data-role="collapsible" data-theme="b" data-content-theme="a">
-	               					<h4>${bean.daynum }일차 Story</h4>
-	               					<ul data-role="listview" data-inset="true">
+	               					<h4>${bean.daynum }일차 Story Borad</h4>
+	               					
+	               					<c:forEach items="${tripStory }" var="story">
+	               						<c:if test="${bean.tripdate eq story.tripdate }">
+	               							<div style="border-bottom: 1px solid gray;">
+	               								<table>
+	               									<tr>
+	               										<td width="50px" rowspan="2">
+	               											<img src="${story.userprofile }" style="width: 40px; 40px;">
+	               										</td>
+	               										<td width="80%" style="padding-left: 20px;">
+	               											<strong>닉네임</strong>
+	               										</td>
+	               										<td width="20px" rowspan="2">
+	               											<a href="../replestory/${story.idx }">
+	               												<img src="../resources/imgs/icon/replecon.png" style="width: 30px; height: 35px;">
+	               											</a>
+	               										</td>
+	               									</tr>
+	               									<tr>
+	               										<td style="padding-left: 20px;">${story.memo }</td>
+	               									</tr>
+	               								</table>
+	               							</div>
+	               						</c:if>
+	               					</c:forEach>
+	               					
+	               					<%-- <ul data-role="listview" data-inset="true">
 		               					<c:forEach items="${tripStory }" var="story">
 		               						<c:if test="${bean.tripdate eq story.tripdate }">
 		               							<li data-icon="comment">
@@ -84,13 +132,13 @@
 		               								${story.memo }</a>
 		               								<a href="../replestory/${story.idx }">댓글</a>
 		               							</li>
-		               							<%-- <p>
+		               							<p>
 		               								<img src="${story.userprofile }" style="width: 50px; height: 50px;"/> 
 		               								&nbsp; &nbsp;${story.memo }
-		               							</p> --%>
+		               							</p>
 		               						</c:if>
 		               					</c:forEach>
-	               					</ul>
+	               					</ul> --%>
 	               					<a data-role="button" href="../addstory/${bean.daynum }/${bean.tripdate }">글 쓰기</a>
 	               				</div>
 	               				
@@ -101,7 +149,8 @@
 	            </div>
 	            
 				<div id="mytrip-maps">
-	               	<div id="map" style="width: 100%; height: 250px; position: fixed; top: 80px; z-index: 90;"></div>
+	               	<div style="width: 100%; height: 42px;; z-index: 90; top: 0px; position: fixed; background-color: #F05562; color: white; line-height: 42px; text-align: center;">${mytrip.title }</div>
+        			<div id="map" style="width: 100%; height: 250px; position: fixed; top: 80px; z-index: 90;"></div>
 	               	<div style="width: 100%; height: 300px;"></div>
 	               	
 	               	<c:forEach items="${tripList }" var="bean">
@@ -166,7 +215,7 @@
 		        	contents[i] =  '<div class ="label"><span class="tooltip" style="background-color:"'+strokeColors[i]+';">'+(i+1)+'일차</span></div>';
 		        	$(".tooltip").css("background-color",strokeColors[i]);
 		        
-		        	console.log(contents[i]);
+		        	//console.log(contents[i]);
 		        	var pathline  = new Array();
 		        	var cnt = 0;	        	
 		        	for(var j=0; j< $(".placecard").eq(i).find(".mapxy").length; j+=2){
@@ -289,7 +338,7 @@
 				});
 	        </script>
             
-            <div data-role='footer' data-position='fixed'>
+            <div data-role='footer' data-position='fixed' data-theme="c">
                 <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->
                 <div data-role='navbar'>
                     <ul>

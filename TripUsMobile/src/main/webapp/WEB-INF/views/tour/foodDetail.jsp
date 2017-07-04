@@ -353,15 +353,6 @@
 				    </div>
 		
 					<script type="text/javascript">
-				        /* $('.img-slider').slick({
-				        	dots : false,
-				        	infinite : true,
-				        	speed : 300,
-				        	slidesToShow : 1,
-				        	centerMode : true,
-				        	variableWidth : false
-				        }); */
-				        
 				        function showfoodImg() {
 				        	if(userInfo == '') {
 								alert('로그인 후 사용하실 수 있습니다.');
@@ -376,18 +367,12 @@
 				    
 				        function createSlick() {
 		            		$(".img-slider").not('.slick-initialized').slick({
-		        	        	autoplay: false,
-		        		    	dots: true,
-		        		    		responsive: [{ 
-		        		    		breakpoint: 500,
-		        		    		settings: {
-		        		    			dots: false,
-		        		    			arrows: false,
-		        		    			infinite: false,
-		        		    			slidesToshow: 1,
-		        		    			slidesToScroll: 1
-		        		    		}
-		        		    	}]
+		            			dots : false,
+		    	        		infinite : true,
+		    	        		speed : 300,
+		    	        		slidesToShow : 1,
+		    	        		centerMode : true,
+		    	        		variableWidth : false
 		        		    });		
 		            	}
 		            	createSlick();

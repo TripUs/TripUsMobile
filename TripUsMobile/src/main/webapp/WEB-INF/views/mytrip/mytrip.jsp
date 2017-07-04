@@ -69,8 +69,8 @@
 			                	<p><a href="addmytrip">여행 추가</a></p>
 			                </c:otherwise>
 		                </c:choose>
-		                <a href="addmytrip" style="position: fixed; top: 80%; left: 80%;">
-		                	<img style="width: 50px; height: 50px; border-radius: 50px;" src="resources/imgs/icon/addbtn3.png"/>
+		                <a href="addmytrip" style="position: fixed; top: 78%; left: 83%;">
+		                	<img style="width: 40px; height: 40px; border-radius: 30px;" src="resources/imgs/icon/addplus.png"/>
 		                </a>
 	                </c:when> 
 	                
@@ -84,7 +84,7 @@
                 </c:choose>
             </div>
             
-            <div data-role='footer' data-position='fixed'>
+            <div data-role='footer' data-position='fixed' data-theme="c">
                 <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->
                 <div data-role='navbar'>
                     <ul>
