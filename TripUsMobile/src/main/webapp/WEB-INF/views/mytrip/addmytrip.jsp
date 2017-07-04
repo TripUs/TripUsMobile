@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="resources/css/jquery.mobile.theme-1.4.5.min.css"/>
         <link rel="stylesheet" href="resources/css/slick.css"/>
 		<link rel="stylesheet" href="resources/css/slick-theme.css"/>
+		<link rel="stylesheet" href="resources/css/themec.min.css"/>
         <link rel="stylesheet" href="resources/css/tripus.css">
         <script src="http://code.jquery.com/jquery-1.12.4.min.js"
                   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="

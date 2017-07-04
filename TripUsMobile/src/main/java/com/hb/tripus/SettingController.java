@@ -57,7 +57,6 @@ public class SettingController {
 
 	@RequestMapping("setting")
 	public String setting(HttpSession session, Model model) {
-		System.out.println("setting controller");
 		session.setAttribute("mytripCode", null);
 		session.setAttribute("mytripDate", null);
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");

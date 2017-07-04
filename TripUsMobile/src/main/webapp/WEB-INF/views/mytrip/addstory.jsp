@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="../resources/css/jquery.mobile.theme-1.4.5.min.css"/>
+		<link rel="stylesheet" href="../resources/css/themec.min.css"/>
         <link rel="stylesheet" href="../resources/css/slick.css"/>
 		<link rel="stylesheet" href="../resources/css/slick-theme.css"/>
         <link rel="stylesheet" href="../resources/css/tripus.css">
@@ -37,11 +38,10 @@
 	    </script>
     </head>
     <body>
-        <div id="main" data-role='page'>
-            <div data-role='header'>
-            	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext">Back</a>
-                <h2>여행 Story 작성</h2>
-                <a href="#" data-rel="back" class="ui-btn ui-shadow">작성</a>
+        <div id="main" data-role='page' style="background-color: white;">
+            <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
+            	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
+                <h2>Story Board 작성</h2>
             </div>
         
         	<div data-role='content'>
@@ -49,7 +49,7 @@
                 	<ul data-role="listview" data-inset="true">
                 		<li class="ui-field-contain">
                 			<textarea id="memo" name="memo" rows="10" cols="5"></textarea>
-	                		<button>작성</button>
+	                		<button style="background-color: #F05562; color: white;">글쓰기</button>
                 		</li>
                 	</ul>
                 </form>
@@ -59,16 +59,16 @@
                 <div data-role='navbar'>
                     <ul>
                         <li>
-                            <a data-icon='home' href="../tripus/">Home</a>
+                            <a data-icon='home' href="../../../tripus/">Home</a>
                         </li>
                         <li>
-                            <a data-icon='calendar' class="ui-btn-active ui-state-persist" href="mytrip">내 여행</a>
+                            <a data-icon='calendar' class="ui-btn-active ui-state-persist" href="../../mytrip">내 여행</a>
                         </li>
                         <li>
-                            <a data-icon='edit' href="tripnote">여행노트</a>
+                            <a data-icon='edit' href="../../tripnote">여행노트</a>
                         </li>
                         <li>
-                            <a data-icon='gear' href="setting">설정</a>
+                            <a data-icon='gear' href="../../setting">설정</a>
                         </li>
                     </ul>
                 </div>

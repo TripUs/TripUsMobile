@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="resources/css/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="resources/css/jquery.mobile.theme-1.4.5.min.css"/>
+        <link rel="stylesheet" href="resources/css/themec.min.css"/>
         <link rel="stylesheet" href="resources/css/slick.css"/>
 		<link rel="stylesheet" href="resources/css/slick-theme.css"/>
         <link rel="stylesheet" href="resources/css/tripus.css">
@@ -58,7 +59,7 @@
             </div>
             <div data-role='content' style="padding-left: 10px; padding-right: 10px;">
             	<div class="ui-corner-all custom-corners" style="margin-top: 10px;">
-                	<div class="ui-body ui-body-a" style="border: #F05562 1px solid; border-radius: 10px">
+                	<div class="ui-body ui-body-a" style="border: #e9e9e9 1px solid; border-radius: 10px">
                 		<c:choose>
 			                <c:when test="${not empty sessionScope.userInfo}">
 			               		<table style="width: 100%">
@@ -80,34 +81,34 @@
                 	</div>
                 </div>
                 
-	                <ul data-role='listview' data-inset='true'>
+	                <ul data-role='listview' data-inset='true' data-theme="c">
 	                    <li>
-	                        <a href="myPage" style="background-color: white; border: 1px solid #F05562;">
+	                        <a href="myPage" style="background-color: white; border: 1px solid #e9e9e9;">
 	                            <img src=""/>	<!-- 이미지 아이콘 -->
 	                            <h2>My Page</h2>
 	                        </a>
 	                    </li>
 	                    <li>
-	                        <a href="search" style="background-color: white; border: 1px solid #F05562; border-top: none;">
+	                        <a href="search" style="background-color: white; border: 1px solid #e9e9e9; border-top: none;">
 	                            <img src=""/>	<!-- 이미지 아이콘 -->
 	                            <h2>${review }</h2>
 	                        </a>
 	                    </li>
 	                    <li>
-	                        <a href="friendlist" style="background-color: white; border: 1px solid #F05562; border-top: none;">
+	                        <a href="friendlist" style="background-color: white; border: 1px solid #e9e9e9; border-top: none;">
 	                            <img src=""/>	<!-- 이미지 아이콘 -->
 	                            <h2>${friend }</h2>
 	                        </a>
 	                    </li>
 	                    <li>
-	                        <a href="language" style="background-color: white; border: 1px solid #F05562; border-top: none;">
+	                        <a href="language" style="background-color: white; border: 1px solid #e9e9e9; border-top: none;">
 	                            <img src=""/>	<!-- 이미지 아이콘 -->
 	                            <h2>${language }</h2>
 	                        </a>
 	                    </li>
 	                </ul>
             </div>
-            <div data-role='footer' data-position='fixed'>
+            <div data-role='footer' data-position='fixed' data-theme="c">
                 <div data-role='navbar'>
                     <ul>
                         <li>

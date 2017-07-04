@@ -43,7 +43,6 @@ public class MyTripController {
 		
 	@RequestMapping("mytrip")
 	public String myTrip(HttpSession session, Model model) {
-		System.out.println("mytrip controller");
 		session.setAttribute("mytripCode", null);
 		session.setAttribute("mytripDate", null);
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
@@ -154,15 +153,16 @@ public class MyTripController {
 		return "redirect:../mytripdetail/" + code;
 	}
 	
-	@RequestMapping(value = "delTrip/${contentid}", method = RequestMethod.GET)
+	@RequestMapping(value = "delTrip/{contentid}", method = RequestMethod.GET)
 	public String delTrip(@PathVariable String contentid, HttpSession session) {
+		System.out.println("delTrip controller conid=" + contentid);
 		int code = (Integer)session.getAttribute("mytripCode");
 		try {
 			dao.deleteMyTripList(code, contentid);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "../mytripdetail/" + code;
+		return "redirect:../mytripdetail/" + code;
 	}
 	
 	@RequestMapping(value="addstory/{tripnum}/{tripdate}", method=RequestMethod.GET)

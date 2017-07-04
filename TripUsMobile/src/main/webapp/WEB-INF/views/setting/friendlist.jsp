@@ -10,6 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="resources/css/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="resources/css/jquery.mobile.theme-1.4.5.min.css"/>
+        <link rel="stylesheet" href="resources/css/themec.min.css"/>
         <link rel="stylesheet" href="resources/css/slick.css"/>
 		<link rel="stylesheet" href="resources/css/slick-theme.css"/>
         <link rel="stylesheet" href="resources/css/tripus.css">
@@ -40,7 +41,7 @@
     <body>
         <div data-role='page' style="background-color: white;">
             <div data-role='header' style="background-color: #F05562;">
-                <a href="setting" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
+                <a href="setting" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
                 <h1 style="color: white;">친구 목록</h1>
                 <a href="addfriend" class="ui-btn ui-icon-plus ui-btn-icon-notext ui-corner-all">친구 추가</a>
             </div>
@@ -177,7 +178,7 @@
                 <div data-role="popup" id="add-friend"></div>
                 <div data-role="popup" id="delete-friend"></div>
             </div>
-            <div data-role='footer' data-position='fixed'>
+            <div data-role='footer' data-position='fixed' data-theme="c">
                 <div data-role='navbar'>
                     <ul>
                         <li>

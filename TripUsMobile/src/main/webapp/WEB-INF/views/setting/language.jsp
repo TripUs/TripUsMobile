@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="resources/css/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="resources/css/jquery.mobile.theme-1.4.5.min.css"/>
+        <link rel="stylesheet" href="resources/css/themec.min.css"/>
         <link rel="stylesheet" href="resources/css/slick.css"/>
 		<link rel="stylesheet" href="resources/css/slick-theme.css"/>
         <link rel="stylesheet" href="resources/css/tripus.css">
@@ -38,17 +39,17 @@
     </head>
 	<body>
 		<div data-role="page" style="background-color: white;">
-			<div data-role='header' data-position='fixed'
-				style="background-color: #F05562; color: white;">
-				<h1 style="color: white;">TripUs Setting</h1>
+			<div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
+				<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
+                <h1 style="color: white;">TripUs Setting</h1>
 			</div>
 			<div data-role="ui-content" style="padding-left: 10px; padding-right: 10px;">
 				
 	
 				<div class="ui-content">
-					<fieldset data-role="controlgroup">
-						<legend>Please choose your preferred language </legend>
-						<form method="post">
+					<form method="post">
+						<fieldset data-role="controlgroup">
+							<legend>Please choose your preferred language </legend>
 							<c:if test="${lang eq 0 }">
 								<label for="korean">Korean</label>
 								<input onclick="chklang()" type="radio" name="language" id="korean" value="0" checked>
@@ -62,10 +63,9 @@
 								<label for="english">English</label>
 								<input onclick="chklang()" type="radio" name="language" id="english" value="1" checked>
 			            	</c:if>
-			            	
-							<button id="langok">확인</button>
-		            	</form>
-					</fieldset>
+						</fieldset>
+						<button id="langok" style="background-color: #F05562; color: white;">확인</button>
+		           	</form>
 				</div>
 	
 				<script type="text/javascript">
@@ -105,7 +105,7 @@
 				</script>
 	
 			</div>
-			<div data-role="footer" data-position='fixed'>
+			<div data-role="footer" data-position='fixed' data-theme="c">
 				<div data-role='navbar'>
 					<ul>
 						<li><a data-icon='home' href="../tripus/">Home</a></li>

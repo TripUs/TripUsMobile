@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="resources/css/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="resources/css/jquery.mobile.theme-1.4.5.min.css"/>
+        <link rel="stylesheet" href="resources/css/themec.min.css"/>
         <link rel="stylesheet" href="resources/css/slick.css"/>
 		<link rel="stylesheet" href="resources/css/slick-theme.css"/>
         <link rel="stylesheet" href="resources/css/tripus.css">
@@ -37,16 +38,43 @@
 	    </script>
     </head>
     <body>
-        <div id="main" data-role='page'>
-            <div data-role='header'>
+        <div id="main" data-role='page' style="background-color: white;">
+            <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
                 <h1>여행 노트</h1>
+        		<div class="sub-navbar">
+	        		<div data-role="navbar">
+	        			<ul>
+	        				<li><a id="nav-all" href="#" class="ui-btn-active">커뮤니티</a></li>
+	        				<li><a id="nav-mynote" href="#">내 여행노트</a></li>
+	        			</ul>
+	        		</div>
+        		</div>
             </div>
         	
+            	<div style="width: 100%; height: 42px; z-index: 90; top: 0px; position: fixed; background-color: #F05562; color: white; line-height: 42px; text-align: center;">${mytrip.title }</div>
             <div data-role='content'>
             
-            </div>
+            	<div id="all-note">
+            		<h1>전체 여행노트</h1>
+            	</div><!-- end all-note -->
             
-            <div data-role='footer' data-position='fixed'>
+            	<div id="my-note" style="display: none;">
+            		<h1>내 여행노트</h1>
+            	</div><!-- end my-note -->
+            
+            </div><!-- end content -->
+            
+            <script type="text/javascript">
+            	$('#nav-all').click(function() {
+	        		$('#my-note').hide();
+	        		$('#all-note').show();
+	        	});
+				$('#nav-mynote').click(function() {
+					$('#all-note').hide();
+	        		$('#my-note').show();
+				});
+			</script>
+            <div data-role='footer' data-position='fixed' data-theme="c">
                 <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->
                 <div data-role='navbar'>
                     <ul>

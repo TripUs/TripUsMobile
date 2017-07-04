@@ -253,8 +253,8 @@ public class HomeController {
 	@RequestMapping("detailmap")
 	public String detailMap(@RequestParam String mapx, @RequestParam String mapy, @RequestParam String title, Model model){
 		model.addAttribute("title", title);
-		model.addAttribute("mapx", 33.450701);
-		model.addAttribute("mapy", 126.570667);
+		model.addAttribute("mapx", mapx);
+		model.addAttribute("mapy", mapy);
 		return "tour/detailmap";
 	}
 	

@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="resources/css/jquery.mobile.theme-1.4.5.min.css"/>
         <link rel="stylesheet" href="resources/css/slick.css"/>
 		<link rel="stylesheet" href="resources/css/slick-theme.css"/>
+		<link rel="stylesheet" href="resources/css/themec.min.css"/>
         <link rel="stylesheet" href="resources/css/tripus.css">
         <script src="http://code.jquery.com/jquery-1.12.4.min.js"
                   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
@@ -39,16 +40,16 @@
     <body>
         <div id="search" data-role='page' style="background-color: white;">
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
-            	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
+            	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
                 <h1>TripUs 여행지 검색</h1>
             </div>
         	
             <div data-role='content' style="background-color: white;">
             	<div style="padding-left: 10px; padding-right: 10px;">
 		            	<input type="text" id="input-keyword" name="keyword" placeholder="어디로 떠나고 싶으신가요?"/>
-	            	<div data-role="controlgroup" data-type="horizontal" style="width: 100%;">
-			            <button id="search-keyword" class="search-page-btn" style="box-sizing: border-box; display: inline-block; width: 50%; border: 2px solid #F05562; background-color: white; color: #F05562;">검색</button>
-		            	<button id="search-gps" class="search-page-btn" style="box-sizing: border-box; display: inline-block; width: 50%; border: 2px solid #F05562; border-left: none; background-color: white; color: #F05562;">주변 검색</button>
+	            	<div data-role="controlgroup" >
+			            <button id="search-keyword" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">검색</button>
+		            	<button id="search-gps" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">주변 검색</button>
 	            	</div>
             	
 	            	<ul id="search-area-list" data-role='listview' data-inset='true'></ul>

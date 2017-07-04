@@ -4,6 +4,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hb.tripus.model.dao.TripNoteDao;
@@ -21,6 +23,11 @@ public class TripNoteController {
 		session.setAttribute("mytripCode", null);
 		session.setAttribute("mytripDate", null);
 		return "tripnote/tripnote";
+	}
+	
+	@RequestMapping("shareTripnote/{code}")
+	public String shareTripnote(@PathVariable String code, HttpSession session, Model model) {
+		return "";
 	}
 	
 }

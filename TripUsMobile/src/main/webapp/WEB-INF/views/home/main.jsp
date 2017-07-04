@@ -53,7 +53,7 @@
             	<c:if test="${not empty sessionScope.userInfo}">
 		           	<div class="ui-corner-all custom-corners">
 		           		<div class="ui-bar ui-bar-a" style="background-color: white; border: none; padding: 0px 0px;">
-		           			<div style="border-bottom: 3px solid #e9e9e9; padding-bottom: 5px; margin-bottom: 10px;">
+		           			<div style="border-bottom: 3px solid #e9e9e9; padding-bottom: 5px; padding-left: 10px; margin-bottom: 10px;">
 		           				<h3 style="color: #F05562;">${sessionScope.userInfo.nicname }님의 최근 검색지</h3>
 		           			</div>
 		           		</div>
@@ -73,7 +73,7 @@
 			    <div class="ui-corner-all custom-corners">
             		<div class="ui-bar ui-bar-a" style="background-color: white; border: none; padding: 0px 0px;">
             			<!-- <img src="resources/imgs/icon/awards-logo.png" style="width: 23px; position: relative; top: 3px"> -->
-            			<div style="border-bottom: 3px solid #e9e9e9; padding-bottom: 5px; margin-bottom: 10px;">
+            			<div style="border-bottom: 3px solid #e9e9e9; padding-bottom: 5px; padding-left: 10px; margin-bottom: 10px;">
             				<img src="resources/imgs/icon/awards-logo.png" style="width: 27px; height: 27px; position: relative; top: 5px;"/>
             				<h3 style="color: #F05562;">TripUs Top5 여행지</h3>
             			</div>
@@ -93,7 +93,7 @@
 			    <div class="ui-corner-all custom-corners">
             		<div class="ui-bar ui-bar-a" style="background-color: white; border: none; padding: 0px 0px;">
             			<!-- <img src="resources/imgs/icon/awards-logo.png" style="width: 23px; position: relative; top: 3px"> -->
-            			<div style="border-bottom: 3px solid #e9e9e9; padding-bottom: 5px; margin-bottom: 10px;">
+            			<div style="border-bottom: 3px solid #e9e9e9; padding-bottom: 5px; padding-left: 10px; margin-bottom: 10px;">
             				<img src="resources/imgs/icon/awards-logo.png" style="width: 27px; height: 27px; position: relative; top: 5px;"/>
             				<h3 style="color: #F05562;">TripUs Top10 여행노트</h3>
             			</div>
@@ -112,7 +112,7 @@
 			    
 			    <div class="ui-corner-all custom-corners">
             		<div class="ui-bar ui-bar-a" style="background-color: white; border: none; padding: 0px 0px;">
-            			<div style="border-bottom: 2px solid #e9e9e9; padding-bottom: 5px; margin-bottom: 10px;">
+            			<div style="border-bottom: 2px solid #e9e9e9; padding-bottom: 5px; padding-left: 10px; margin-bottom: 10px;">
             				<h3 style="color: #F05562;">TripUs 추천 여행코스</h3>
             			</div>
             		</div>
@@ -132,19 +132,7 @@
             <script type="text/javascript">
             	function createSlick() {
             		$(".img-slider").not('.slick-initialized').slick({
-        	        	/* autoplay: false,
-        		    	dots: true,
-        		    		responsive: [{ 
-        		    		breakpoint: 500,
-        		    		settings: {
-        		    			dots: false,
-        		    			arrows: false,
-        		    			infinite: false,
-        		    			slidesToshow: 1,
-        		    			slidesToScroll: 1
-        		    		}
-        		    	}] */
-            			dots : false,
+        	        	dots : false,
     	        		infinite : true,
     	        		speed : 300,
     	        		slidesToShow : 1,
