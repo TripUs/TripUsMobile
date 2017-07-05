@@ -2,6 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="home">
+<mapper namespace="tripnote">
+	<select id="getAllNote" resultType="com.hb.tripus.model.dto.TripNoteDto">
+		select * from TRIPNOTE
+	</select>
+
+	<select id="getMyNote" parameterType="String" resultType="com.hb.tripus.model.dto.TripNoteDto">
+		SELECT * FROM TRIPNOTE WHERE USERID=#{value}
+	</select>
+
+	<insert id="insertShareTripNote" parameterType="com.hb.tripus.model.dto.TripNoteDto">
+		INSERT INTO TRIPNOTE VALUES (TRIPNOTE_IDX_SEQ.NEXTVAL, #{tripcode}, #{userid}, #{usernicname}, #{userprofile}, #{title}, #{thema}, #{reporting_date}, #{reporting_time}, 0)
+	</insert>
 	
+	<select id="getTripNoteIdx" parameterType="int" resultType="int">
+		SELECT IDX FROM TRIPNOTE WHERE TRIPCODE=#{tripcode}
+	</select>
+	
+	<insert id="insertTripNoteContent" parameterType="com.hb.tripus.model.dto.TripNoteContentDto">
+		INSERT INTO NOTE_CONTENT VALUES (#{idx}, #{daynum}, #{content})
+	</insert>
+	
+	<insert id="insertTripNoteImg" parameterType="com.hb.tripus.model.dto.TripNoteImgDto">
+		INSERT INTO NOTE_CONTENT_IMG VALUES (#{idx}, #{daynum}, #{imgname})
+	</insert>
 </mapper>

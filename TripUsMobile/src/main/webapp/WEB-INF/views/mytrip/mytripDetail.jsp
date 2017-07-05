@@ -158,7 +158,7 @@
 	               	
 	               	<div style="padding: 0px 10px;">
 		               	<c:forEach items="${tripList }" var="bean">
-		               		<div class="placecard" style="padding-bottom: 5px;">
+		               		<div class="placecard" style="padding-bottom: 5px; margin-bottom: 10px;">
 	               				<div id="sampleline" style="height: 20px; width: 100%; border-radius: 5px;"></div>
 		               	 		<div class="ui-corner-all custom-corners">
 				           			<div class="ui-bar ui-bar-a" style="background: white; border: none;">

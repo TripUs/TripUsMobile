@@ -70,7 +70,7 @@
 			                	<p><a href="addmytrip">여행 추가</a></p>
 			                </c:otherwise>
 		                </c:choose>
-		                <a href="addmytrip" style="position: fixed; top: 78%; left: 83%;">
+		                <a href="addmytrip" style="position: fixed; top: 80%; left: 83%;">
 		                	<img style="width: 40px; height: 40px; border-radius: 30px;" src="resources/imgs/icon/addplus.png"/>
 		                </a>
 	                </c:when> 

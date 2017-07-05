@@ -45,7 +45,7 @@
 	        		<div data-role="navbar">
 	        			<ul>
 	        				<li><a id="nav-all" href="#" class="ui-btn-active">커뮤니티</a></li>
-	        				<li><a id="nav-mynote" href="#">내 여행노트</a></li>
+	        				<li><a id="nav-mynote" href="#" onclick="chkLogin()">내 여행노트</a></li>
 	        			</ul>
 	        		</div>
         		</div>
@@ -54,8 +54,36 @@
             	<div style="width: 100%; height: 42px; z-index: 90; top: 0px; position: fixed; background-color: #F05562; color: white; line-height: 42px; text-align: center;">${mytrip.title }</div>
             <div data-role='content'>
             
-            	<div id="all-note">
-            		<h1>전체 여행노트</h1>
+            	<div id="all-note" style="padding: 0px 10px;">
+            		<!-- <h1>전체 여행노트</h1> -->
+            		<c:forEach items="${allNote }" var="bean">
+            			<div style="margin: 0px 0px; display: inline-block; box-sizing: border-box; width: 49%; padding: 5px 0px;">
+            				<div style="border: 2px solid #e9e9e9; border-radius: 10px; padding: 5px;">
+            					<div>
+            						<table>
+            							<tr>
+            								<td width="35px"><img src="${bean.userprofile }" style="width: 35px; height: 35px;"/></td>
+            								<td style="padding-left: 10px;">
+            									<strong>${bean.usernicname }</strong><br/>
+            									<small>${bean.reporting_date }</small>
+            								</td>
+            							</tr>
+            						</table>
+            					</div>
+            					<div>
+    								<p>이미지</p>
+    	        					<p>${bean.title }</p>
+            					</div>
+            					<div>
+            						<p>${bean.likeflag } / 댓글수</p>
+            					</div>
+            				</div>
+            			</div>
+            		</c:forEach>
+            		
+            		<a href="addtripNote" style="position: fixed; top: 80%; left: 83%;">
+		                <img style="width: 40px; height: 40px; border-radius: 30px;" src="resources/imgs/icon/addplus.png"/>
+		            </a>
             	</div><!-- end all-note -->
             
             	<div id="my-note" style="display: none;">

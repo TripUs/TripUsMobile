@@ -40,7 +40,7 @@
     <body>
         <div data-role='page' style="background-color: white;">
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
-                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
                 <h1>내 여행 추가</h1>
             </div>
         	

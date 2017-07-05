@@ -42,7 +42,7 @@
                 <h1 style="color: white;">TripUs Login</h1>
             </div>
             <div data-role='content' style="padding-left: 10px; padding-right: 10px;">
-                <form action="login" method="post">
+                <form action="login" method="post" data-ajax="false">
                 	<div data-role='fieldcontain'>
                 		<input id="id" name="id" type="text" placeholder="ID를 입력하세요"/>
                 		<input id="pw" name="pw" type="password" placeholder="Password를 입력하세요"/>
