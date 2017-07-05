@@ -2,16 +2,17 @@ package com.hb.tripus.model.dto;
 
 public class TripNoteContentDto {
 	private int idx, daynum;
-	private String content;
+	private String title, content;
 
 	public TripNoteContentDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public TripNoteContentDto(int idx, int daynum, String content) {
+	public TripNoteContentDto(int idx, int daynum, String title, String content) {
 		super();
 		this.idx = idx;
 		this.daynum = daynum;
+		this.title = title;
 		this.content = content;
 	}
 
@@ -31,6 +32,14 @@ public class TripNoteContentDto {
 		this.daynum = daynum;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public String getContent() {
 		return content;
 	}
@@ -41,7 +50,8 @@ public class TripNoteContentDto {
 
 	@Override
 	public String toString() {
-		return "TripNoteContentDto [idx=" + idx + ", daynum=" + daynum + ", content=" + content + "]";
+		return "TripNoteContentDto [idx=" + idx + ", daynum=" + daynum + ", title=" + title + ", content=" + content
+				+ "]";
 	}
 	
 }

@@ -50,7 +50,23 @@ public class TripNoteDao implements DaoInterface {
 	}
 	
 	public void insertTripNoteImg(TripNoteImgDto bean) throws SQLException {
-		sqlSession.insert("tripnote.TripNoteImgDto", bean);
+		sqlSession.insert("tripnote.insertTripNoteImg", bean);
+	}
+	
+	public void insertTripNoteThema(TripNoteDto bean) throws SQLException {
+		sqlSession.insert("tripnote.insertTripNoteThema", bean);
+	}
+	
+	public TripNoteDto getNoteOne(int idx) throws SQLException {
+		return sqlSession.selectOne("tripnote.getNoteOne",idx);
+	}
+	
+	public List<TripNoteContentDto> getNoteOneContent(int idx) throws SQLException {
+		return sqlSession.selectList("tripnote.getNoteOneContent", idx);
+	}
+	
+	public List<TripNoteImgDto> getNoteOneImg(int idx) throws SQLException {
+		return sqlSession.selectList("tripnote.getNoteOneImg", idx);
 	}
 	
 }

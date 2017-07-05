@@ -58,3 +58,12 @@
 	height: 20px;
 	text-decoration: none;
 }
+
+.notetitle-text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 95%;
+	height: 20px;
+	text-decoration: none;
+}

@@ -22,7 +22,7 @@
         <script type="text/javascript" src="resources/js/slick.min.js"></script>
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
-	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=0f2e3ff280f258cf4dc5f49a68d055b8&libraries=services"></script>
+	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
         <title>Document</title>
 	    <script type="text/javascript">
 		    $(document).ready(function() {
@@ -41,6 +41,9 @@
         <div id="main" data-role='page' style="background-color: white;">
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
                 <h1>여행 노트</h1>
+            </div>
+        	
+            <div data-role='content'>
         		<div class="sub-navbar">
 	        		<div data-role="navbar">
 	        			<ul>
@@ -49,16 +52,13 @@
 	        			</ul>
 	        		</div>
         		</div>
-            </div>
-        	
             	<div style="width: 100%; height: 42px; z-index: 90; top: 0px; position: fixed; background-color: #F05562; color: white; line-height: 42px; text-align: center;">${mytrip.title }</div>
-            <div data-role='content'>
-            
+
             	<div id="all-note" style="padding: 0px 10px;">
             		<!-- <h1>전체 여행노트</h1> -->
             		<c:forEach items="${allNote }" var="bean">
             			<div style="margin: 0px 0px; display: inline-block; box-sizing: border-box; width: 49%; padding: 5px 0px;">
-            				<div style="border: 2px solid #e9e9e9; border-radius: 10px; padding: 5px;">
+            				<div style="border: 2px solid #e9e9e9; padding: 5px;">
             					<div>
             						<table>
             							<tr>
@@ -71,11 +71,14 @@
             						</table>
             					</div>
             					<div>
-    								<p>이미지</p>
-    	        					<p>${bean.title }</p>
+    								<a href="noteDetail/${bean.idx }" style="text-decoration: none;">
+	    								<img src="${bean.thema }" style="width: 100%; height: 110px;"/>
+	    	        					<p class="notetitle-text" style="color: gray; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 95%;height: 20px;text-decoration: none;">
+	    	        					<strong>${bean.title }</strong></p>
+            						</a>
             					</div>
-            					<div>
-            						<p>${bean.likeflag } / 댓글수</p>
+            					<div align="center">
+            						<p><span style="color: red;">♥</span>${bean.likeflag } &nbsp; 댓글수</p>
             					</div>
             				</div>
             			</div>

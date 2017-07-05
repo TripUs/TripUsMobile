@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -42,43 +43,45 @@
         <div data-role='page' style="background-color: white;">
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h1>여행노트 공유</h1>
+                <h1>${noteInfo.usernicname }님의 여행기</h1>
             </div>
         	
             <div data-role='content' style="padding: 0px 10px;">
-      			<form method="post" enctype="multipart/form-data" data-ajax="false">
-                	<div data-role='fieldcontain'>
-                		<label for="title">&nbsp; <strong>여행 제목</strong></label>
-                		<input id="title" name="title" type="text" value="${mytrip.title }" placeholder="여행 제목을 입력하세요"/><br/>
-						<input type="hidden" name="daynum" value="${fn:length(tripList)} "/>
-               			<c:forEach items="${tripList }" var="tripday">
-	                		
-	                		<div style="border: #e9e9e9 2px solid; border-radius: 5px; margin-bottom: 10px; padding: 0px 10px;">
-	                			<div style="">
-	                				<h4>Day ${tripday.daynum }<small>&nbsp; (${tripday.tripdate })</small></h4>
-			                	</div>
-	                			<label>소제목</label>
-	                			<input type="text" name="daytitle_${tripday.daynum }" placeholder="여행 소제목을 입력해보세요."/>
-			                	<c:forEach items="${tripDetail }" var="detail" varStatus="n">
-			                		<c:if test="${tripday.tripdate eq detail.tripdate }">
-			                			
-			                			<p>${detail.content_title }</p>
-			                			
-			                		</c:if>
-			                	</c:forEach>
-			                	<textarea name="content_${tripday.daynum }"></textarea>
-               					<div style="">
-               						<input type="file" name="file_${tripday.daynum }">
-               						<p><a href="#" class="addimg(${tripday.daynum })">이미지 추가</a></p>
-               					</div>
-               				</div>
-               			
-               			</c:forEach>
-                		
-                	</div>
-                	<button style="background-color: #F05562; color: white; border-radius: 5px;">여행노트 등록</button>
-                </form>
-            </div>
+      			<div style="background-color: #e9e9e9; padding: 5px 20px; margin-top: 10px; border-radius: 10px;">
+      				<h3>${noteInfo.title }</h3>
+      				<table>
+            			<tr>
+            				<td width="35px"><img src="${noteInfo.userprofile }" style="width: 35px; height: 35px;"/></td>
+            				<td style="padding-left: 10px;">
+            					<strong>${noteInfo.usernicname }</strong><br/>
+            					
+            					<jsp:useBean id="now" class="java.util.Date" />
+								<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />  
+	
+								<c:if test="${today eq noteInfo.reporting_date }">
+	            					<small>${noteInfo.reporting_time }</small>
+								</c:if>
+								<c:if test="${today ne noteInfo.reporting_date }">
+	            					<small>${noteInfo.reporting_date }</small>
+								</c:if>
+            				</td>
+            				<td>
+            					<button style="">친구추가</button>
+            				</td>
+            			</tr>
+            		</table>
+      			</div>
+      			
+      			<!-- Day Content -->
+            	<c:forEach items="${contentInfo }" var="bean" varStatus="n">
+            	<div>
+            		<h4>Day ${bean.daynum }일차 여행기 - ${bean.title }</h4>
+            		<img src="${imgInfo[n.index].imgname }" width="100%"/>
+            		<p>${bean.content }</p>
+            	</div>
+            	</c:forEach>
+            	
+            </div> <!-- end content -->
             
             <div data-role='footer' data-position='fixed' data-theme="c">
                 <div data-role='navbar'>
@@ -87,10 +90,10 @@
                             <a data-icon='home' href="../../tripus/">Home</a>
                         </li>
                         <li>
-                            <a data-icon='calendar' class="ui-btn-active ui-state-persist" href="../mytrip">내 여행</a>
+                            <a data-icon='calendar' href="../mytrip">내 여행</a>
                         </li>
                         <li>
-                            <a data-icon='edit' href="../tripnote">여행노트</a>
+                            <a data-icon='edit' class="ui-btn-active ui-state-persist" href="../tripnote">여행노트</a>
                         </li>
                         <li>
                             <a data-icon='gear' href="../setting">설정</a>

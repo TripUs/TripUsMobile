@@ -73,7 +73,6 @@ public class TripNoteController {
 	@RequestMapping(value = "shareTripnote/{code}", headers = "content-type=multipart/form-data", method = RequestMethod.POST)
 	public String insertShareTripnote(@PathVariable int code, HttpServletRequest req, MultipartHttpServletRequest mreq, HttpSession session) {
 		try {
-			MyTripDto bean = dao.getMyTripSelectOne(code);
 			UserDto userInfo = (UserDto) session.getAttribute("userInfo");
 			
 			Date currdate = new Date();
@@ -82,28 +81,58 @@ public class TripNoteController {
 			
 			String date_str = sdfdate.format(currdate);
 			String time_str = sdftime.format(currdate);
-			TripNoteDto tripNote = new TripNoteDto(0, code, userInfo.getId(), userInfo.getNicname(), userInfo.getProfile(), req.getParameter("title"), bean.getThema(), date_str, time_str, 0);
+			TripNoteDto tripNote = new TripNoteDto(0, code, userInfo.getId(), userInfo.getNicname(), userInfo.getProfile(), req.getParameter("title"), null, date_str, time_str, 0);
 		
 			System.out.println(tripNote.toString());
 			
 			// tripNote »ðÀÔ & »ðÀÔµÈ tripnote idx ºÒ·¯¿À±â
 			int idx = dao.insertShareTripNote(tripNote);
-						
+			tripNote.setIdx(idx);
+			
 			int daynum = Integer.parseInt(req.getParameter("daynum").trim());
+			System.out.println("tripnote daynum : " + daynum);
 			for(int i=1; i<=daynum; i++) {
 				MultipartFile file = mreq.getFile("file_" + i);
-				String path = req.getRealPath("/resources/upload/tripnote/" + idx).replaceAll("\\\\", "/");
-				File dir = new File(path + "\\" + file.getOriginalFilename());
-				if(!dir.exists()){
-					dir.mkdirs(); 
+				if(!file.getOriginalFilename().equals("")) {
+					@SuppressWarnings("deprecation")
+					String path = req.getRealPath("/resources/upload/tripnote/" + idx).replaceAll("\\\\", "/");
+					File dir = new File(path);
+					if(!dir.exists()){
+						dir.mkdirs(); 
+					}
+					
+					File f = new File(path + "\\" + file.getOriginalFilename());
+					file.transferTo(f);
+					String fileName="http://localhost:8080/tripus/resources/upload/tripnote/" + idx + "/" + file.getOriginalFilename();
+					TripNoteImgDto imgs = new TripNoteImgDto(idx, i, fileName);
+					dao.insertTripNoteImg(imgs);
+					if(i == 1) {
+						tripNote.setThema(fileName);
+						dao.insertTripNoteThema(tripNote);
+					}
 				}
-				String fileName="http://localhost:8080/tripus/resources/upload/tripnote/" + idx + "/" + file.getOriginalFilename();
-				TripNoteContentDto contents = new TripNoteContentDto(idx, i, req.getParameter("content_"+i));
-				TripNoteImgDto imgs = new TripNoteImgDto(idx, i, fileName);
+				TripNoteContentDto contents = new TripNoteContentDto(idx, i, req.getParameter("daytitle_" + i), req.getParameter("content_"+i));
+				dao.insertTripNoteContent(contents);
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "redirect:../tripnote";
 	}
+	
+	@RequestMapping(value = "noteDetail/{idx}", method = RequestMethod.GET)
+	public String noteDetail(@PathVariable int idx, Model model) {
+		try {
+			model.addAttribute("noteInfo", dao.getNoteOne(idx));
+			List<TripNoteContentDto> contentInfo = dao.getNoteOneContent(idx);
+			List<TripNoteImgDto> imgInfo = dao.getNoteOneImg(idx);
+			
+			model.addAttribute("contentInfo", contentInfo);
+			model.addAttribute("imgInfo", imgInfo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "tripnote/notedetail";
+	}
+	
 }

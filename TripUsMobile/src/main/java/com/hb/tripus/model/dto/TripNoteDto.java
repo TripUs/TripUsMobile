@@ -1,7 +1,5 @@
 package com.hb.tripus.model.dto;
 
-import java.sql.Date;
-
 public class TripNoteDto {
 
 	private int idx, tripcode, likeflag;

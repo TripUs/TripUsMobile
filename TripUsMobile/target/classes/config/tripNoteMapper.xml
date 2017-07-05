@@ -3,8 +3,20 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="tripnote">
+	<select id="getNoteOne" parameterType="int" resultType="com.hb.tripus.model.dto.TripNoteDto">
+		SELECT * FROM TRIPNOTE WHERE IDX=#{value}
+	</select>
+	
+	<select id="getNoteOneContent" parameterType="int" resultType="com.hb.tripus.model.dto.TripNoteContentDto">
+		SELECT * FROM NOTE_CONTENT WHERE IDX=#{value}
+	</select>
+	
+	<select id="getNoteOneImg" parameterType="int" resultType="com.hb.tripus.model.dto.TripNoteImgDto">
+		SELECT * FROM NOTE_CONTENT_IMG WHERE IDX=#{value}
+	</select>
+	
 	<select id="getAllNote" resultType="com.hb.tripus.model.dto.TripNoteDto">
-		select * from TRIPNOTE
+		SELECT * FROM TRIPNOTE
 	</select>
 
 	<select id="getMyNote" parameterType="String" resultType="com.hb.tripus.model.dto.TripNoteDto">
@@ -12,7 +24,8 @@
 	</select>
 
 	<insert id="insertShareTripNote" parameterType="com.hb.tripus.model.dto.TripNoteDto">
-		INSERT INTO TRIPNOTE VALUES (TRIPNOTE_IDX_SEQ.NEXTVAL, #{tripcode}, #{userid}, #{usernicname}, #{userprofile}, #{title}, #{thema}, #{reporting_date}, #{reporting_time}, 0)
+		INSERT INTO TRIPNOTE (IDX, TRIPCODE, USERID, USERNICNAME, USERPROFILE, TITLE, REPORTING_DATE, REPORTING_TIME)
+		VALUES (TRIPNOTE_IDX_SEQ.NEXTVAL, #{tripcode}, #{userid}, #{usernicname}, #{userprofile}, #{title}, #{reporting_date}, #{reporting_time})
 	</insert>
 	
 	<select id="getTripNoteIdx" parameterType="int" resultType="int">
@@ -20,10 +33,14 @@
 	</select>
 	
 	<insert id="insertTripNoteContent" parameterType="com.hb.tripus.model.dto.TripNoteContentDto">
-		INSERT INTO NOTE_CONTENT VALUES (#{idx}, #{daynum}, #{content})
+		INSERT INTO NOTE_CONTENT VALUES (#{idx}, #{daynum}, #{title}, #{content})
 	</insert>
 	
 	<insert id="insertTripNoteImg" parameterType="com.hb.tripus.model.dto.TripNoteImgDto">
 		INSERT INTO NOTE_CONTENT_IMG VALUES (#{idx}, #{daynum}, #{imgname})
 	</insert>
+	
+	<update id="insertTripNoteThema" parameterType="com.hb.tripus.model.dto.TripNoteDto">
+		UPDATE TRIPNOTE SET THEMA=#{thema} WHERE IDX=#{idx}
+	</update>
 </mapper>
