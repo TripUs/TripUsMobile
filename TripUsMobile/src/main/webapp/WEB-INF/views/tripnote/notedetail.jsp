@@ -47,12 +47,12 @@
             </div>
         	
             <div data-role='content' style="padding: 0px 10px;">
-      			<div style="background-color: #e9e9e9; padding: 5px 20px; margin-top: 10px; border-radius: 10px;">
+      			<div style="background-color: #e9e9e9; padding: 5px 20px; margin-top: 10px; margin-bottom: 5px; border-radius: 10px;">
       				<h3>${noteInfo.title }</h3>
       				<table>
             			<tr>
             				<td width="35px"><img src="${noteInfo.userprofile }" style="width: 35px; height: 35px;"/></td>
-            				<td style="padding-left: 10px;">
+            				<td width="30%" style="padding-left: 10px;">
             					<strong>${noteInfo.usernicname }</strong><br/>
             					
             					<jsp:useBean id="now" class="java.util.Date" />
@@ -60,27 +60,89 @@
 	
 								<c:if test="${today eq noteInfo.reporting_date }">
 	            					<small>${noteInfo.reporting_time }</small>
+	            					<img src="../resources/imgs/icon/newicon.png" style="width: 20px; height: 20px; position: relative; top: 5px;"/>
 								</c:if>
 								<c:if test="${today ne noteInfo.reporting_date }">
 	            					<small>${noteInfo.reporting_date }</small>
 								</c:if>
             				</td>
             				<td>
-            					<button style="">친구추가</button>
+            					<div data-role="controlgroup" data-type="horizontal" style="position:relative; top:-15px; left: 20px; height: 10px;">
+					            	<c:if test="${noteLike eq 1 }">
+										<a style="width: 45px; height: 10px; line-height: 10px;" id="notelikebtn" data-role="button" href="#"><span style="color: red;">♥</span> ${noteInfo.likeflag }</a>
+									</c:if>
+									<c:if test="${noteLike ne 1 }">
+										<a style="width: 45px; height: 10px; line-height: 10px;" id="notelikebtn" data-role="button" href="#">♥ ${noteInfo.likeflag }</a>
+									</c:if>
+			            			<button style="width: 45px; height: 10px; line-height: 5px;"><small>팔로우</small></button>
+								</div>
             				</td>
             			</tr>
             		</table>
-      			</div>
+            	</div>
+      			
+      			<input type="hidden" id="likeCnt" value="${noteInfo.likeflag }"/>
+      			<input type="hidden" id="noteidx" value="${noteInfo.idx }"/>
+      			<input type="hidden" id="noteLike" value="${noteLike }"/>
+      			<input type="hidden" id="userInfo" value="${sessionScope.userInfo.id }">
+				
+      			<script type="text/javascript">
+      				var idx = $('#noteidx').val();
+      				var notelike = $('#noteLike').val();
+	      			var likeCnt = $('#likeCnt').val();
+      				var userInfo = $('#userInfo').val();
+	      			
+      				$('#notelikebtn').click(function() {
+      					if(userInfo != '') {
+							$.ajax({ 
+					        	url: "../noteLike",
+					            type:'POST', 					 
+					            data:{ 
+					            	idx : idx,
+					            	likeflag : notelike,
+					            	likeCnt : likeCnt
+					            }, 
+					            success : function(data){
+					            	notelike = data;
+					            	if(notelike == 1) { 
+					            		likeCnt = likeCnt + 1;
+					            		$('#notelikebtn').html('<span style="color: red;">♥</span> ' + likeCnt);
+					            	}
+					            	else {
+					            		likeCnt = likeCnt - 1;
+					            		$('#notelikebtn').html('♥ ' + likeCnt);
+					            	}
+					            }, 
+					            error : function(){ 
+					            	alert('AJAX 통신 실패'); 
+					            } 
+					        });		
+						} else {
+							alert('로그인 후 사용하실 수 있습니다.');
+						}
+					});
+      			</script>
       			
       			<!-- Day Content -->
             	<c:forEach items="${contentInfo }" var="bean" varStatus="n">
-            	<div>
-            		<h4>Day ${bean.daynum }일차 여행기 - ${bean.title }</h4>
-            		<img src="${imgInfo[n.index].imgname }" width="100%"/>
-            		<p>${bean.content }</p>
-            	</div>
+            	<div class="ui-corner-all custom-corners">
+            		<div class="ui-bar ui-bar-a" style="background: white; border: none;">
+		            	<div style="box-sizing: border-box; padding-bottom: 5px; padding-left: 2px; border-bottom: 3px solid #e9e9e9;">
+		            		<img src="../resources/imgs/icon/tripcon2.png" style="width: 30px; height: 23px; position: relative; top: 5px;"/>
+					        <h3><span style="color: #F05562;">Day${bean.daynum }</span> - ${bean.title }</h3>
+		            	</div>
+		            </div>
+		            <div class="ui-body ui-body-a" style="border: none;">
+		            	<img src="${imgInfo[n.index].imgname }" width="100%"/>
+		            	<p>${bean.content }</p>
+		            </div>
+				</div>
             	</c:forEach>
             	
+            	<a href="../notecomment/${noteInfo.idx }" data-role="button" data-transition="slideup">
+            		<img src="../resources/imgs/icon/comment.png" style="position: relative; top: 5px; width: 30px; height: 20px;"/>
+            		&nbsp;&nbsp;댓글
+            	</a>
             </div> <!-- end content -->
             
             <div data-role='footer' data-position='fixed' data-theme="c">

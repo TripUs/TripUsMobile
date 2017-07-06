@@ -111,7 +111,7 @@
 	               											<img src="${story.userprofile }" style="width: 40px; 40px;">
 	               										</td>
 	               										<td width="80%" style="padding-left: 20px;">
-	               											<strong>닉네임</strong>
+	               											<strong>${story.usernicname }</strong>
 	               										</td>
 	               										<td width="20px" rowspan="2">
 	               											<a href="../replestory/${story.idx }">

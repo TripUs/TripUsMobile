@@ -5,7 +5,7 @@ import java.sql.Date;
 public class MyTripBbsDto {
 
 	private int idx, tripcode, tripnum, grp, seq, lvl;
-	private String tripdate, userid, userprofile, memo;
+	private String tripdate, userid, usernicname, userprofile, memo;
 	private Date reporting_date;
 	
 	public MyTripBbsDto() {
@@ -13,7 +13,7 @@ public class MyTripBbsDto {
 	}
 
 	public MyTripBbsDto(int idx, int tripcode, int tripnum, int grp, int seq, int lvl, String tripdate, String userid,
-			String userprofile, String memo, Date reporting_date) {
+			String usernicname, String userprofile, String memo, Date reporting_date) {
 		super();
 		this.idx = idx;
 		this.tripcode = tripcode;
@@ -23,9 +23,18 @@ public class MyTripBbsDto {
 		this.lvl = lvl;
 		this.tripdate = tripdate;
 		this.userid = userid;
+		this.usernicname = usernicname;
 		this.userprofile = userprofile;
 		this.memo = memo;
 		this.reporting_date = reporting_date;
+	}
+
+	public String getUsernicname() {
+		return usernicname;
+	}
+
+	public void setUsernicname(String usernicname) {
+		this.usernicname = usernicname;
 	}
 
 	public int getIdx() {

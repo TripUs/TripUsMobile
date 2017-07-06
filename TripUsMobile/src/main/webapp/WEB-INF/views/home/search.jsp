@@ -49,13 +49,27 @@
 		            	<input type="text" id="input-keyword" name="keyword" placeholder="어디로 떠나고 싶으신가요?"/>
 	            	<div data-role="controlgroup" >
 			            <button id="search-keyword" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">검색</button>
-		            	<button id="search-gps" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">주변 검색</button>
+		            	<button onclick="getLocation()" id="search-gps" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">주변 검색</button>
 	            	</div>
             	
 	            	<ul id="search-area-list" data-role='listview' data-inset='true'></ul>
 	            	<ul id="search-keyword-list" data-role='listview' data-inset='true'></ul>
             	</div>
             </div>
+            
+            <script type="text/javascript">
+	        	function getLocation() {
+	        	    if (navigator.geolocation) {
+	        	        navigator.geolocation.getCurrentPosition(showPosition);
+	        	    } else {
+	        	        alert("Geolocation is not supported by this browser.");
+	        	    }
+	        	}
+	        	function showPosition(position) {
+	        	    alert("Latitude: " + position.coords.latitude + 
+	        	    "<br>Longitude: " + position.coords.longitude); 
+	        	}
+        	</script>
             
             <script type="text/javascript">
 	            var keyword;

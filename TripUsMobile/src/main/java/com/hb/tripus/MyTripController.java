@@ -181,9 +181,8 @@ public class MyTripController {
 		MyTripBbsDto bean = null;
 		try {
 			int grp = dao.getGrpCnt() + 1;
-			System.out.println(grp);
 			bean = new MyTripBbsDto(0, code, tripnum, grp, 0, 0, 
-					tripdate, userInfo.getId(),	userInfo.getProfile(), memo, null);
+					tripdate, userInfo.getId(), userInfo.getNicname(), userInfo.getProfile(), memo, null);
 			dao.insertTripStory(bean);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -212,9 +211,9 @@ public class MyTripController {
 			bean.setLvl(bean.getLvl()+1);
 			String temp = "";
 			for(int i=0; i<bean.getLvl(); i++) {
-				temp += "&nbsp;&nbsp;";
+				temp += "&nbsp;";
 			}
-			bean.setMemo(temp + "¦¦re: " + memo);
+			bean.setUsernicname(temp + "¦¦re: " + userInfo.getNicname());
 			System.out.println(bean.getMemo());
 			System.out.println("insert reple seq=" + bean.getSeq() + ", lvl=" + bean.getLvl());
 			dao.insertStoryReple(bean);								// insert bbs data

@@ -3,6 +3,35 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="tripnote">
+	<select id="getNoteGrpCnt" resultType="int">
+		SELECT MAX(GRP) FROM TRIPNOTEBBS
+	</select>
+	
+	<insert id="insertNoteComment" parameterType="com.hb.tripus.model.dto.TripNoteBbsDto">
+		INSERT INTO TRIPNOTEBBS (IDX, TRIPNOTE_IDX, USERID, USERNICNAME, USERPROFILE, USERCOMMENT, GRP, REPORTING_DATE, REPORTING_TIME)
+		VALUES (TRIPNOTEBBS_IDX_SEQ.NEXTVAL, #{tripnote_idx}, #{userid}, #{usernicname}, #{userprofile}, #{usercomment}, #{grp}, #{reporting_date}, #{reporting_time})
+	</insert>
+
+	<select id="getNoteComment" parameterType="int" resultType="com.hb.tripus.model.dto.TripNoteBbsDto">
+		SELECT * FROM TRIPNOTEBBS WHERE TRIPNOTE_IDX=#{value} ORDER BY GRP DESC, SEQ
+	</select>
+
+	<insert id = "noteLikeUp" parameterType="java.util.Map" >
+		INSERT INTO NOTELIKE VALUES (#{idx}, #{userid}, 1)
+	</insert>
+
+	<delete id = "noteLikeDown" parameterType="java.util.Map">
+		DELETE FROM NOTELIKE WHERE IDX=#{idx} AND USERID=#{userid}
+	</delete> 
+
+	<update id="updateNoteLike" parameterType="java.util.Map">
+		UPDATE TRIPNOTE SET LIKEFLAG=#{likeCnt} WHERE IDX=#{idx}
+	</update>
+
+	<select id="getNoteLike" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(LIKEFLAG) FROM NOTELIKE WHERE USERID=#{userid} AND IDX=#{idx}
+	</select>
+	
 	<select id="getNoteOne" parameterType="int" resultType="com.hb.tripus.model.dto.TripNoteDto">
 		SELECT * FROM TRIPNOTE WHERE IDX=#{value}
 	</select>

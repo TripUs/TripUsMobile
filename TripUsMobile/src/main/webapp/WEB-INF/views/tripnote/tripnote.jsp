@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -65,7 +66,16 @@
             								<td width="35px"><img src="${bean.userprofile }" style="width: 35px; height: 35px;"/></td>
             								<td style="padding-left: 10px;">
             									<strong>${bean.usernicname }</strong><br/>
-            									<small>${bean.reporting_date }</small>
+            									<jsp:useBean id="now" class="java.util.Date" />
+												<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />  
+					
+												<c:if test="${today eq bean.reporting_date }">
+					            					<small>${bean.reporting_time }</small>
+					            					<img src="resources/imgs/icon/newicon.png" style="width: 20px; height: 20px; position: relative; top: 5px;"/>
+												</c:if>
+												<c:if test="${today ne bean.reporting_date }">
+					            					<small>${bean.reporting_date }</small>
+												</c:if>
             								</td>
             							</tr>
             						</table>

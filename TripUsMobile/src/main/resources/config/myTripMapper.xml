@@ -56,8 +56,8 @@
 	</select>
 	
 	<insert id="insertTripStory" parameterType="com.hb.tripus.model.dto.MyTripBbsDto">
-		INSERT INTO TRIPLISTBBS (IDX, TRIPCODE, TRIPNUM, TRIPDATE, USERID, USERPROFILE, MEMO, GRP, REPORTING_DATE)
-		VALUES (TRIPLISTBBS_IDX_SEQ.NEXTVAL, #{tripcode}, #{tripnum}, #{tripdate}, #{userid}, #{userprofile}, #{memo}, 
+		INSERT INTO TRIPLISTBBS (IDX, TRIPCODE, TRIPNUM, TRIPDATE, USERID, USERNICNAME, USERPROFILE, MEMO, GRP, REPORTING_DATE)
+		VALUES (TRIPLISTBBS_IDX_SEQ.NEXTVAL, #{tripcode}, #{tripnum}, #{tripdate}, #{userid}, #{usernicname}, #{userprofile}, #{memo}, 
 		#{grp}, SYSDATE)
 	</insert>
 	
@@ -75,7 +75,7 @@
 	
 	<insert id="insertStoryReple" parameterType="com.hb.tripus.model.dto.MyTripBbsDto">
 		INSERT INTO TRIPLISTBBS
-		VALUES (TRIPLISTBBS_IDX_SEQ.NEXTVAL, #{tripcode}, #{tripnum}, #{tripdate}, #{userid}, #{userprofile}, #{memo}, #{grp}, #{seq}, #{lvl}, SYSDATE)
+		VALUES (TRIPLISTBBS_IDX_SEQ.NEXTVAL, #{tripcode}, #{tripnum}, #{tripdate}, #{userid}, #{usernicname}, #{userprofile}, #{memo}, #{grp}, #{seq}, #{lvl}, SYSDATE)
 	</insert>
 	
 	<select id="getFriendList" parameterType="String" resultType="com.hb.tripus.model.dto.FriendListDto">

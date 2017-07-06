@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -22,6 +24,7 @@ import com.hb.tripus.model.dao.TripNoteDao;
 import com.hb.tripus.model.dto.MyTripDetailDto;
 import com.hb.tripus.model.dto.MyTripDto;
 import com.hb.tripus.model.dto.MyTripListDto;
+import com.hb.tripus.model.dto.TripNoteBbsDto;
 import com.hb.tripus.model.dto.TripNoteContentDto;
 import com.hb.tripus.model.dto.TripNoteDto;
 import com.hb.tripus.model.dto.TripNoteImgDto;
@@ -121,18 +124,68 @@ public class TripNoteController {
 	}
 	
 	@RequestMapping(value = "noteDetail/{idx}", method = RequestMethod.GET)
-	public String noteDetail(@PathVariable int idx, Model model) {
+	public String noteDetail(@PathVariable int idx, Model model, HttpSession session) {
+		UserDto userInfo = (UserDto)session.getAttribute("userInfo");
 		try {
+			if(userInfo != null) {
+				model.addAttribute("noteLike", dao.getNoteLike(userInfo.getId(), idx));
+			}
 			model.addAttribute("noteInfo", dao.getNoteOne(idx));
-			List<TripNoteContentDto> contentInfo = dao.getNoteOneContent(idx);
-			List<TripNoteImgDto> imgInfo = dao.getNoteOneImg(idx);
-			
-			model.addAttribute("contentInfo", contentInfo);
-			model.addAttribute("imgInfo", imgInfo);
+			model.addAttribute("contentInfo", dao.getNoteOneContent(idx));
+			model.addAttribute("imgInfo", dao.getNoteOneImg(idx));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return "tripnote/notedetail";
+	}
+	
+	@RequestMapping(value = "notecomment/{idx}", method = RequestMethod.GET)
+	public String noteComment(@PathVariable int idx, Model model) {
+		try {
+			model.addAttribute("idx", idx);
+			model.addAttribute("comment", dao.getNoteComment(idx));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "tripnote/notecomment";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "notecomment/{idx}", method = RequestMethod.POST)
+	public void noteComment(@PathVariable int idx, @RequestParam String comment, Model model, HttpSession session) {
+		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		TripNoteBbsDto bean = null;
+		try {
+			Date currdate = new Date();
+			SimpleDateFormat sdfdate = new SimpleDateFormat("yyyy-MM-dd"); 
+			SimpleDateFormat sdftime = new SimpleDateFormat("hh:mm:ss");
+			String date_str = sdfdate.format(currdate);
+			String time_str = sdftime.format(currdate);
+			
+			int grp = dao.getNoteGrpCnt() + 1;
+			bean = new TripNoteBbsDto(0, idx, grp, 0, 0, userInfo.getId(), userInfo.getNicname(), 
+					userInfo.getProfile(), comment, date_str, time_str);
+			dao.insertNoteComment(bean);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "noteLike", method = RequestMethod.POST)
+	public int noteLike(@RequestParam int idx, @RequestParam int likeflag, @RequestParam int likeCnt, HttpSession session) {
+		try {
+			if(likeflag == 0) {
+				dao.getNoteLikeUp(idx, likeflag, ((UserDto)session.getAttribute("userInfo")).getId(), likeCnt);
+				likeflag = 1;
+			} else {
+				dao.getNoteLikeDown(idx, likeflag, ((UserDto)session.getAttribute("userInfo")).getId(), likeCnt);
+				likeflag = 0;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return likeflag;
 	}
 	
 }
