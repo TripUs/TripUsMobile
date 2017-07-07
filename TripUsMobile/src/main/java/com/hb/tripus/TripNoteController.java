@@ -150,8 +150,10 @@ public class TripNoteController {
 			int daynum = Integer.parseInt(req.getParameter("daynum").trim());
 			System.out.println("tripnote daynum : " + daynum);
 			for(int i=1; i<=daynum; i++) {
-				MultipartFile file = mreq.getFile("file_" + i);
-				if(!file.getOriginalFilename().equals("")) {
+				List<MultipartFile> files = mreq.getFiles("file_" + i);
+				System.out.println("file size : " + files.size());
+				//MultipartFile file = mreq.getFile("file_" + i);
+				if(!files.get(0).getOriginalFilename().equals("")) {
 					@SuppressWarnings("deprecation")
 					String path = req.getRealPath("/resources/upload/tripnote/" + idx).replaceAll("\\\\", "/");
 					File dir = new File(path);
@@ -159,14 +161,17 @@ public class TripNoteController {
 						dir.mkdirs(); 
 					}
 					
-					File f = new File(path + "\\" + file.getOriginalFilename());
-					file.transferTo(f);
-					String fileName="http://localhost:8080/tripus/resources/upload/tripnote/" + idx + "/" + file.getOriginalFilename();
-					TripNoteImgDto imgs = new TripNoteImgDto(idx, i, fileName);
-					dao.insertTripNoteImg(imgs);
-					if(i == 1) {
-						tripNote.setThema(fileName);
-						dao.insertTripNoteThema(tripNote);
+					for(int j=0; j<files.size(); j++) {
+						File f = new File(path + "\\" + files.get(j).getOriginalFilename());
+						files.get(j).transferTo(f);
+						String fileName="http://localhost:8080/tripus/resources/upload/tripnote/" + idx + "/" + files.get(j).getOriginalFilename();
+						System.out.println(fileName);
+						TripNoteImgDto imgs = new TripNoteImgDto(idx, i, fileName);
+						dao.insertTripNoteImg(imgs);
+						if(i == 1) {
+							tripNote.setThema(fileName);
+							dao.insertTripNoteThema(tripNote);
+						}
 					}
 				}
 				TripNoteContentDto contents = new TripNoteContentDto(idx, i, req.getParameter("daytitle_" + i), req.getParameter("content_"+i));

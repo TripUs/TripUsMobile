@@ -88,6 +88,19 @@ public class HomeController {
 		return "home/search";
 	}
 
+	@ResponseBody
+	@RequestMapping("searchGps")
+	public List<TourAreaInterface> searchGps(@RequestParam String lat, @RequestParam String lng, @RequestParam int page, HttpSession session) {
+		service = new MainService();
+		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		int userLang = 0;
+		if(userInfo != null) {
+			userLang = userInfo.getLang();
+		}
+		List<TourAreaInterface> list = null;
+		list = ((MainService)service).getGpsAreaList(lat, lng, page, userLang);
+		return list;
+	}
 	
 	@RequestMapping(value = "search_mytrip", method = RequestMethod.GET)
 	public String search(@RequestParam String tripdate, HttpSession session) {

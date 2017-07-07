@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+import com.hb.tripus.model.dto.TourAreaBasicDto;
 import com.hb.tripus.model.dto.TourAreaInterface;
 import com.hb.tripus.util.JsonParserModule;
 import com.hb.tripus.util.XmlParserModule;
@@ -17,8 +18,13 @@ public class MainService implements ServiceCommand {
 		return jparser.pageCntParse();
 	}
 	
+	public List<TourAreaInterface> getGpsAreaList(String lat, String lng, int page, int lang) {
+		String url = "locationBasedList?mapX=" + lng + "&mapY=" + lat + "&radius=2000&numOfRows=10&listYN=Y&arrange=E&MobileOS=ETC&MobileApp=AppTesting";
+		jparser = new JsonParserModule(url, page, "TourAreaBasicDto", lang);
+		return jparser.allParse();
+	}
+	
 	public List<TourAreaInterface> getAreaList(int lang) {
-		System.out.println("lang="+lang);
 		String url = "areaBasedList?MobileOS=ETC&MobileApp=AppTesting&numOfRows=10";
 		jparser = new JsonParserModule(url, 1, "TourAreaBasicDto", lang);
 		return jparser.allParse();

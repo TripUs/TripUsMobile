@@ -133,7 +133,11 @@
 		            	</div>
 		            </div>
 		            <div class="ui-body ui-body-a" style="border: none;">
-		            	<img src="${imgInfo[n.index].imgname }" width="100%"/>
+		            	<c:forEach items="${imgInfo }" var="noteimg">
+		            		<c:if test="${noteimg.daynum eq bean.daynum }">
+		            			<img src="${noteimg.imgname }" width="100%"/>
+							</c:if>
+		            	</c:forEach>
 		            	<p>${bean.content }</p>
 		            </div>
 				</div>

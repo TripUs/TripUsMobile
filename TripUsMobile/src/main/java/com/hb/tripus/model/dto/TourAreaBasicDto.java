@@ -2,7 +2,7 @@ package com.hb.tripus.model.dto;
 
 public class TourAreaBasicDto implements TourAreaInterface {
 	private String contentid, contenttypeid, homepage, tel, title, firstimage, firstimage2;
-	private String areacode, sigungucode, cat1, cat2, cat3, addr1, addr2, mapx, mapy, overview;
+	private String areacode, sigungucode, cat1, cat2, cat3, addr1, addr2, mapx, mapy, overview, dist;
 	
 	public TourAreaBasicDto() {
 		// TODO Auto-generated constructor stub
@@ -12,7 +12,7 @@ public class TourAreaBasicDto implements TourAreaInterface {
 	public String[] getTags() {
 		String[] tags = {"contentid", "contenttypeid", "homepage", "tel", "title",
 				"firstimage", "firstimage2", "areacode", "sigungucode", "cat1", "cat2", "cat3",
-				"addr1", "addr2", "mapx", "mapy", "overview"};
+				"addr1", "addr2", "mapx", "mapy", "overview", "dist"};
 		return tags;
 	}
 	
@@ -26,9 +26,17 @@ public class TourAreaBasicDto implements TourAreaInterface {
 		this.cat2 = tags[10];			this.cat3 = tags[11];			
 		this.addr1 = tags[12];			this.addr2 = tags[13];			
 		this.mapx = tags[14];			this.mapy = tags[15];			
-		this.overview = tags[16];
+		this.overview = tags[16];		this.dist = tags[17];
 	}
 	
+	public String getDist() {
+		return dist;
+	}
+
+	public void setDist(String dist) {
+		this.dist = dist;
+	}
+
 	public String getContentid() {
 		return contentid;
 	}

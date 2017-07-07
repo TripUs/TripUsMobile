@@ -23,6 +23,8 @@
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova_plugins.js"></script>
         <title>Document</title>
 	    <script type="text/javascript">
 		    $(document).ready(function() {
@@ -46,29 +48,79 @@
         	
             <div data-role='content' style="background-color: white;">
             	<div style="padding-left: 10px; padding-right: 10px;">
-		            	<input type="text" id="input-keyword" name="keyword" placeholder="어디로 떠나고 싶으신가요?"/>
-	            	<div data-role="controlgroup" >
+		            <input type="text" id="input-keyword" name="keyword" placeholder="어디로 떠나고 싶으신가요?"/>
+	            	<h4>검색 필터</h4>
+	               	<div>
+	               		<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+	               			<input type="checkbox" name="all" id="all-fillter">
+	               			<label for="all-fillter"><img src="resources/imgs/icon/leports.png" width="25px"/></label>
+	               			<input type="checkbox" name="moonhwa" id="moonhwa">
+	               			<label for="moonhwa"><img src="resources/imgs/icon/leports.png" width="25px"/></label>
+	               			<input type="checkbox" name="leports" id="leports">
+	               			<label for="leports"><img src="resources/imgs/icon/leports.png" width="25px"/></label>
+	               			<input type="checkbox" name="sikdang" id="sikdang">
+	               			<label for="sikdang"><img src="resources/imgs/icon/leports.png" width="25px"/></label>
+	               			<input type="checkbox" name="hotel" id="hotel">
+	               			<label for="hotel"><img src="resources/imgs/icon/leports.png" width="25px"/></label>
+	               			<input type="checkbox" name="course" id="course">
+	               			<label for="course"><img src="resources/imgs/icon/leports.png" width="25px"/></label>
+	               		</fieldset>
+	               	</div>
+	               	<div data-role="controlgroup" >
 			            <button id="search-keyword" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">검색</button>
-		            	<button onclick="getLocation()" id="search-gps" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">주변 검색</button>
+		            	<button onclick="getPosition()" id="search-gps" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">주변 검색</button>
 	            	</div>
             	
+            		<ul id="search-gps-list" data-role='listview' data-inset='true'></ul>
 	            	<ul id="search-area-list" data-role='listview' data-inset='true'></ul>
 	            	<ul id="search-keyword-list" data-role='listview' data-inset='true'></ul>
             	</div>
             </div>
             
             <script type="text/javascript">
-	        	function getLocation() {
-	        	    if (navigator.geolocation) {
-	        	        navigator.geolocation.getCurrentPosition(showPosition);
-	        	    } else {
-	        	        alert("Geolocation is not supported by this browser.");
-	        	    }
-	        	}
-	        	function showPosition(position) {
-	        	    alert("Latitude: " + position.coords.latitude + 
-	        	    "<br>Longitude: " + position.coords.longitude); 
-	        	}
+            	function getPosition() {
+            		var options = {
+            	    	enableHighAccuracy: true,
+            	      	maximumAge: 3600000
+            	   	}
+            		
+            	  	var watchID = navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+            	   	function onSuccess(position) {
+            	    	alert('Latitude: ' + position.coords.latitude  + '\n' +
+            	              'Longitude: ' + position.coords.longitude + '\n');
+            	   		var page = 1;
+            	   		
+            	    	$.ajax({ 
+				        	url: "searchGps",
+				            type:'POST', 					 
+				            data:{ 
+				            	lat: position.coords.latitude,
+				            	lng: position.coords.longitude,
+				            	page: page
+				            }, 
+				            success : function(data){
+				            	if(data.length != 0) {
+				            		$('#search-gps-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>주변 검색결과</li>");
+					            	for(var i=0; i<data.length; i++) {
+					            		$('#search-gps-list').append("<li class='ui-li-has-thumb ui-first-child ui-last-child'>"
+		            							+ "<a href='detail/" + data[i]['contentid'] + "' style='background-color: white;'>"
+			            						+ "<img src='" + data[i]['firstimage'] + "' style='width:100%; height:100%;'/>"
+			            						+ "<h2>" + data[i]['title'] + "</h2>"
+			            						+ "<p>반경 : " +  data[i]['dist'] + "m</p>");
+					            		$('#search-gps-list').listview('refresh');
+					            	}
+				            	}
+				            }, 
+				            error : function(){ 
+				            	alert('AJAX 통신 실패'); 
+				            } 
+				        });
+            	    	
+            	   	};
+            	   	function onError(error) {
+            	    	alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+            	   	}
+            	}
         	</script>
             
             <script type="text/javascript">

@@ -61,7 +61,7 @@
 		                		<input type="text" name="daytitle_1" placeholder="여행 소제목을 입력해보세요."/>
 				                <textarea name="content_1" placeholder="여행기를 담아보세요."></textarea>
 	               				<div style="">
-	               					<input multiple="multiple" type="file" name="file_1[]" />
+	               					<input multiple="multiple" type="file" name="file_1" />
 	               					<p><a href="#" class="addimg('1')">이미지 추가</a></p>
 	               				</div>
 	               			</div>
