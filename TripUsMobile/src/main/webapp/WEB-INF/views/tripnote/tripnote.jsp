@@ -55,6 +55,20 @@
         		</div>
             	<div style="width: 100%; height: 42px; z-index: 90; top: 0px; position: fixed; background-color: #F05562; color: white; line-height: 42px; text-align: center;">${mytrip.title }</div>
 
+				<input type="hidden" id="noteuser" value="${sessionScope.userInfo.id }">
+
+				<script type="text/javascript">
+					function chkLogin() {
+						if($('#noteuser').val()=='') {
+							alert("로그인 후 사용가능합니다.");
+							$('#nav-all').trigger('click');
+						} else {
+							$('#all-note').hide();
+				        	$('#my-note').show();
+						}
+					};
+				</script>
+
             	<div id="all-note" style="padding: 0px 10px;">
             		<!-- <h1>전체 여행노트</h1> -->
             		<c:forEach items="${allNote }" var="bean">
@@ -88,7 +102,56 @@
             						</a>
             					</div>
             					<div align="center">
-            						<p><span style="color: red;">♥</span>${bean.likeflag } &nbsp; 댓글수</p>
+            						<p><span style="color: red;">♥</span>${bean.likeflag } &nbsp; 
+            						<img src="resources/imgs/icon/comment.png" style="position: relative; top: 5px; width: 25px; height: 18px;"/>
+            						${bean.commentnum }</p>
+            					</div>
+            				</div>
+            			</div>
+            		</c:forEach>
+            		
+            		<c:if test="${sessionScope.userInfo ne null }">
+	            		<a href="addtripNote" style="position: fixed; top: 80%; left: 83%;">
+			                <img style="width: 40px; height: 40px; border-radius: 30px;" src="resources/imgs/icon/addplus.png"/>
+			            </a>
+		            </c:if>
+            	</div><!-- end all-note -->
+            
+            	<div id="my-note" style="display: none; padding: 0px 10px;">
+            		<c:forEach items="${myNote }" var="bean">
+            			<div style="margin: 0px 0px; display: inline-block; box-sizing: border-box; width: 49%; padding: 5px 0px;">
+            				<div style="border: 2px solid #e9e9e9; padding: 5px;">
+            					<div>
+            						<table>
+            							<tr>
+            								<td width="35px"><img src="${bean.userprofile }" style="width: 35px; height: 35px;"/></td>
+            								<td style="padding-left: 10px;">
+            									<strong>${bean.usernicname }</strong><br/>
+            									<jsp:useBean id="now1" class="java.util.Date" />
+												<fmt:formatDate value="${now1}" pattern="yyyy-MM-dd" var="today" />  
+					
+												<c:if test="${today eq bean.reporting_date }">
+					            					<small>${bean.reporting_time }</small>
+					            					<img src="resources/imgs/icon/newicon.png" style="width: 20px; height: 20px; position: relative; top: 5px;"/>
+												</c:if>
+												<c:if test="${today ne bean.reporting_date }">
+					            					<small>${bean.reporting_date }</small>
+												</c:if>
+            								</td>
+            							</tr>
+            						</table>
+            					</div>
+            					<div>
+    								<a href="noteDetail/${bean.idx }" style="text-decoration: none;">
+	    								<img src="${bean.thema }" style="width: 100%; height: 110px;"/>
+	    	        					<p class="notetitle-text" style="color: gray; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 95%;height: 20px;text-decoration: none;">
+	    	        					<strong>${bean.title }</strong></p>
+            						</a>
+            					</div>
+            					<div align="center">
+            						<p><span style="color: red;">♥</span>${bean.likeflag } &nbsp; 
+            						<img src="resources/imgs/icon/comment.png" style="position: relative; top: 5px; width: 25px; height: 18px;"/>
+            						${bean.commentnum }</p>
             					</div>
             				</div>
             			</div>
@@ -97,10 +160,6 @@
             		<a href="addtripNote" style="position: fixed; top: 80%; left: 83%;">
 		                <img style="width: 40px; height: 40px; border-radius: 30px;" src="resources/imgs/icon/addplus.png"/>
 		            </a>
-            	</div><!-- end all-note -->
-            
-            	<div id="my-note" style="display: none;">
-            		<h1>내 여행노트</h1>
             	</div><!-- end my-note -->
             
             </div><!-- end content -->
@@ -110,13 +169,8 @@
 	        		$('#my-note').hide();
 	        		$('#all-note').show();
 	        	});
-				$('#nav-mynote').click(function() {
-					$('#all-note').hide();
-	        		$('#my-note').show();
-				});
 			</script>
             <div data-role='footer' data-position='fixed' data-theme="c">
-                <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->
                 <div data-role='navbar'>
                     <ul>
                         <li>

@@ -3,6 +3,14 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="tripnote">
+	<select id="getCommentNum" parameterType="int" resultType="int">
+		SELECT COUNT(IDX) FROM TRIPNOTEBBS WHERE TRIPNOTE_IDX=#{value}
+	</select>
+	
+	<update id="updateCommentNum" parameterType="java.util.Map">
+		UPDATE TRIPNOTE SET COMMENTNUM=#{commentnum} WHERE IDX=#{idx}
+	</update>
+	
 	<select id="getNoteGrpCnt" resultType="int">
 		SELECT MAX(GRP) FROM TRIPNOTEBBS
 	</select>
@@ -57,8 +65,8 @@
 		VALUES (TRIPNOTE_IDX_SEQ.NEXTVAL, #{tripcode}, #{userid}, #{usernicname}, #{userprofile}, #{title}, #{reporting_date}, #{reporting_time})
 	</insert>
 	
-	<select id="getTripNoteIdx" parameterType="int" resultType="int">
-		SELECT IDX FROM TRIPNOTE WHERE TRIPCODE=#{tripcode}
+	<select id="getTripNoteIdx" parameterType="com.hb.tripus.model.dto.TripNoteDto" resultType="int">
+		SELECT IDX FROM TRIPNOTE WHERE USERID=#{userid} AND TITLE=#{title} AND REPORTING_TIME=#{reporting_time}
 	</select>
 	
 	<insert id="insertTripNoteContent" parameterType="com.hb.tripus.model.dto.TripNoteContentDto">

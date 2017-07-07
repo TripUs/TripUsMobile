@@ -84,7 +84,7 @@ public class TripNoteController {
 			
 			String date_str = sdfdate.format(currdate);
 			String time_str = sdftime.format(currdate);
-			TripNoteDto tripNote = new TripNoteDto(0, code, userInfo.getId(), userInfo.getNicname(), userInfo.getProfile(), req.getParameter("title"), null, date_str, time_str, 0);
+			TripNoteDto tripNote = new TripNoteDto(0, code, userInfo.getId(), userInfo.getNicname(), userInfo.getProfile(), req.getParameter("title"), null, date_str, time_str, 0, 0);
 		
 			System.out.println(tripNote.toString());
 			
@@ -121,6 +121,61 @@ public class TripNoteController {
 			e.printStackTrace();
 		}
 		return "redirect:../tripnote";
+	}
+	
+	@RequestMapping(value = "addtripNote", method = RequestMethod.GET)
+	public String addTripNote() {
+		return "tripnote/addtripnote";
+	}
+	
+	@RequestMapping(value = "addtripNote", method = RequestMethod.POST)
+	public String insertTripNote(HttpServletRequest req,  MultipartHttpServletRequest mreq, HttpSession session) {
+		try {
+			UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+			
+			Date currdate = new Date();
+			SimpleDateFormat sdfdate = new SimpleDateFormat ("yyyy-MM-dd"); 
+			SimpleDateFormat sdftime = new SimpleDateFormat ("hh:mm:ss");
+			
+			String date_str = sdfdate.format(currdate);
+			String time_str = sdftime.format(currdate);
+			TripNoteDto tripNote = new TripNoteDto(0, 0, userInfo.getId(), userInfo.getNicname(), userInfo.getProfile(), req.getParameter("title"), null, date_str, time_str, 0, 0);
+		
+			System.out.println(tripNote.toString());
+			
+			// tripNote »ðÀÔ & »ðÀÔµÈ tripnote idx ºÒ·¯¿À±â
+			int idx = dao.insertShareTripNote(tripNote);
+			tripNote.setIdx(idx);
+			
+			int daynum = Integer.parseInt(req.getParameter("daynum").trim());
+			System.out.println("tripnote daynum : " + daynum);
+			for(int i=1; i<=daynum; i++) {
+				MultipartFile file = mreq.getFile("file_" + i);
+				if(!file.getOriginalFilename().equals("")) {
+					@SuppressWarnings("deprecation")
+					String path = req.getRealPath("/resources/upload/tripnote/" + idx).replaceAll("\\\\", "/");
+					File dir = new File(path);
+					if(!dir.exists()){
+						dir.mkdirs(); 
+					}
+					
+					File f = new File(path + "\\" + file.getOriginalFilename());
+					file.transferTo(f);
+					String fileName="http://localhost:8080/tripus/resources/upload/tripnote/" + idx + "/" + file.getOriginalFilename();
+					TripNoteImgDto imgs = new TripNoteImgDto(idx, i, fileName);
+					dao.insertTripNoteImg(imgs);
+					if(i == 1) {
+						tripNote.setThema(fileName);
+						dao.insertTripNoteThema(tripNote);
+					}
+				}
+				TripNoteContentDto contents = new TripNoteContentDto(idx, i, req.getParameter("daytitle_" + i), req.getParameter("content_"+i));
+				dao.insertTripNoteContent(contents);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:tripnote";
 	}
 	
 	@RequestMapping(value = "noteDetail/{idx}", method = RequestMethod.GET)
@@ -166,6 +221,7 @@ public class TripNoteController {
 			bean = new TripNoteBbsDto(0, idx, grp, 0, 0, userInfo.getId(), userInfo.getNicname(), 
 					userInfo.getProfile(), comment, date_str, time_str);
 			dao.insertNoteComment(bean);
+			dao.updateCommentNum(idx);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

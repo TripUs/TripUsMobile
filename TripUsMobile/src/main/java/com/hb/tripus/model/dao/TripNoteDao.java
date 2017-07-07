@@ -52,7 +52,7 @@ public class TripNoteDao implements DaoInterface {
 	
 	public int insertShareTripNote(TripNoteDto bean) throws SQLException {
 		sqlSession.insert("tripnote.insertShareTripNote", bean);
-		return sqlSession.selectOne("tripnote.getTripNoteIdx", bean.getTripcode());
+		return sqlSession.selectOne("tripnote.getTripNoteIdx", bean);
 	}
 	
 	public void insertTripNoteContent(TripNoteContentDto bean) throws SQLException {
@@ -106,6 +106,14 @@ public class TripNoteDao implements DaoInterface {
 	public int getNoteGrpCnt() throws SQLException {
 		if(sqlSession.selectOne("tripnote.getNoteGrpCnt") == null) return 0;
 		return sqlSession.selectOne("tripnote.getNoteGrpCnt");
+	}
+
+	public void updateCommentNum(int idx) throws SQLException {
+		int commentnum = ((Integer)sqlSession.selectOne("tripnote.getCommentNum", idx));
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("idx", idx);
+		map.put("commentnum", commentnum);
+		sqlSession.update("tripnote.updateCommentNum", map);
 	}
 	
 }

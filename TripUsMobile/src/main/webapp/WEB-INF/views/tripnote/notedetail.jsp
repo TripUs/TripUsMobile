@@ -105,11 +105,11 @@
 					            success : function(data){
 					            	notelike = data;
 					            	if(notelike == 1) { 
-					            		likeCnt = likeCnt + 1;
+					            		likeCnt++;
 					            		$('#notelikebtn').html('<span style="color: red;">♥</span> ' + likeCnt);
 					            	}
 					            	else {
-					            		likeCnt = likeCnt - 1;
+					            		likeCnt--;
 					            		$('#notelikebtn').html('♥ ' + likeCnt);
 					            	}
 					            }, 

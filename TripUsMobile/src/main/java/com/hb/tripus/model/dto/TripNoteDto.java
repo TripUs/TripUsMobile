@@ -2,7 +2,7 @@ package com.hb.tripus.model.dto;
 
 public class TripNoteDto {
 
-	private int idx, tripcode, likeflag;
+	private int idx, tripcode, likeflag, commentnum;
 	private String userid, usernicname, userprofile, title, thema, reporting_date, reporting_time;
 	
 	public TripNoteDto() {
@@ -10,7 +10,7 @@ public class TripNoteDto {
 	}
 
 	public TripNoteDto(int idx, int tripcode, String userid, String usernicname, String userprofile, String title, String thema,
-			String reporting_date, String reporting_time, int likeflag) {
+			String reporting_date, String reporting_time, int likeflag, int commentnum) {
 		this.idx = idx;
 		this.tripcode = tripcode;
 		this.userid = userid;
@@ -21,6 +21,15 @@ public class TripNoteDto {
 		this.reporting_date = reporting_date;
 		this.reporting_time = reporting_time;
 		this.likeflag = likeflag;
+		this.commentnum = commentnum;
+	}
+
+	public int getCommentnum() {
+		return commentnum;
+	}
+
+	public void setCommentnum(int commentnum) {
+		this.commentnum = commentnum;
 	}
 
 	public int getLikeflag() {
