@@ -9,9 +9,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="resources/css/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="resources/css/jquery.mobile.theme-1.4.5.min.css"/>
+        <link rel="stylesheet" href="resources/css/themec.min.css"/>
         <link rel="stylesheet" href="resources/css/slick.css"/>
 		<link rel="stylesheet" href="resources/css/slick-theme.css"/>
-		<link rel="stylesheet" href="resources/css/themec.min.css"/>
         <link rel="stylesheet" href="resources/css/tripus.css">
         <script src="http://code.jquery.com/jquery-1.12.4.min.js"
                   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
@@ -25,19 +25,8 @@
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
         <script type="text/javascript" charset="utf-8" src="resources/js/cordova.js"></script>
         <script type="text/javascript" charset="utf-8" src="resources/js/cordova_plugins.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/geolocation.js"></script>
         <title>Document</title>
-	    <script type="text/javascript">
-		    $(document).ready(function() {
-	        	$('.img-slider').slick({
-	        		dots : false,
-	        		infinite : true,
-	        		speed : 300,
-	        		slidesToShow : 1,
-	        		centerMode : true,
-	        		variableWidth : false
-	        	});
-	        });            	
-	    </script>
     </head>
     <body>
         <div id="search" data-role='page' style="background-color: white;">
@@ -49,23 +38,20 @@
             <div data-role='content' style="background-color: white;">
             	<div style="padding-left: 10px; padding-right: 10px;">
 		            <input type="text" id="input-keyword" name="keyword" placeholder="어디로 떠나고 싶으신가요?"/>
-	            	<h4>검색 필터</h4>
-	               	<div>
-	               		<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-	               			<input type="checkbox" name="all" id="all-fillter">
-	               			<label for="all-fillter"><img src="resources/imgs/icon/leports.png" width="25px"/></label>
-	               			<input type="checkbox" name="moonhwa" id="moonhwa">
-	               			<label for="moonhwa"><img src="resources/imgs/icon/leports.png" width="25px"/></label>
-	               			<input type="checkbox" name="leports" id="leports">
-	               			<label for="leports"><img src="resources/imgs/icon/leports.png" width="25px"/></label>
-	               			<input type="checkbox" name="sikdang" id="sikdang">
-	               			<label for="sikdang"><img src="resources/imgs/icon/leports.png" width="25px"/></label>
-	               			<input type="checkbox" name="hotel" id="hotel">
-	               			<label for="hotel"><img src="resources/imgs/icon/leports.png" width="25px"/></label>
-	               			<input type="checkbox" name="course" id="course">
-	               			<label for="course"><img src="resources/imgs/icon/leports.png" width="25px"/></label>
-	               		</fieldset>
-	               	</div>
+	            	<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" style="width: 100%;">
+	               		<input type="radio" name="fillter" id="all-fillter" value="0" checked="checked">
+	               		<label for="all-fillter"><img src="resources/imgs/icon/all3.png" style="widows: 30px; height: 20px;"/></label>
+	               		<input type="radio" name="fillter" id="moonhwa" value="12">
+	               		<label for="moonhwa"><img src="resources/imgs/icon/munhwa5.png" style="widows: 30px; height: 20px;"/></label>
+	               		<input type="radio" name="fillter" id="leports" value="28">
+	               		<label for="leports"><img src="resources/imgs/icon/leports.png" style="widows: 30px; height: 20px;"/></label>
+	               		<input type="radio" name="fillter" id="sikdang" value="39">
+	               		<label for="sikdang"><img src="resources/imgs/icon/sikdang.png" style="widows: 30px; height: 20px;"/></label>
+	               		<input type="radio" name="fillter" id="hotel" value="32">
+	               		<label for="hotel"><img src="resources/imgs/icon/hotel.png" style="widows: 30px; height: 20px;"/></label>
+	               		<input type="radio" name="fillter" id="course" value="25">
+	               		<label for="course"><img src="resources/imgs/icon/course5.png" style="widows: 30px; height: 20px;"/></label>
+	               	</fieldset>
 	               	<div data-role="controlgroup" >
 			            <button id="search-keyword" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">검색</button>
 		            	<button onclick="getPosition()" id="search-gps" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">주변 검색</button>
@@ -73,11 +59,16 @@
             	
             		<ul id="search-gps-list" data-role='listview' data-inset='true'></ul>
 	            	<ul id="search-area-list" data-role='listview' data-inset='true'></ul>
+	            	<ul id="search-addr-list" data-role='listview' data-inset='true'></ul>
 	            	<ul id="search-keyword-list" data-role='listview' data-inset='true'></ul>
             	</div>
             </div>
             
             <script type="text/javascript">
+            	var page = 1;
+            	var lat;
+            	var lng;
+            	
             	function getPosition() {
             		var options = {
             	    	enableHighAccuracy: true,
@@ -86,29 +77,45 @@
             		
             	  	var watchID = navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
             	   	function onSuccess(position) {
-            	    	alert('Latitude: ' + position.coords.latitude  + '\n' +
-            	              'Longitude: ' + position.coords.longitude + '\n');
-            	   		var page = 1;
-            	   		
-            	    	$.ajax({ 
+            	   		var contenttypeid = $(":input:radio[name=fillter]:checked").val();
+            	    	lat = position.coords.latitude;
+            	    	lng = position.coords.longitude;
+            	   		$.ajax({ 
 				        	url: "searchGps",
 				            type:'POST', 					 
 				            data:{ 
-				            	lat: position.coords.latitude,
-				            	lng: position.coords.longitude,
-				            	page: page
+				            	lat: lat,
+				            	lng: lng,
+				            	page: page,
+				            	contenttypeid: contenttypeid
 				            }, 
 				            success : function(data){
-				            	if(data.length != 0) {
+				            	$('#search-area-list').remove();
+				            	$('#search-keyword-list').remove();
+				            	if(data[0] != null) {
 				            		$('#search-gps-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>주변 검색결과</li>");
-					            	for(var i=0; i<data.length; i++) {
+				            		$('#search-gps-list').append("<li class='ui-li-has-thumb ui-first-child ui-last-child'>"
+	            							+ "<a href='detail/" + data[0][0]['contentid'] + "' style='background-color: white;'>"
+		            						+ "<img src='" + data[0][0]['firstimage'] + "' style='width:100%; height:100%;'/>"
+		            						+ "<h2>" + data[0][0]['title'] + "</h2>"
+		            						+ "<p>반경 : " +  data[0][0]['dist'] + "m</p>");
+				            		
+				            		for(var i=1; i<data[0].length; i++) {
 					            		$('#search-gps-list').append("<li class='ui-li-has-thumb ui-first-child ui-last-child'>"
-		            							+ "<a href='detail/" + data[i]['contentid'] + "' style='background-color: white;'>"
-			            						+ "<img src='" + data[i]['firstimage'] + "' style='width:100%; height:100%;'/>"
-			            						+ "<h2>" + data[i]['title'] + "</h2>"
-			            						+ "<p>반경 : " +  data[i]['dist'] + "m</p>");
+		            							+ "<a href='detail/" + data[0][i]['contentid'] + "' style='background-color: white;'>"
+			            						+ "<img src='" + data[0][i]['firstimage'] + "' style='width:100%; height:100%;'/>"
+			            						+ "<h2>" + data[0][i]['title'] + "</h2>"
+			            						+ "<p>반경 : " +  data[0][i]['dist'] + "m</p>");
 					            		$('#search-gps-list').listview('refresh');
 					            	}
+				            		if(data[2] < data[1] ) {
+				            			page++;
+				            			$('#search-gps-list').append('<li id="gpslastbtn" class="ui-last-child"><a href="#" class="ui-btn ui-btn-icon-right ui-icon-carat-d"'
+				            					+ 'onclick="addlist(\'' + contenttypeid + '\')" style="color: white; background-color: #F05562;">더보기</a></li>');
+				            			$('#search-gps-list').listview('refresh');
+				            		}
+				            	} else {
+				            		alert("검색결과 없음");
 				            	}
 				            }, 
 				            error : function(){ 
@@ -118,17 +125,52 @@
             	    	
             	   	};
             	   	function onError(error) {
-            	    	alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+            	    	alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n');
             	   	}
+            	}
+            	
+            	function addlist(contenttypeid) {
+            		$.ajax({ 
+			        	url: "searchGps",
+			            type:'POST', 					 
+			            data:{ 
+			            	lat: lat,
+			            	lng: lng,
+			            	page: page,
+			            	contenttypeid: contenttypeid
+			            }, 
+			            success : function(data){
+			            	$('#gpslastbtn').remove();
+			            	for(var i=0; i<data[0].length; i++) {
+				            	$('#search-gps-list').append("<li class='ui-li-has-thumb ui-first-child ui-last-child'>"
+	            						+ "<a href='detail/" + data[0][i]['contentid'] + "' style='background-color: white;'>"
+		            					+ "<img src='" + data[0][i]['firstimage'] + "' style='width:100%; height:100%;'/>"
+		            					+ "<h2>" + data[0][i]['title'] + "</h2>"
+		            					+ "<p>반경 : " +  data[0][i]['dist'] + "m</p>");
+				            	$('#search-gps-list').listview('refresh');
+				            }
+			            	if(data[2] < data[1] ) {
+			            		page++;
+			            		$('#search-gps-list').append('<li id="gpslastbtn" class="ui-last-child"><a href="#" class="ui-btn ui-btn-icon-right ui-icon-carat-d"'
+			            				+ 'onclick="addlist(\'' + contenttypeid + '\')" style="color: white; background-color: #F05562;">더보기</a></li>');
+			            		$('#search-gps-list').listview('refresh');
+			            	}
+			            }, 
+			            error : function(){ 
+			            	alert('AJAX 통신 실패'); 
+			            } 
+			        });
             	}
         	</script>
             
             <script type="text/javascript">
 	            var keyword;
             	var pageCnt;
-	            var curPage;
+	            var curPage = 1;
 	            
 	            $('#search-keyword').click(function() {
+	            	var contenttypeid = $(":input:radio[name=fillter]:checked").val();
+        	    	
 	            	if($('#input-keyword').val()=='') {
 	            		alert("키워드를 입력하세요.");
 	            	} else {
@@ -136,36 +178,57 @@
 				        	url: "search",
 				            type:'POST', 					 
 				            data:{ 
-				            	keyword: $('#input-keyword').val()
+				            	keyword: $('#input-keyword').val(),
+				            	curPage: curPage,
+				            	contenttypeid: contenttypeid
 				            }, 
 				            success : function(data){
-				            	keyword = data[4];
+				            	// index 0 : 지역검색결과
+				            	// index 1 : 키워드 결과
+				            	// index 2 : 전체 페이지수
+				            	// index 3 : 키워드
 				            	pageCnt = data[2];
-				            	curPage = data[3];
-				            	
-				            	if(data[0].length != 0) $('#search-area-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>지역 검색결과</li>");
-				            	for(var i=0; i<data[0].length; i++) {
-				            		$('#search-area-list').append("<li class='ui-li-has-thumb ui-first-child ui-last-child'>"
-				            							+ "<a href='basicInfo?areacode=" + data[0][i]['areacode'] + "&sigungucode=" + data[0][i]['sigungucode'] + "' style='background-color: white;'>"
-					            						+ "<h2>" + data[0][i]['name'] + "</h2>"
-					            						+ "<span class='ui-li-count'>11</span></a></li>");
+				            	keyword = data[3];
+				            	$('#search-gps-list').remove();
+				            	if(data[0].length != 0) {
+				            		var index = 1;
+				            		if(data[0][0]['sigungucode'] == 0) {
+				            			$('#search-area-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>지역 검색결과</li>");
+					            		$('#search-area-list').append("<li class='ui-li-has-thumb ui-first-child ui-last-child'>"
+	            							+ "<a href='areaInfo/" + data[0][0]['areacode'] + "' style='background-color: white;'>"
+	            							+ "<img src='" + data[0][0]['imgname'] + "' style='width:100%; height: 100%;'/>"
+	            							+ "<h2>" + data[0][0]['name'] + "</h2><span class='ui-li-count'><span style='color:red;'>♥&nbsp;</span>" + data[0][0]['likeflag'] + "</span></a></li>");
+				            		} else {
+				            			index = 0;
+				            		} 
+				            		$('#search-addr-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>지명 검색결과 > 지명(주소지) 검색결과 보기</li>");
+				            		for(var i=index; i<data[0].length; i++) {
+				            			$('#search-addr-list').append("<li class='ui-first-child ui-last-child'>"
+				            				+ "<a class='ui-btn ui-btn-icon-right ui-icon-carat-d' href='basicInfo/" + data[0][i]['areacode'] + "/" + data[0][i]['sigungucode'] + "' style='background-color: white;'>"
+					            			+ "<h2>" + data[0][i]['name'] + "</h2></a></li>");
+					            	}	
+					            	$('#search-area-list').listview('refresh');
+					            	$('#search-addr-list').listview('refresh');
+					            }
+
+				            	if(data[1] != null) { 
+				            		$('#search-keyword-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>키워드 검색결과</li>");
+					            	for(var i=0; i<data[1].length; i++) {
+					            		$('#search-keyword-list').append("<li class='ui-li-has-thumb ui-first-child ui-last-child'>"
+					            							+ "<a href='detail/" + data[1][i]['contentid'] + "' style='background-color: white;'>"
+						            						+ "<img src='" + data[1][i]['firstimage'] + "' style='width:100%; height:100%;'/>"
+						            						+ "<h2>" + data[1][i]['title'] + "</h2>"
+						            						+ "<p>" + data[1][i]['addr1'] + "</p></a></li>");
+					            	}
+					            	if(curPage < pageCnt) {
+					            		curPage++;
+					            		$('#search-keyword-list').append('<li id="keywordlast" class="ui-last-child"><a href="#" class="ui-btn ui-btn-icon-right ui-icon-carat-d" '
+				            					+ 'onclick="addsearchlist(\'' + contenttypeid + '\')" style="color: white; background-color: #F05562;">더보기</a></li>');
+					             	}
+					            	$('#search-keyword-list').listview('refresh');
+				            	} else {
+				            		alert("키워드 검색결과 없음");
 				            	}
-				            	if(data[1].length != 0) $('#search-keyword-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>키워드 검색결과</li>");
-				            	for(var i=0; i<data[1].length; i++) {
-				            		$('#search-keyword-list').append("<li class='ui-li-has-thumb ui-first-child ui-last-child'>"
-				            							+ "<a href='detail/" + data[1][i]['contentid'] + "' style='background-color: white;'>"
-					            						+ "<img src='" + data[1][i]['firstimage'] + "' style='width:100%; height:100%;'/>"
-					            						+ "<h2>" + data[1][i]['title'] + "</h2>"
-					            						+ "<p>" + data[1][i]['addr1'] + "</p>"
-					            						+ "<span class='ui-li-count'>11</span></a></li>");
-				            	}
-				            	if(curPage < pageCnt) {
-				            		$('#search-keyword-list').append("<li id='addsearch-list' class='ui-li-has-thumb ui-first-child ui-last-child'>"
-														+ "<a href='#' onclick='addsearchlist()' style='background-color: #F05562;'>"
-														+ "<h2 style='color: white;'>검색결과 더보기</h2></a></li>");
-				            	}
-				            	$('#search-area-list').listview('refresh');
-				            	$('#search-keyword-list').listview('refresh');
 				            }, 
 				            error : function(){ 
 				            	alert('AJAX 통신 실패'); 
@@ -174,30 +237,29 @@
 	            	}
 				});
 	            
-	            function addsearchlist() {
+	            function addsearchlist(contenttypeid) {
 					$.ajax({ 
-			        	url: "addsearchlist",
+			        	url: "search",
 			            type:'POST', 					 
 			            data:{ 
 			            	keyword: keyword,
-			            	page: curPage
+			            	curPage: curPage,
+			            	contenttypeid: contenttypeid
 			            }, 
 			            success : function(data){
-			            	curPage = data[1];
-			            	
-			            	$('#addsearch-list').remove();
-			            	for(var i=0; i<data[0].length; i++) {
+			            	$('#keywordlast').remove();
+			            	for(var i=0; i<data[1].length; i++) {
 			            		$('#search-keyword-list').append("<li class='ui-li-has-thumb ui-first-child ui-last-child'>"
-			            							+ "<a href='detail/" + data[0][i]['contentid'] + "' style='background-color: white;>"
-				            						+ "<img src='" + data[0][i]['firstimage'] + "' style='width:100%; height:100%;'/>"
-				            						+ "<h2>" + data[0][i]['addr1'] + "</h2>"
-				            						+ "<span class='ui-li-count'>11</span></li>");
+			            							+ "<a href='detail/" + data[1][i]['contentid'] + "' style='background-color: white;'>"
+				            						+ "<img src='" + data[1][i]['firstimage'] + "' style='width:100%; height:100%;'/>"
+				            						+ "<h2>" + data[1][i]['title'] + "</h2>"
+				            						+ "<p>" + data[1][i]['addr1'] + "</p></a></li>");
 			            	}
 			            	if(curPage < pageCnt) {
-			            		$('#search-keyword-list').append("<li id='addsearch-list' class='ui-li-has-thumb ui-first-child ui-last-child'>"
-													+ "<a href='#' onclick='addsearchlist()' style='background-color: #F05562;>"
-													+ "<h2>검색결과 더보기</h2></a></li>");
-			            	}
+			            		curPage++;
+			            		$('#search-keyword-list').append('<li id="keywordlast" class="ui-last-child"><a href="#" class="ui-btn ui-btn-icon-right ui-icon-carat-d" '
+		            					+ 'onclick="addsearchlist(\'' + contenttypeid + '\')" style="color: white; background-color: #F05562;">더보기</a></li>');
+			             	}
 			            	$('#search-keyword-list').listview('refresh');
 			            }, 
 			            error : function(){ 
@@ -208,7 +270,6 @@
             </script>
             
             <div data-role='footer' data-position='fixed' data-theme="c">
-                <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->
                 <div data-role='navbar'>
                     <ul>
                         <li>

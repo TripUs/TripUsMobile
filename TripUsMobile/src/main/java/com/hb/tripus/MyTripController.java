@@ -51,6 +51,7 @@ public class MyTripController {
 			// 여행리스트 반환
 			try {
 				List<MyTripDto> list = dao.getMyTrip(userInfo.getId());
+				System.out.println("mytrip list size : " + list.size());
 				model.addAttribute("tripList", list);
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -268,4 +269,13 @@ public class MyTripController {
 		return "redirect:invitefriend"; 
 	}
 	
+	@RequestMapping("delMyTrip/{code}")
+	public String delMyTrip(@PathVariable int code) {
+		try {
+			dao.deleteMyTrip(code);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "redirect:../mytrip";
+	}
 }

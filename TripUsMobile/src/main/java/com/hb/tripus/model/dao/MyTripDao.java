@@ -21,6 +21,13 @@ public class MyTripDao implements DaoInterface {
 		this.sqlSession = sqlSession;
 	}
 	
+	public void deleteMyTrip(int code) throws SQLException {
+		sqlSession.delete("mytrip.deleteMyTrip", code);
+		sqlSession.delete("mytrip.deleteMyTripGroup", code);
+		sqlSession.delete("mytrip.deleteTripList", code);
+		sqlSession.delete("mytrip.deleteTripBbs", code);
+	}
+	
 	public int getCodeCnt() throws SQLException {
 		return sqlSession.selectOne("mytrip.getCodeCnt");
 	}

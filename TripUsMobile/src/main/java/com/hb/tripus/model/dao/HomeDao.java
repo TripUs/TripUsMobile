@@ -1,6 +1,7 @@
 package com.hb.tripus.model.dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,8 @@ import com.hb.tripus.model.dto.MyTripDto;
 import com.hb.tripus.model.dto.MyTripListDto;
 import com.hb.tripus.model.dto.RecentSearchDto;
 import com.hb.tripus.model.dto.ReviewDto;
+import com.hb.tripus.model.dto.TourAreaDto;
+import com.hb.tripus.model.dto.TripNoteDto;
 
 public class HomeDao implements DaoInterface {
 
@@ -21,6 +24,53 @@ public class HomeDao implements DaoInterface {
 
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
+	}
+	
+	public List<String> getAllImg(String contentid) throws SQLException {
+		return sqlSession.selectList("home.getAllImg", contentid);
+	}
+	
+	public void updateAreaLike(int areacode, int flag) throws SQLException {
+		int likeflag = (Integer)sqlSession.selectOne("home.getAreaLike", areacode);
+		if(flag == 0) likeflag++;
+		else likeflag--;
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("areacode", areacode);
+		map.put("likeflag", likeflag);
+		sqlSession.update("home.updateAreaLike", map);
+	}
+	
+	public List<Object> getAreaContent(int areacode) throws SQLException {
+		List<Object> list = new ArrayList<Object>();
+		list.add(sqlSession.selectList("home.getAreaContent1", areacode));
+		list.add(sqlSession.selectList("home.getAreaContent2", areacode));
+		list.add(sqlSession.selectList("home.getAreaContent3", areacode));
+		list.add(sqlSession.selectList("home.getAreaContent4", areacode));
+		return list;
+	}
+	
+	public AreaDto selectOneAreaInfo(int areacode) throws SQLException {
+		return sqlSession.selectOne("home.selectOneAreaInfo", areacode);
+	}
+	
+	public List<TourAreaDto> getTopArea() throws SQLException {
+		return sqlSession.selectList("home.getTopArea");
+	}
+	
+	public int getContentTable(String contentid) throws SQLException {
+		return sqlSession.selectOne("home.getContentTable", contentid);
+	}
+	
+	public void insertContentLike(TourAreaDto bean) throws SQLException {
+		sqlSession.insert("home.insertContentLike", bean);
+	}
+	
+	public void updateContentLike(TourAreaDto bean) throws SQLException {
+		sqlSession.insert("home.updateContentLike", bean);
+	}
+	
+	public List<TripNoteDto> getTopNote() throws SQLException {
+		return sqlSession.selectList("home.getTopNote");
 	}
 	
 	public List<AreaDto> searchArea(String keyword) throws SQLException {
@@ -43,9 +93,7 @@ public class HomeDao implements DaoInterface {
 	}
 	
 	public List<String> getAreaImg(String contentid) throws SQLException {
-		System.out.println("이미지 다오 호출");
 		int cnt = (Integer) sqlSession.selectOne("home.getAreaImgCnt", contentid);
-		System.out.println("cnt : " + cnt);
 		if(cnt == 0) return null;
 		else return sqlSession.selectList("home.getAreaImg", contentid);
 	}
@@ -58,8 +106,10 @@ public class HomeDao implements DaoInterface {
 	}
 	
 	public int getLikeFlag(String contentid) throws SQLException{
-		int count = sqlSession.selectOne("home.likeflag", contentid);
-		return count; 
+		int likeCnt = 0;
+		if(sqlSession.selectOne("home.likeflag", contentid) != null)
+			return sqlSession.selectOne("home.likeflag", contentid);
+		else return likeCnt; 
 	}
 	
 	public int getUserLikeFlag(LikeFlagDto bean) throws SQLException{

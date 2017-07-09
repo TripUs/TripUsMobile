@@ -68,7 +68,7 @@
 			                	</c:forEach>
 			                	<textarea name="content_${tripday.daynum }"></textarea>
                					<div style="">
-               						<input type="file" name="file_${tripday.daynum }">
+               						<input multiple="multiple" type="file" name="file_${tripday.daynum }">
                						<p><a href="#" class="addimg(${tripday.daynum })">이미지 추가</a></p>
                					</div>
                				</div>

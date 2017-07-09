@@ -48,7 +48,12 @@
         	
             <div data-role='content' style="padding: 0px 10px;">
       			<div style="background-color: #e9e9e9; padding: 5px 20px; margin-top: 10px; margin-bottom: 5px; border-radius: 10px;">
-      				<h3>${noteInfo.title }</h3>
+      				<div style="padding-top: 5px; margin-bottom: 10px;">
+      					<div style="font-size: 20px; width: 67%; display: inline-block;"><strong>${noteInfo.title }</strong></div>
+	      				<c:if test="${sessionScope.userInfo.id eq noteInfo.userid }">
+	      					<div style="width: 30%; display: inline-block; text-align: right; text-decoration: none; font-size: 14px;"><a href="../delTripNote/${noteInfo.idx }" data-ajax="false">글삭제</a></div>
+	      				</c:if>
+      				</div>
       				<table>
             			<tr>
             				<td width="35px"><img src="${noteInfo.userprofile }" style="width: 35px; height: 35px;"/></td>

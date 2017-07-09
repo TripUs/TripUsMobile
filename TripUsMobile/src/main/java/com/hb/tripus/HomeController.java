@@ -37,6 +37,7 @@ import com.hb.tripus.model.dto.MyTripDto;
 import com.hb.tripus.model.dto.MyTripListDto;
 import com.hb.tripus.model.dto.ReviewDto;
 import com.hb.tripus.model.dto.TourAreaBasicDto;
+import com.hb.tripus.model.dto.TourAreaDto;
 import com.hb.tripus.model.dto.TourAreaInterface;
 import com.hb.tripus.model.dto.UserDto;
 import com.hb.tripus.service.MainService;
@@ -49,11 +50,6 @@ public class HomeController {
 
 	private ServiceCommand service;
 
-//	@RequestMapping(value = "/", method = RequestMethod.GET)
-//	public String home(Locale locale, Model model) {
-//		return "redirect:main";
-//	}
-	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model, HttpSession session) {
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
@@ -61,17 +57,17 @@ public class HomeController {
 		if(userInfo != null) {
 			userLang = userInfo.getLang();
 		}
-		
 		service = new MainService();
 		session.setAttribute("mytripCode", null);
 		session.setAttribute("mytripDate", null);
-		model.addAttribute("list", ((MainService) service).getAreaList(userLang));
-		
-		// 최근검색지
 		try {
+			// 최근검색지
 			if(userInfo != null) {
 				model.addAttribute("recentSearch", dao.getRecentSearch(userInfo.getId()));
 			}
+			model.addAttribute("list", ((MainService) service).getAreaList(userLang));	// 추천 여행코스
+			model.addAttribute("topNote", dao.getTopNote());							// top5 여행노트
+			model.addAttribute("topArea", dao.getTopArea());							// top5 여행지
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -90,15 +86,17 @@ public class HomeController {
 
 	@ResponseBody
 	@RequestMapping("searchGps")
-	public List<TourAreaInterface> searchGps(@RequestParam String lat, @RequestParam String lng, @RequestParam int page, HttpSession session) {
+	public List<Object> searchGps(@RequestParam String lat, @RequestParam String lng, @RequestParam int page, 
+			@RequestParam int contenttypeid, HttpSession session) {
 		service = new MainService();
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
 		int userLang = 0;
 		if(userInfo != null) {
 			userLang = userInfo.getLang();
 		}
-		List<TourAreaInterface> list = null;
-		list = ((MainService)service).getGpsAreaList(lat, lng, page, userLang);
+		List<Object> list = new ArrayList<Object>();
+		list.addAll(((MainService)service).getGpsAreaList(lat, lng, page, userLang, contenttypeid));		// list data, pageCnt
+		list.add(page);																						// curr page
 		return list;
 	}
 	
@@ -110,7 +108,7 @@ public class HomeController {
 
 	@ResponseBody
 	@RequestMapping(value = "search", method = RequestMethod.POST)
-	public List<Object> searchKeyword(@RequestParam String keyword, HttpSession session) {
+	public List<Object> searchKeyword(@RequestParam String keyword, @RequestParam int curPage, @RequestParam int contenttypeid, HttpSession session) {
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
 		int userLang = 0;
 		if(userInfo != null) {
@@ -119,12 +117,8 @@ public class HomeController {
 		List<Object> result = new ArrayList<Object>();
 		try {
 			service = new MainService();
-			String url = "searchKeyword?keyword=" + URLEncoder.encode(keyword, "UTF-8") + "&MobileOS=ETC&MobileApp=AppTesting";
-			
 			result.add(dao.searchArea(keyword));
-			result.add(((MainService) service).searchKeyword(keyword, 1, userLang));
-			result.add(((MainService) service).pageParser(url, userLang));
-			result.add(1);
+			result.addAll(((MainService) service).searchKeyword(keyword, curPage, userLang, contenttypeid));
 			result.add(keyword);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,30 +126,48 @@ public class HomeController {
 		return result;
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "addsearchlist", method = RequestMethod.POST)
-	public List<Object> addSearchList(@RequestParam int page, @RequestParam String keyword, HttpSession session) {
+	@RequestMapping("areaInfo/{areacode}")
+	public String areaInfo(@PathVariable int areacode, Model model, HttpSession session) {
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
 		int userLang = 0;
 		if(userInfo != null) {
 			userLang = userInfo.getLang();
 		}
-		
 		List<Object> list = new ArrayList<Object>();
-		list.add(((MainService) service).searchKeyword(keyword, page+1, userLang));
-		list.add(page+1);
-		return list;
+		try {
+			list.addAll(((MainService) service).getAreaContent(areacode, userLang));
+			model.addAttribute("info", dao.selectOneAreaInfo(areacode));
+			model.addAttribute("con1", list.get(0));
+			model.addAttribute("con2", list.get(1));
+			model.addAttribute("con3", list.get(2));
+			model.addAttribute("con4", list.get(3));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "tour/areaInfo";
 	}
 	
-	@RequestMapping("basicInfo")
-	public String basicInfo(@RequestParam("areacode") int areacode, @RequestParam("sigungucode") int sigungucode,
-			Model model, HttpSession session) {
+	@RequestMapping("areaInfoSearch/{areacode}/{contenttypeid}")
+	public String areaInfoSearch(@PathVariable int areacode, @PathVariable int contenttypeid, Model model, HttpSession session) {
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
 		int userLang = 0;
 		if(userInfo != null) {
 			userLang = userInfo.getLang();
 		}
-		
+		List<Object> list = new ArrayList<Object>();
+		list.addAll(((MainService) service).searchAreaTypeContent(areacode, 1, userLang, contenttypeid));
+		service = new MainService();
+		model.addAttribute("tourList", list.get(0));
+		return "tour/basiclist";
+	}
+
+	@RequestMapping("basicInfo/{areacode}/{sigungucode}")
+	public String basicInfo(@PathVariable int areacode, @PathVariable int sigungucode, Model model, HttpSession session) {
+		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		int userLang = 0;
+		if(userInfo != null) {
+			userLang = userInfo.getLang();
+		}
 		service = new MainService();
 		model.addAttribute("tourList", ((MainService) service).getAreaList(areacode, sigungucode, userLang));
 		return "tour/basiclist";
@@ -256,7 +268,14 @@ public class HomeController {
 		System.out.println("review id" + contentid);
 		try {
 			UserDto userInfo = (UserDto) session.getAttribute("userInfo");
-			ReviewDto bean = new ReviewDto(contentid, userInfo.getId(), userInfo.getNicname(), userInfo.getProfile(), review, null);
+			Date currdate = new Date();
+			SimpleDateFormat sdfdate = new SimpleDateFormat ("yyyy-MM-dd"); 
+			SimpleDateFormat sdftime = new SimpleDateFormat ("hh:mm:ss");
+			
+			String date_str = sdfdate.format(currdate);
+			String time_str = sdftime.format(currdate);
+			
+			ReviewDto bean = new ReviewDto(contentid, userInfo.getId(), userInfo.getNicname(), userInfo.getProfile(), review, date_str, time_str);
 			dao.getReview_add(bean);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -328,16 +347,43 @@ public class HomeController {
 	
 	@ResponseBody
 	@RequestMapping(value = "likeupdate", method = RequestMethod.POST)
-	public int likeFlag(@RequestParam String contentid, @RequestParam int likeflag, HttpSession session) throws SQLException{
+	public int likeFlag(@RequestParam String contentid, @RequestParam int likeflag, @RequestParam int likeCnt, @RequestParam String contenttypeid,
+			@RequestParam String title, @RequestParam String firstimage, @RequestParam String mapx, @RequestParam String mapy, @RequestParam int areacode,
+			@RequestParam int sigungucode, HttpSession session) {
 		LikeFlagDto bean = new LikeFlagDto(likeflag, contentid, ((UserDto)session.getAttribute("userInfo")).getId());
-		if(likeflag == 0) {
-			dao.getLikeUp(bean);
-			likeflag = 1;
-		} else {
-			dao.getLikeDown(bean);
-			likeflag = 0;
+		System.out.println("areacode : " + areacode);
+		System.out.println("sigungucode : " + sigungucode);
+		try {
+			if(likeflag == 0) {
+				if(dao.getContentTable(contentid) != 0) {
+					dao.updateContentLike(new TourAreaDto(contentid, contenttypeid, title, firstimage, mapx, mapy, areacode, sigungucode, ++likeCnt));
+				} else {
+					dao.insertContentLike(new TourAreaDto(contentid, contenttypeid, title, firstimage, mapx, mapy, areacode, sigungucode, 1));
+				}
+				dao.updateAreaLike(areacode, likeflag);
+				dao.getLikeUp(bean);
+				likeflag = 1;
+
+			} else {
+				if(dao.getContentTable(contentid) != 0) {
+					dao.updateContentLike(new TourAreaDto(contentid, contenttypeid, title, firstimage, mapx, mapy, areacode, sigungucode, --likeCnt));
+				} else {
+					dao.insertContentLike(new TourAreaDto(contentid, contenttypeid, title, firstimage, mapx, mapy, areacode, sigungucode, 0));
+				}
+				dao.updateAreaLike(areacode, likeflag);
+				dao.getLikeDown(bean);
+				likeflag = 0;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return likeflag;
+	}
+	
+	@RequestMapping("allImg/{contentid}")
+	public String allImg(@PathVariable String contentid, Model model) throws SQLException {
+		model.addAttribute("imgList", dao.getAllImg(contentid));
+		return "tour/allImg";
 	}
 	
 }

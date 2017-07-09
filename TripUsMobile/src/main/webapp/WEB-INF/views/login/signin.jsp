@@ -37,12 +37,12 @@
 	    </script>
     </head>
     <body>
-        <div data-role='page'>
-            <div data-role='header'>
-                <h1>TripUs</h1>
+        <div data-role='page' style="background-color: white;">
+            <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
+                <h1>회원 가입</h1>
             </div>
-            <div data-role='content'>
-                <h2>회원가입 페이지</h2>
+            <div data-role='content' style="background-color: white;">
                 <form action="signin" method="post">
                 	<ul data-role="listview" data-inset="true">
                 		<li class="ui-field-contain">
@@ -61,7 +61,7 @@
 	                		<input id="email" name="email" type="email" placeholder="E-Mail을 입력하세요"/>
                 		</li>
                 	</ul>
-                	<button>회원가입</button>
+                	<button style="background-color: #F05562; color: white;">회원가입</button>
                 </form>
             </div>
             <div data-role='footer' data-position='fixed' data-theme="c">

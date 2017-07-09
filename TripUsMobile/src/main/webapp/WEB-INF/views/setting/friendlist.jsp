@@ -43,7 +43,7 @@
             <div data-role='header' style="background-color: #F05562;">
                 <a href="setting" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
                 <h1 style="color: white;">친구 목록</h1>
-                <a href="addfriend" class="ui-btn ui-icon-plus ui-btn-icon-notext ui-corner-all">친구 추가</a>
+                <a href="addfriend" class="ui-btn ui-icon-myplusicon ui-btn-icon-notext ui-corner-all">친구 추가</a>
             </div>
             <div data-role='content' style="padding-left: 10px; padding-right: 10px;">
             	<br/>
@@ -58,14 +58,14 @@
 		                		<li class="cate-stay" id="${stlistid }" data-icon="delete">
 			                		<a href="#"><img src="${bean.friendprofile }"/>
 			                		<h2>${bean.friendname } (${bean.friendnicname })</h2>
-			                		<c:if test="${bean.flag eq 1 }"><p> -친구 요청</p></c:if>
+			                		<c:if test="${bean.flag eq 1 }"><p> - 친구 요청</p></c:if>
 				                	<c:if test="${bean.flag eq 0 }"><p> - 수락 대기중..</p></c:if>
 			                		</a>
 			                		<c:if test="${bean.flag eq 1 }">
-				                		<a href="#add-friend" onclick="addfriend('${bean.friendid }')" data-icon="plus" data-rel="popup" data-position-to="window" data-transition="pop">친구 추가</a>
+				                		<a href="#add-friend" onclick="addfriend('${bean.friendid }')" class="ui-icon-myplusicon" data-rel="popup" data-position-to="window" data-transition="pop">친구 추가</a>
 			                		</c:if>
 			                		<c:if test="${bean.flag eq 0 }">
-				                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
+				                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" class="ui-icon-mydelicon" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
 			                		</c:if>
 			                	</li>
 		                	</c:forEach>
@@ -85,7 +85,7 @@
 			                		<a href="#"><img src="${bean.friendprofile }"/>
 			                		<h2>${bean.friendname } (${bean.friendnicname })</h2>
 			                		<p>${bean.friendemail }</p></a>
-			                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
+			                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" class="ui-icon-mydelicon" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
 			                	</li>
 		                   	</c:forEach>
 		                </ul>
@@ -114,7 +114,7 @@
 					            									+ "<p>" + data2['email'] + "</p></a>"
 																	+ "<a href='#delete-friend' onclick=deletefriend('" + data2['id'] + "')" 
 																	+ " data-rel='popup' data-position-to='window' data-transition='pop' aria-haspopup='true'"
-																	+ " aria-owns='delete-friend' aria-expanded='false' class='ui-btn ui-btn-icon-notext ui-icon-plus' title='친구 추가'>친구 추가</a>"	    				
+																	+ " aria-owns='delete-friend' aria-expanded='false' class='ui-btn ui-btn-icon-notext ui-icon-mydelicon' title='친구 삭제'>친구 삭제</a>"	    				
 				            										+ "</li>");
 				            	$('#friend-list-listview').listview('refresh');
 				            	var staynum = $('.cate-stay').length;

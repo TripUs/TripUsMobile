@@ -27,24 +27,21 @@
     <body>
         <div data-role='page' style="background-color: white;">
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
-                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
                 <h1>${title }</h1>
             </div>
             <div data-role='content'>
-               	<div id="map" style="width:100%;height:350px;"></div>
-               	
-               	<div>
-               		<input type="hidden" value="${mapx }" id="mapx">
-               		<input type="hidden" value="${mapy }" id="mapy">
-               	</div>
-               	<button onclick="map.relayout();"></button>
+               	<div id="map" style="width: 100%; height: 700px;"></div>
+               	<input type="hidden" value="${mapx }" id="mapx">
+               	<input type="hidden" value="${mapy }" id="mapy">
+               	<button onclick="map.relayout();">ReLayout</button>
                	
                	<script type="text/javascript">
                		var y = $("#mapy").val();
                		var x = $("#mapx").val();
                	
                		var map;
-	               	function setmap(){
+	               	function setmap() {
 	               		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	               	    mapOption = { 
 	               	        center: new daum.maps.LatLng(y, x), // 지도의 중심좌표
@@ -63,7 +60,8 @@
 		
 		            	// 마커가 지도 위에 표시되도록 설정합니다
 		            	marker.setMap(map);
-	               	}setTimeout(function(){ setmap();	 }, 1000);
+	               	};
+	               	setTimeout(function(){ setmap();	     }, 1000);
 					setTimeout(function(){ map.relayout();	 }, 2000);
                	</script>
 			</div>

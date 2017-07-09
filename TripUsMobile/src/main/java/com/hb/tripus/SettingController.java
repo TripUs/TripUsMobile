@@ -238,6 +238,8 @@ public class SettingController {
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		System.out.println(userInfo.getId()+":");
+		System.out.println(userInfo.getUsertype() + ":");
 		if (userInfo.getUsertype().equals("kakao")) {
 			String RequestUrl = "https://kapi.kakao.com/v1/user/logout";
 			HttpClient client = HttpClientBuilder.create().build();
@@ -375,6 +377,7 @@ public class SettingController {
 	public String myUpdate(@ModelAttribute UserDto bean, Model model, HttpSession session) {
 		try {
 			dao.updateUser(bean);
+			bean.setUsertype(((UserDto)session.getAttribute("userInfo")).getUsertype());
 			bean.setLang(((UserDto)session.getAttribute("userInfo")).getLang());
 			bean.setProfile(((UserDto)session.getAttribute("userInfo")).getProfile());
 			session.setAttribute("userInfo", bean);

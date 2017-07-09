@@ -3,6 +3,26 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="tripnote">
+	<delete id="delTripNote" parameterType="int">
+		DELETE FROM TRIPNOTE WHERE IDX=#{value}
+	</delete>
+	
+	<delete id="delNoteContent" parameterType="int">
+		DELETE FROM NOTE_CONTENT WHERE IDX=#{value}
+	</delete>
+	
+	<delete id="delNoteContentImg" parameterType="int">
+		DELETE FROM NOTE_CONTENT_IMG WHERE IDX=#{value}
+	</delete>
+	
+	<delete id="delNoteLike" parameterType="int">
+		DELETE FROM NOTELIKE WHERE IDX=#{value}
+	</delete>
+	
+	<delete id="delNoteBbs" parameterType="int">
+		DELETE FROM TRIPNOTEBBS WHERE TRIPNOTE_IDX=#{value}
+	</delete>	
+
 	<select id="getCommentNum" parameterType="int" resultType="int">
 		SELECT COUNT(IDX) FROM TRIPNOTEBBS WHERE TRIPNOTE_IDX=#{value}
 	</select>

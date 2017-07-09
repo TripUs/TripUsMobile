@@ -3,6 +3,16 @@
 	background-size: 26px 26px;
 }
 
+.ui-icon-mydelicon {
+	background-image: url("http://localhost:8080/tripus/resources/imgs/icon/delete.png");
+	background-size: 26px 26px;
+}
+
+.ui-icon-myplusicon {
+	background-image: url("http://localhost:8080/tripus/resources/imgs/icon/plus.png");
+	background-size: 26px 26px;
+}
+
 .sub-navbar .ui-btn-active { 
 	color: #F05562 !important; 
 	background: none !important; 
@@ -26,7 +36,9 @@
 	margin: 0 auto;
 	text-align: center;
 }
-
+.ui-controlgroup-controls {
+	width: 100%;
+}
 .ui-content {
 	padding: 0px;
 }

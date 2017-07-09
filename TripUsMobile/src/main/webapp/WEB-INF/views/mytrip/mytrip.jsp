@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="resources/css/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="resources/css/jquery.mobile.theme-1.4.5.min.css"/>
-		<link rel="stylesheet" href="resources/css/themec.min.css"/>
+        <link rel="stylesheet" href="resources/css/themec.min.css"/>
         <link rel="stylesheet" href="resources/css/slick.css"/>
 		<link rel="stylesheet" href="resources/css/slick-theme.css"/>
         <link rel="stylesheet" href="resources/css/tripus.css">
@@ -23,19 +23,10 @@
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova_plugins.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/geolocation.js"></script>
         <title>Document</title>
-	    <script type="text/javascript">
-		    $(document).ready(function() {
-	        	$('.img-slider').slick({
-	        		dots : false,
-	        		infinite : true,
-	        		speed : 300,
-	        		slidesToShow : 1,
-	        		centerMode : true,
-	        		variableWidth : false
-	        	});
-	        });            	
-	    </script>
     </head>
     <body>
         <div id="main" data-role='page' style="background-color: white;">
@@ -51,13 +42,14 @@
 	                	<c:choose>
 			                <c:when test="${not empty tripList}">
 			                	<!-- 여행 목록이 있는 경우 -->
-			                	<ul data-role="listview" data-inset="true">
+			                	<ul data-role="listview" data-inset="true" data-split-icon="delete">
 			                	<c:forEach items="${tripList }" var="bean">
 			                		<li><a href="mytripdetail/${bean.code }">
 				                            <img src="${bean.coverimg }" style="height: 100%;"/>	<!-- 이미지 아이콘 -->
 				                            <h2>[${bean.thema}] ${bean.title }</h2>
 				                            <p>${bean.startdate } ~ ${bean.enddate }</p>
 				                        </a>
+				                        <a href="#" onclick="showtrippop('${bean.code }')">여행삭제</a>
 				                    </li>		
 			                	</c:forEach>
 			                	</ul>
@@ -84,6 +76,21 @@
 	                </c:otherwise>
                 </c:choose>
             </div>
+            
+            <div id="deltrippop" style="display: none; z-index: 100; width: 75%; position: fixed; top: 30%; left: 10%; padding: 10px 10px; background-color: white; border: 2px solid #F05562; border-radius: 10px;"></div>
+            
+            <script type="text/javascript">
+            	function canceltrippop() {
+            		$('#deltrippop').hide();
+            	};
+            	
+            	function showtrippop(code) {
+            		$('#deltrippop').html('<h3>여행을 삭제하시겠습니까?</h3>');
+            		$('#deltrippop').append('<a href="delMyTrip/'+ code + '" data-ajax="false" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini" style="background-color: #F05562; color: white;">삭제</a>'
+                        	+ '<a href="#" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini" style="background-color: #F05562; color: white;" onclick="canceltrippop()">취소</a>');
+            		$('#deltrippop').show();
+            	}
+            </script>
             
             <div data-role='footer' data-position='fixed' data-theme="c">
                 <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->

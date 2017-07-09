@@ -3,6 +3,64 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="home">
+	<select id="getAreaLike" parameterType="int" resultType="int">
+		SELECT LIKEFLAG FROM AREA WHERE AREACODE=#{value} AND SIGUNGUCODE=0
+	</select>
+
+	<select id="getAllImg" parameterType="String" resultType="String">
+		SELECT IMGNAME FROM UPLOADAREAIMG WHERE CONTENTID=#{value} ORDER BY IDX DESC
+	</select>
+
+	<update id="updateAreaLike" parameterType="java.util.Map">
+		UPDATE AREA SET LIKEFLAG=#{likeflag} WHERE AREACODE=#{areacode} AND SIGUNGUCODE=0
+	</update>
+
+	<select id="getAreaContent1" parameterType="int" resultType="com.hb.tripus.model.dto.TourAreaDto">
+		SELECT ROWNUM, RS.* FROM (SELECT * FROM TOURAREA WHERE AREACODE=#{value} AND CONTENTTYPEID<![CDATA[ <= ]]>15 ORDER BY LIKEFLAG DESC) RS
+		WHERE ROWNUM<![CDATA[ <= ]]>5 
+	</select>
+	
+	<select id="getAreaContent2" parameterType="int" resultType="com.hb.tripus.model.dto.TourAreaDto">
+		SELECT ROWNUM, RS.* FROM (SELECT * FROM TOURAREA WHERE AREACODE=#{value} AND CONTENTTYPEID=32 ORDER BY LIKEFLAG DESC) RS
+		WHERE ROWNUM<![CDATA[ <= ]]>5 
+	</select>
+	
+	<select id="getAreaContent3" parameterType="int" resultType="com.hb.tripus.model.dto.TourAreaDto">
+		SELECT ROWNUM, RS.* FROM (SELECT * FROM TOURAREA WHERE AREACODE=#{value} AND CONTENTTYPEID=39 ORDER BY LIKEFLAG DESC) RS
+		WHERE ROWNUM<![CDATA[ <= ]]>5 
+	</select>
+	
+	<select id="getAreaContent4" parameterType="int" resultType="com.hb.tripus.model.dto.TourAreaDto">
+		SELECT ROWNUM, RS.* FROM (SELECT * FROM TOURAREA WHERE AREACODE=#{value} AND CONTENTTYPEID=25 ORDER BY LIKEFLAG DESC) RS
+		WHERE ROWNUM<![CDATA[ <= ]]>5 
+	</select>
+	
+	<select id="getContentTable" parameterType="String" resultType="int">
+		SELECT COUNT(CONTENTID) FROM TOURAREA WHERE CONTENTID=#{value}
+	</select>
+
+	<select id="selectOneAreaInfo" parameterType="int" resultType="com.hb.tripus.model.dto.AreaDto">
+		SELECT * FROM AREA WHERE AREACODE=#{value} AND SIGUNGUCODE=0
+	</select>
+
+	<insert id="insertContentLike" parameterType="com.hb.tripus.model.dto.TourAreaDto">
+		INSERT INTO TOURAREA VALUES (#{contentid}, #{contenttypeid}, #{title}, #{firstimage}, #{mapx}, #{mapy}, #{areacode}, #{sigungucode}, #{likeflag})
+	</insert>
+
+	<update id="updateContentLike" parameterType="com.hb.tripus.model.dto.TourAreaDto">
+		UPDATE TOURAREA SET LIKEFLAG=#{likeflag} WHERE CONTENTID=#{contentid}
+	</update>
+
+	<select id="getTopArea" resultType="com.hb.tripus.model.dto.AreaDto">
+		SELECT ROWNUM, RS.* FROM (SELECT * FROM AREA WHERE SIGUNGUCODE=0 ORDER BY LIKEFLAG DESC) RS
+		WHERE ROWNUM<![CDATA[ <= ]]>5
+	</select>
+	
+	<select id="getTopNote" resultType="com.hb.tripus.model.dto.TripNoteDto">
+		SELECT ROWNUM, RS.* FROM (SELECT * FROM TRIPNOTE ORDER BY LIKEFLAG DESC) RS
+		WHERE ROWNUM<![CDATA[ <= ]]>5
+	</select>
+
 	<select id="searchArea" parameterType="String" resultType="com.hb.tripus.model.dto.AreaDto">
 		SELECT * FROM AREA WHERE NAME LIKE '%'||#{keyword}||'%'
 	</select>
@@ -32,11 +90,11 @@
 		INSERT INTO UPLOADAREAIMG VALUES(UPLOADAREAIMG_IDX_SEQ.NEXTVAL, #{contentid}, #{imgname})
 	</insert>
 	
-	<select id = "likeflag" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM LIKEFLAG WHERE CONTENTID=#{contentid} AND LIKEFLAG=1
+	<select id="likeflag" parameterType="String" resultType="int">
+		SELECT LIKEFLAG FROM TOURAREA WHERE CONTENTID=#{contentid}
 	</select>
 	
-	<select id = "userlikeflag" parameterType ="com.hb.tripus.model.dto.LikeFlagDto" resultType="int">
+	<select id="userlikeflag" parameterType ="com.hb.tripus.model.dto.LikeFlagDto" resultType="int">
 		SELECT COUNT(*) FROM LIKEFLAG WHERE CONTENTID=#{contentid} AND USERID=#{userid}
 	</select>
 	
@@ -49,11 +107,11 @@
 	</delete> 
 	
 	<select id = "reveiw" resultType="com.hb.tripus.model.dto.ReviewDto" parameterType="String">
-		SELECT NICNAME, PROFILE, REVIEW, WRITETIME FROM REVIEW WHERE CONTENTID = #{contentid}
+		SELECT * FROM REVIEW WHERE CONTENTID = #{contentid} ORDER BY REPORTING_DATE DESC, REPORTING_TIME DESC
 	</select>
 	
 	<insert id = "review_add"  parameterType="com.hb.tripus.model.dto.ReviewDto">
-		INSERT INTO REVIEW VALUES (#{contentid}, #{userid}, #{nicname}, #{profile}, #{review}, SYSDATE)
+		INSERT INTO REVIEW VALUES (#{contentid}, #{userid}, #{nicname}, #{profile}, #{review}, #{reporting_date}, #{reporting_time})
 	</insert>
 	
 	<select id="getMyTrip" parameterType="String" resultType="com.hb.tripus.model.dto.MyTripDto">

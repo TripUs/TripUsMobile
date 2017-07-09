@@ -27,12 +27,6 @@
         <script type="text/javascript" charset="utf-8" src="resources/js/cordova_plugins.js"></script>
         <script type="text/javascript" charset="utf-8" src="resources/js/geolocation.js"></script>
         <title>Document</title>
-	    <style type="text/css">
-	    	.ui-icon-mybackicon {
-				background-image: url("resources/imgs/icon/backicon.png");
-				background-size: 26px 26px;
-			}
-	    </style>
     </head>
     <body>
         <div id="main" data-role='page' style="background-color: white;">
@@ -57,7 +51,12 @@
 		           	<div class="ui-corner-all custom-corners">
 		           		<div class="ui-bar ui-bar-a" style="background-color: white; border: none; padding: 0px 0px;">
 		           			<div style="border-bottom: 3px solid #e9e9e9; padding-bottom: 5px; padding-left: 10px; margin-bottom: 10px;">
-		           				<h3 style="color: #F05562;">${sessionScope.userInfo.nicname }님의 최근 검색지</h3>
+		           				<c:if test="${sessionScope.userInfo.lang eq 0 }">
+		           					<h3 style="color: #F05562;">${sessionScope.userInfo.nicname }님의 최근 검색지</h3>
+		           				</c:if>
+		           				<c:if test="${sessionScope.userInfo.lang eq 1 }">
+		           					<h3 style="color: #F05562;">Recent searches for ${sessionScope.userInfo.nicname }</h3>
+		           				</c:if>
 		           			</div>
 		           		</div>
 		           		<div class="ui-body ui-body-a img-slider" style="border: none;">
@@ -75,19 +74,25 @@
 	            
 			    <div class="ui-corner-all custom-corners">
             		<div class="ui-bar ui-bar-a" style="background-color: white; border: none; padding: 0px 0px;">
-            			<!-- <img src="resources/imgs/icon/awards-logo.png" style="width: 23px; position: relative; top: 3px"> -->
             			<div style="border-bottom: 3px solid #e9e9e9; padding-bottom: 5px; padding-left: 10px; margin-bottom: 10px;">
             				<img src="resources/imgs/icon/awards-logo.png" style="width: 27px; height: 27px; position: relative; top: 5px;"/>
             				<h3 style="color: #F05562;">TripUs Top5 여행지</h3>
             			</div>
             		</div>
             		<div class="ui-body ui-body-a img-slider" style="border: none;">
-		            	<c:forEach items="${list }" var="bean">
+		            	<c:forEach items="${topArea }" var="bean">
 		                	<div class="swiper-slide">
-						    	<a href="detail/${bean.contentid }" style="text-decoration: none; color: gray;">
-					            	<img class="slide-img" src="${bean.firstimage }" style="border-radius: 10px;"/>
-					                <p class="slider-text"><strong>${bean.title }</strong></p>
-			               		</a>
+						    	<a href="areaInfo/${bean.areacode }" style="text-decoration: none; color: gray;">
+					            	<img class="slide-img" src="${bean.imgname }" style="border-radius: 10px;"/>
+					            </a>
+			               		<table style="width: 100%; margin-top: 10px;">
+			               			<tr>
+			               				<td width="60%" style="padding-left: 5px;"><a href="areaInfo/${bean.areacode }" style="text-decoration: none; color: gray;">
+					            			<span class="slider-text"><strong>${bean.name }</strong></span>
+			               				</a></td>
+			               				<td><strong><span style="color: red;">♥</span> ${bean.likeflag }</strong></td>
+			               			</tr>
+			               		</table>
 			               	</div>    
 		                </c:forEach>
 		        	</div>
@@ -98,24 +103,42 @@
             			<!-- <img src="resources/imgs/icon/awards-logo.png" style="width: 23px; position: relative; top: 3px"> -->
             			<div style="border-bottom: 3px solid #e9e9e9; padding-bottom: 5px; padding-left: 10px; margin-bottom: 10px;">
             				<img src="resources/imgs/icon/awards-logo.png" style="width: 27px; height: 27px; position: relative; top: 5px;"/>
-            				<h3 style="color: #F05562;">TripUs Top10 여행노트</h3>
+            				<h3 style="color: #F05562;">TripUs Top5 여행노트</h3>
             			</div>
             		</div>
             		<div class="ui-body ui-body-a img-slider" style="border: none;">
-		            	<c:forEach items="${list }" var="bean">
-		                	<div class="swiper-slide">
-						    	<a href="detail/${bean.contentid }" style="text-decoration: none; color: gray;">
-					            	<img class="slide-img" src="${bean.firstimage }" style="border-radius: 10px;"/>
-					                <p class="slider-text"><strong>${bean.title }</strong></p>
-			               		</a>
-			               	</div>    
-		                </c:forEach>
+		            	<c:forEach items="${topNote }" var="bean">
+	            			<div class="swiper-slide" style="padding: 0px 10px;">
+	            				<div style="border: 2px solid #e9e9e9; border-radius: 10px; margin-bottom: 20px;">
+									<table>
+	            						<tr>
+	            							<td width="35px" rowspan="2" style="padding-left: 10px;"><img src="${bean.userprofile }" style="width: 35px; height: 35px;"/></td>
+	            							<td style="padding-left: 10px;" colspan="3">
+	            								<strong>${bean.usernicname }</strong><br/>
+	            							</td>
+	            						</tr>
+	            						<tr>
+	            							<td style="padding-left: 10px;"><span style="color: red;">♥</span>${bean.likeflag }</td>
+	            							<td style="padding-left: 10px;"><img src="resources/imgs/icon/comment.png" style="position: relative; top: 0px; width: 25px; height: 18px;"/></td>
+	            							<td>${bean.commentnum }</td>
+	            						</tr>
+	            					</table>
+	            					<a href="noteDetail/${bean.idx }" style="text-decoration: none;">
+			    						<img src="${bean.thema }" style="width: 100%; height: 110px;"/>
+			    	        			<p class="notetitle-text" style="color: gray; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 95%;height: 20px;text-decoration: none;">
+			    	        			<strong>&nbsp;${bean.title }</strong></p>
+			    	        		</a>
+		            			</div>
+		            		</div>
+		            	</c:forEach>
+		            	
 		        	</div>
 			    </div>
 			    
 			    <div class="ui-corner-all custom-corners">
             		<div class="ui-bar ui-bar-a" style="background-color: white; border: none; padding: 0px 0px;">
-            			<div style="border-bottom: 2px solid #e9e9e9; padding-bottom: 5px; padding-left: 10px; margin-bottom: 10px;">
+            			<div style="border-bottom: 3px solid #e9e9e9; padding-bottom: 5px; padding-left: 10px; margin-bottom: 10px;">
+            				<img src="resources/imgs/icon/awards-logo.png" style="width: 27px; height: 27px; position: relative; top: 5px;"/>
             				<h3 style="color: #F05562;">TripUs 추천 여행코스</h3>
             			</div>
             		</div>

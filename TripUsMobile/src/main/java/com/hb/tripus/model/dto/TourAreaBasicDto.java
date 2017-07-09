@@ -21,7 +21,7 @@ public class TourAreaBasicDto implements TourAreaInterface {
 		this.contentid = tags[0];		this.contenttypeid = tags[1];
 		this.homepage = tags[2];		this.tel = tags[3];
 		this.title = tags[4];			this.firstimage = tags[5];		
-		this.firstimage2 = tags[7];		this.areacode = tags[8];		
+		this.firstimage2 = tags[6];		this.areacode = tags[7];		
 		this.sigungucode = tags[8];		this.cat1 = tags[9];			
 		this.cat2 = tags[10];			this.cat3 = tags[11];			
 		this.addr1 = tags[12];			this.addr2 = tags[13];			

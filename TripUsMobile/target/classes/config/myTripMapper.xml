@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mytrip">
+	<delete id="deleteMyTrip" parameterType="int">
+		DELETE FROM MYTRIP WHERE CODE=#{value}
+	</delete>
+	
+	<delete id="deleteMyTripGroup" parameterType="int">
+		DELETE FROM TRIPGROUP WHERE CODE=#{value}
+	</delete>
+	
+	<delete id="deleteTripList" parameterType="int">
+		DELETE FROM TRIPLIST_DETAIL WHERE MYTRIPCODE=#{value}
+	</delete>
+	
+	<delete id="deleteTripBbs" parameterType="int">
+		DELETE FROM TRIPLISTBBS WHERE TRIPCODE=#{value}
+	</delete>	
+	
 	<select id="getCodeCnt" resultType="int">
 		SELECT COUNT(CODE) FROM MYTRIP
 	</select>

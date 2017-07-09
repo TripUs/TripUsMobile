@@ -23,6 +23,14 @@ public class TripNoteDao implements DaoInterface {
 		this.sqlSession = sqlSession;
 	}
 	
+	public void deleteTripNote(int idx) throws SQLException {
+		sqlSession.delete("tripnote.delTripNote", idx);
+		sqlSession.delete("tripnote.delNoteContent", idx);
+		sqlSession.delete("tripnote.delNoteContentImg", idx);
+		sqlSession.delete("tripnote.delNoteLike", idx);
+		sqlSession.delete("tripnote.delNoteBbs", idx);
+	}
+	
 	public int getNoteLike(String userid, int idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userid", userid);
