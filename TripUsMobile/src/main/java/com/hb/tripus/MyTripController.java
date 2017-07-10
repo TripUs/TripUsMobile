@@ -43,8 +43,8 @@ public class MyTripController {
 		
 	@RequestMapping("mytrip")
 	public String myTrip(HttpSession session, Model model) {
-		session.setAttribute("mytripCode", null);
-		session.setAttribute("mytripDate", null);
+		session.setAttribute("mytripCode", 0);
+		session.setAttribute("mytripDate", 0);
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
 
 		if (userInfo != null) {
@@ -108,6 +108,8 @@ public class MyTripController {
 			List<MyTripDetailDto> list2 = dao.getMyTripDetail(bean.getCode());
 			model.addAttribute("tripDetail", list2);
 			session.setAttribute("mytripCode", bean.getCode());
+			
+			model.addAttribute("conLike", dao.getConLike(list2));
 			
 			List<MyTripBbsDto> list3 = dao.getTripStory(bean.getCode());
 			model.addAttribute("tripStory", list3);
@@ -203,6 +205,7 @@ public class MyTripController {
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
 		MyTripBbsDto bean = null;
 		try {
+			System.out.println("reple : " + memo);
 			bean = dao.getOneTripStory(idx);						// select grp, seq, lvl
 			dao.updateStorySeqLvl(bean.getSeq(), bean.getGrp());	// update seq
 			
@@ -215,8 +218,7 @@ public class MyTripController {
 				temp += "&nbsp;";
 			}
 			bean.setUsernicname(temp + "¦¦re: " + userInfo.getNicname());
-			System.out.println(bean.getMemo());
-			System.out.println("insert reple seq=" + bean.getSeq() + ", lvl=" + bean.getLvl());
+			bean.setMemo(memo);
 			dao.insertStoryReple(bean);								// insert bbs data
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -254,9 +256,9 @@ public class MyTripController {
 			
 			MimeMessage message = mailSender.createMimeMessage(); 
 
-			String content = "<img src='http://localhost:8080/tripus/resources/imgs/mail/webMailImg2_h.png'/><br/>";
-			content += "<h1><a href='http://localhost:8080/tripus/' style='text-decoration: none; color: blue;'>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Go To TripUs</a></h1><br/><br/>";
-			content += "<img src='http://localhost:8080/tripus/resources/imgs/mail/webMailImg2_f.png'/>";
+			String content = "<img src='http://203.236.209.203:8080/tripus/resources/imgs/mail/webMailImg2_h.png'/><br/>";
+			content += "<h1><a href='http://203.236.209.203:8080/tripus/' style='text-decoration: none; color: blue;'>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Go To TripUs</a></h1><br/><br/>";
+			content += "<img src='http://203.236.209.203:8080/tripus/resources/imgs/mail/webMailImg2_f.png'/>";
 			
 			message.setFrom(new InternetAddress(from));  
 			message.addRecipient(RecipientType.TO, new InternetAddress(address));

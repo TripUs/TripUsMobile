@@ -23,39 +23,35 @@
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova_plugins.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/geolocation.js"></script>
         <title>Document</title>
-	    <script type="text/javascript">
-		    $(document).ready(function() {
-	        	$('.img-slider').slick({
-	        		dots : false,
-	        		infinite : true,
-	        		speed : 300,
-	        		slidesToShow : 1,
-	        		centerMode : true,
-	        		variableWidth : false
-	        	});
-	        });            	
-	    </script>
     </head>
     <body>
         <div data-role='page' style="background-color: white;">
-            <!-- 한국어 -->
-        	<c:if test="${sessionScope.userInfo.lang eq 0 }">
-        		<c:set value="로그아웃" var="logoutBtn"></c:set>
-        		<c:set value="리뷰 작성" var="review"></c:set>
-        		<c:set value="친구 목록" var="friend"></c:set>
-        		<c:set value="언어 설정" var="language"></c:set>
-        	</c:if>
-        	<!-- 영어 -->
+
+            <!-- 영어 -->
         	<c:if test="${sessionScope.userInfo.lang eq 1 }">
-        		<c:set value="LogOut" var="logoutBtn"></c:set>
-        		<c:set value="Review" var="review"></c:set>
-        		<c:set value="Friend List" var="friend"></c:set>
-        		<c:set value="Setting Language" var="language"></c:set>
+        		<c:set value="TripUs Setting" var="setting"></c:set>        	
+        		<c:set value="LogOut" var="logoutBtn"></c:set>    
+        		<c:set value="My Page" var="account"></c:set>
+        		<c:set value="Write a review" var="review"></c:set>
+        		<c:set value="View friends list" var="friends"></c:set>
+        		<c:set value="Set a language" var="language"></c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="TripUs 설정" var="setting"></c:set>        	
+        		<c:set value="로그 아웃" var="logoutBtn"></c:set>
+        		<c:set value="내 &nbsp; 정보" var="account"></c:set>
+        		<c:set value="리뷰 작성" var="review"></c:set>
+        		<c:set value="친구 목록" var="friends"></c:set>
+        		<c:set value="언어 설정" var="language"></c:set>
         	</c:if>
         	
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
-                <h1 style="color: white;">TripUs Setting</h1>
+                <h1 style="color: white;">${setting }</h1>
             </div>
             <div data-role='content' style="padding-left: 10px; padding-right: 10px;">
             	<div class="ui-corner-all custom-corners" style="margin-top: 10px;">
@@ -85,7 +81,7 @@
 	                    <li>
 	                        <a href="myPage" style="background-color: white; border: 1px solid #e9e9e9;">
 	                            <img src=""/>	<!-- 이미지 아이콘 -->
-	                            <h2>My Page</h2>
+	                            <h2>${account }</h2>
 	                        </a>
 	                    </li>
 	                    <li>
@@ -97,7 +93,7 @@
 	                    <li>
 	                        <a href="friendlist" style="background-color: white; border: 1px solid #e9e9e9; border-top: none;">
 	                            <img src=""/>	<!-- 이미지 아이콘 -->
-	                            <h2>${friend }</h2>
+	                            <h2>${friends}</h2>
 	                        </a>
 	                    </li>
 	                    <li>

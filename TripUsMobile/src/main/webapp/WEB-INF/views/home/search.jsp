@@ -30,14 +30,52 @@
     </head>
     <body>
         <div id="search" data-role='page' style="background-color: white;">
+            
+        	<!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Search for Attractions" var="trip_search"></c:set>
+        		<c:set value="Where do you want to leave?" var="wantLeave"></c:set>
+        		<c:set value="Search" var="search"></c:set>
+        		<c:set value="Search around me" var="trip_search_around"></c:set>
+        		<c:set value="Search results near you" var="trip_search_aroundResults"></c:set>
+        		<c:set value="Radius" var="radius"></c:set>
+        		<c:set value="View more" var="more"></c:set>
+        		<c:set value="No nearby results" var="trip_search_aroundResults_no"></c:set>
+        		<c:set value="AJAX Communication failure" var="ajaxfailure"></c:set>
+        		<c:set value="Please enter keywords" var="trip_search_keyword_input"></c:set>
+        		<c:set value="Keyword search results" var="trip_search_keywordResults"></c:set>
+        		<c:set value="No keyword results" var="trip_search_keywordResults_no"></c:set>
+        		<c:set value="Local search results" var="trip_search_localResults"></c:set>
+        		<c:set value="Local area Search Results" var="trip_search_localareaResults"></c:set>
+        		<c:set value="Address Search results" var="trip_search_addressResults"></c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="여행지 검색" var="trip_search"></c:set>
+        		<c:set value="어디로 떠나고 싶으신가요?" var="wantLeave"></c:set>
+        		<c:set value="검색" var="search"></c:set>
+        		<c:set value="주변 검색" var="trip_search_around"></c:set>
+        		<c:set value="주변 검색결과" var="trip_search_aroundResults"></c:set>
+        		<c:set value="반경" var="radius"></c:set>
+        		<c:set value="더보기" var="more"></c:set>
+        		<c:set value="주변 검색결과 없음" var="trip_search_aroundResults_no"></c:set>
+        		<c:set value="AJAX 통신실패" var="ajaxfailure"></c:set>
+        		<c:set value="키워드를 입력하세요." var="trip_search_keyword_input"></c:set>
+        		<c:set value="키워드 검색결과" var="trip_search_keywordResults"></c:set>
+        		<c:set value="키워드 검색결과 없음" var="trip_search_keywordResults_no"></c:set>
+        		<c:set value="지역 검색결과" var="trip_search_localResults"></c:set>
+        		<c:set value="지명 검색결과" var="trip_search_localareaResults"></c:set>
+        		<c:set value="주소지 검색결과" var="trip_search_addressResults"></c:set>
+        	</c:if>
+        	
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
             	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h1>TripUs 여행지 검색</h1>
+                <h1>TripUs ${trip_search }</h1>
             </div>
         	
             <div data-role='content' style="background-color: white;">
             	<div style="padding-left: 10px; padding-right: 10px;">
-		            <input type="text" id="input-keyword" name="keyword" placeholder="어디로 떠나고 싶으신가요?"/>
+		            <input type="text" id="input-keyword" name="keyword" placeholder="${wantLeave }"/>
 	            	<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" style="width: 100%;">
 	               		<input type="radio" name="fillter" id="all-fillter" value="0" checked="checked">
 	               		<label for="all-fillter"><img src="resources/imgs/icon/all3.png" style="widows: 30px; height: 20px;"/></label>
@@ -53,8 +91,8 @@
 	               		<label for="course"><img src="resources/imgs/icon/course5.png" style="widows: 30px; height: 20px;"/></label>
 	               	</fieldset>
 	               	<div data-role="controlgroup" >
-			            <button id="search-keyword" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">검색</button>
-		            	<button onclick="getPosition()" id="search-gps" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">주변 검색</button>
+			            <button id="search-keyword" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">${search }</button>
+		            	<button onclick="getPosition()" id="search-gps" class="search-page-btn" style="border: 1px solid #F05562; background-color: white; color: #F05562;">${trip_search_around }</button>
 	            	</div>
             	
             		<ul id="search-gps-list" data-role='listview' data-inset='true'></ul>
@@ -93,33 +131,33 @@
 				            	$('#search-area-list').remove();
 				            	$('#search-keyword-list').remove();
 				            	if(data[0] != null) {
-				            		$('#search-gps-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>주변 검색결과</li>");
+				            		$('#search-gps-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>${trip_search_aroundResults}</li>");
 				            		$('#search-gps-list').append("<li class='ui-li-has-thumb ui-first-child ui-last-child'>"
 	            							+ "<a href='detail/" + data[0][0]['contentid'] + "' style='background-color: white;'>"
 		            						+ "<img src='" + data[0][0]['firstimage'] + "' style='width:100%; height:100%;'/>"
 		            						+ "<h2>" + data[0][0]['title'] + "</h2>"
-		            						+ "<p>반경 : " +  data[0][0]['dist'] + "m</p>");
+		            						+ "<p>${radius} : " +  data[0][0]['dist'] + "m</p>");
 				            		
 				            		for(var i=1; i<data[0].length; i++) {
 					            		$('#search-gps-list').append("<li class='ui-li-has-thumb ui-first-child ui-last-child'>"
 		            							+ "<a href='detail/" + data[0][i]['contentid'] + "' style='background-color: white;'>"
 			            						+ "<img src='" + data[0][i]['firstimage'] + "' style='width:100%; height:100%;'/>"
 			            						+ "<h2>" + data[0][i]['title'] + "</h2>"
-			            						+ "<p>반경 : " +  data[0][i]['dist'] + "m</p>");
+			            						+ "<p>${radius} : " +  data[0][i]['dist'] + "m</p>");
 					            		$('#search-gps-list').listview('refresh');
 					            	}
 				            		if(data[2] < data[1] ) {
 				            			page++;
 				            			$('#search-gps-list').append('<li id="gpslastbtn" class="ui-last-child"><a href="#" class="ui-btn ui-btn-icon-right ui-icon-carat-d"'
-				            					+ 'onclick="addlist(\'' + contenttypeid + '\')" style="color: white; background-color: #F05562;">더보기</a></li>');
+				            					+ 'onclick="addlist(\'' + contenttypeid + '\')" style="color: white; background-color: #F05562;">${more}</a></li>');
 				            			$('#search-gps-list').listview('refresh');
 				            		}
 				            	} else {
-				            		alert("검색결과 없음");
+				            		alert("${trip_search_aroundResults_no}");
 				            	}
 				            }, 
 				            error : function(){ 
-				            	alert('AJAX 통신 실패'); 
+				            	alert('${ajaxfailure}'); 
 				            } 
 				        });
             	    	
@@ -146,18 +184,18 @@
 	            						+ "<a href='detail/" + data[0][i]['contentid'] + "' style='background-color: white;'>"
 		            					+ "<img src='" + data[0][i]['firstimage'] + "' style='width:100%; height:100%;'/>"
 		            					+ "<h2>" + data[0][i]['title'] + "</h2>"
-		            					+ "<p>반경 : " +  data[0][i]['dist'] + "m</p>");
+		            					+ "<p>${radius} : " +  data[0][i]['dist'] + "m</p>");
 				            	$('#search-gps-list').listview('refresh');
 				            }
 			            	if(data[2] < data[1] ) {
 			            		page++;
 			            		$('#search-gps-list').append('<li id="gpslastbtn" class="ui-last-child"><a href="#" class="ui-btn ui-btn-icon-right ui-icon-carat-d"'
-			            				+ 'onclick="addlist(\'' + contenttypeid + '\')" style="color: white; background-color: #F05562;">더보기</a></li>');
+			            				+ 'onclick="addlist(\'' + contenttypeid + '\')" style="color: white; background-color: #F05562;">${more}</a></li>');
 			            		$('#search-gps-list').listview('refresh');
 			            	}
 			            }, 
 			            error : function(){ 
-			            	alert('AJAX 통신 실패'); 
+			            	alert('${ajaxfailure}'); 
 			            } 
 			        });
             	}
@@ -172,7 +210,7 @@
 	            	var contenttypeid = $(":input:radio[name=fillter]:checked").val();
         	    	
 	            	if($('#input-keyword').val()=='') {
-	            		alert("키워드를 입력하세요.");
+	            		alert("${trip_search_keyword_input}");
 	            	} else {
 						$.ajax({ 
 				        	url: "search",
@@ -193,7 +231,7 @@
 				            	if(data[0].length != 0) {
 				            		var index = 1;
 				            		if(data[0][0]['sigungucode'] == 0) {
-				            			$('#search-area-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>지역 검색결과</li>");
+				            			$('#search-area-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>${trip_search_localResults}</li>");
 					            		$('#search-area-list').append("<li class='ui-li-has-thumb ui-first-child ui-last-child'>"
 	            							+ "<a href='areaInfo/" + data[0][0]['areacode'] + "' style='background-color: white;'>"
 	            							+ "<img src='" + data[0][0]['imgname'] + "' style='width:100%; height: 100%;'/>"
@@ -201,7 +239,7 @@
 				            		} else {
 				            			index = 0;
 				            		} 
-				            		$('#search-addr-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>지명 검색결과 > 지명(주소지) 검색결과 보기</li>");
+				            		$('#search-addr-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>${trip_search_localareaResults} > ${trip_search_addressResults}</li>");
 				            		for(var i=index; i<data[0].length; i++) {
 				            			$('#search-addr-list').append("<li class='ui-first-child ui-last-child'>"
 				            				+ "<a class='ui-btn ui-btn-icon-right ui-icon-carat-d' href='basicInfo/" + data[0][i]['areacode'] + "/" + data[0][i]['sigungucode'] + "' style='background-color: white;'>"
@@ -212,7 +250,7 @@
 					            }
 
 				            	if(data[1] != null) { 
-				            		$('#search-keyword-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>키워드 검색결과</li>");
+				            		$('#search-keyword-list').html("<li data-role='list-divider' style='color: white; background-color: #F05562; border: none; border-top-left-radius: 10px; border-top-right-radius: 10px;'>${trip_search_keywordResults}</li>");
 					            	for(var i=0; i<data[1].length; i++) {
 					            		$('#search-keyword-list').append("<li class='ui-li-has-thumb ui-first-child ui-last-child'>"
 					            							+ "<a href='detail/" + data[1][i]['contentid'] + "' style='background-color: white;'>"
@@ -223,15 +261,15 @@
 					            	if(curPage < pageCnt) {
 					            		curPage++;
 					            		$('#search-keyword-list').append('<li id="keywordlast" class="ui-last-child"><a href="#" class="ui-btn ui-btn-icon-right ui-icon-carat-d" '
-				            					+ 'onclick="addsearchlist(\'' + contenttypeid + '\')" style="color: white; background-color: #F05562;">더보기</a></li>');
+				            					+ 'onclick="addsearchlist(\'' + contenttypeid + '\')" style="color: white; background-color: #F05562;">${more}</a></li>');
 					             	}
 					            	$('#search-keyword-list').listview('refresh');
 				            	} else {
-				            		alert("키워드 검색결과 없음");
+				            		alert("${trip_search_keywordResults_no}");
 				            	}
 				            }, 
 				            error : function(){ 
-				            	alert('AJAX 통신 실패'); 
+				            	alert('${ajaxfailure}'); 
 				            } 
 				        });
 	            	}
@@ -258,12 +296,12 @@
 			            	if(curPage < pageCnt) {
 			            		curPage++;
 			            		$('#search-keyword-list').append('<li id="keywordlast" class="ui-last-child"><a href="#" class="ui-btn ui-btn-icon-right ui-icon-carat-d" '
-		            					+ 'onclick="addsearchlist(\'' + contenttypeid + '\')" style="color: white; background-color: #F05562;">더보기</a></li>');
+		            					+ 'onclick="addsearchlist(\'' + contenttypeid + '\')" style="color: white; background-color: #F05562;">${more}</a></li>');
 			             	}
 			            	$('#search-keyword-list').listview('refresh');
 			            }, 
 			            error : function(){ 
-			            	alert('AJAX 통신 실패'); 
+			            	alert('${ajaxfailure}'); 
 			            } 
 			        });
 				};

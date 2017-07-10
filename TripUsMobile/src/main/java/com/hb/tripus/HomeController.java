@@ -58,8 +58,8 @@ public class HomeController {
 			userLang = userInfo.getLang();
 		}
 		service = new MainService();
-		session.setAttribute("mytripCode", null);
-		session.setAttribute("mytripDate", null);
+		session.setAttribute("mytripCode", 0);
+		session.setAttribute("mytripDate", 0);
 		try {
 			// 최근검색지
 			if(userInfo != null) {
@@ -140,7 +140,7 @@ public class HomeController {
 			model.addAttribute("con1", list.get(0));
 			model.addAttribute("con2", list.get(1));
 			model.addAttribute("con3", list.get(2));
-			model.addAttribute("con4", list.get(3));
+			if(userLang == 0) model.addAttribute("con4", list.get(3));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -189,15 +189,15 @@ public class HomeController {
 			String viewPath = "";
 			
 			switch (Integer.parseInt(contenttypeid)) {
-				case 12: // 관광지
+				case 12: case 76 : // 관광지
 					DtoClassName = "TouristDetailDto";
 					viewPath = "tour/touristDetail";
 					break;
-				case 14: // 문화시설
+				case 14: case 78 : // 문화시설
 					DtoClassName = "CultureFacilityDto";
 					viewPath = "tour/cultureDetail";
 					break;
-				case 15: // 축제
+				case 15: case 85 : // 축제
 					DtoClassName = "FestivalDetailDto";
 					viewPath = "tour/festivalDetail";
 					break;
@@ -206,20 +206,20 @@ public class HomeController {
 					mav.addObject("subList", ((MainService) service).getSubDetailList(contentid, contenttypeid, "TourAreaRecommendDto2", userLang));
 					viewPath = "tour/recoDetail";
 					break;
-				case 28: // 레포츠
+				case 28: case 75 : // 레포츠
 					DtoClassName = "TourAreaLeportsDto";
 					viewPath = "tour/leportsDetail";
 					break;
-				case 32: // 숙박
+				case 32: case 80 : // 숙박
 					DtoClassName = "TourAreaStayDto";
 					mav.addObject("subList", ((MainService) service).getSubDetailList(contentid, contenttypeid, "TourAreaStaySubDto", userLang));
 					viewPath = "tour/stayDetail";
 					break;
-				case 38: // 쇼핑
+				case 38: case 79 : // 쇼핑
 					DtoClassName = "TourAreaShopDto";
 					viewPath = "tour/shopDetail";
 					break;
-				case 39: // 음식점
+				case 39: case 82 : // 음식점
 					DtoClassName = "TourAreaFoodDto";
 					viewPath = "tour/foodDetail";
 					break;
@@ -334,7 +334,7 @@ public class HomeController {
 		@SuppressWarnings("deprecation")
 		String path = req.getRealPath("/resources/upload/detailImg").replaceAll("\\\\", "/");
 		File f = new File(path + "\\" + file.getOriginalFilename());
-		String fileName = "http://localhost:8080/tripus/resources/upload/detailImg/" + file.getOriginalFilename();
+		String fileName = "http://203.236.209.203:8080/tripus/resources/upload/detailImg/" + file.getOriginalFilename();
 		
 		try {
 			file.transferTo(f);

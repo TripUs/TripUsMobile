@@ -30,11 +30,27 @@
     </head>
     <body>
         <div id="main" data-role='page' style="background-color: white;">
+            
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Where do you want to go?" var="togo"></c:set>
+        		<c:set value="TripUs Top5 Attractions" var="attractions"></c:set>
+        		<c:set value="TripUs Top5 Travel notes" var="travelNotes"></c:set>
+        		<c:set value="TripUs Recommended Travel Course" var="recommended"></c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="어디로 가고 싶으신가요?" var="togo"></c:set>
+        		<c:set value="TripUs Top5 여행지" var="attractions"></c:set>
+        		<c:set value="TripUs Top5 여행노트" var="travelNotes"></c:set>
+        		<c:set value="TripUs 추천 여행코스" var="recommended"></c:set>
+        	</c:if>
+        	
             <div id="main-header" data-role='header' data-position='fixed' style="background-image: url('resources/imgs/banner/mainbanner1.jpg');">
             	<!-- <h1>&nbsp;</h1> -->
             	<img src="resources/imgs/logo/headerlogo.png" style="margin-top: 30px; width: 70%; margin-left: 15%;"/>
                 <div style="width: 80%; margin-left: 10%; margin-top: 20px; margin-bottom: 40px;">
-	                <input style="border: 1px solid white;" type="text" id="search-area" name="search" placeholder="어디로 가고 싶으신가요?"/>
+	                <input style="border: 1px solid white;" type="text" id="search-area" name="search" placeholder="${togo }"/>
                 </div>
             </div>
         
@@ -76,7 +92,7 @@
             		<div class="ui-bar ui-bar-a" style="background-color: white; border: none; padding: 0px 0px;">
             			<div style="border-bottom: 3px solid #e9e9e9; padding-bottom: 5px; padding-left: 10px; margin-bottom: 10px;">
             				<img src="resources/imgs/icon/awards-logo.png" style="width: 27px; height: 27px; position: relative; top: 5px;"/>
-            				<h3 style="color: #F05562;">TripUs Top5 여행지</h3>
+            				<h3 style="color: #F05562;">${attractions }</h3>
             			</div>
             		</div>
             		<div class="ui-body ui-body-a img-slider" style="border: none;">
@@ -103,7 +119,7 @@
             			<!-- <img src="resources/imgs/icon/awards-logo.png" style="width: 23px; position: relative; top: 3px"> -->
             			<div style="border-bottom: 3px solid #e9e9e9; padding-bottom: 5px; padding-left: 10px; margin-bottom: 10px;">
             				<img src="resources/imgs/icon/awards-logo.png" style="width: 27px; height: 27px; position: relative; top: 5px;"/>
-            				<h3 style="color: #F05562;">TripUs Top5 여행노트</h3>
+            				<h3 style="color: #F05562;">${travelNotes }</h3>
             			</div>
             		</div>
             		<div class="ui-body ui-body-a img-slider" style="border: none;">
@@ -139,7 +155,7 @@
             		<div class="ui-bar ui-bar-a" style="background-color: white; border: none; padding: 0px 0px;">
             			<div style="border-bottom: 3px solid #e9e9e9; padding-bottom: 5px; padding-left: 10px; margin-bottom: 10px;">
             				<img src="resources/imgs/icon/awards-logo.png" style="width: 27px; height: 27px; position: relative; top: 5px;"/>
-            				<h3 style="color: #F05562;">TripUs 추천 여행코스</h3>
+            				<h3 style="color: #F05562;">${recommended }</h3>
             			</div>
             		</div>
             		<div class="ui-body ui-body-a img-slider" style="border: none;">

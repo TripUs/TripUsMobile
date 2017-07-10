@@ -1,6 +1,7 @@
 package com.hb.tripus.model.dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +22,18 @@ public class MyTripDao implements DaoInterface {
 		this.sqlSession = sqlSession;
 	}
 	
+	public List<Integer> getConLike(List<MyTripDetailDto> bean) throws SQLException {
+		List<Integer> list = new ArrayList<Integer>();
+		for(int i=0; i<bean.size(); i++) {
+			list.add((Integer)sqlSession.selectOne("mytrip.getConLike", bean.get(i).getContentid()));
+		}
+		return list;
+	}
+	
 	public void deleteMyTrip(int code) throws SQLException {
 		sqlSession.delete("mytrip.deleteMyTrip", code);
 		sqlSession.delete("mytrip.deleteMyTripGroup", code);
+		sqlSession.delete("mytrip.deleteMyTripDetail", code);
 		sqlSession.delete("mytrip.deleteTripList", code);
 		sqlSession.delete("mytrip.deleteTripBbs", code);
 	}

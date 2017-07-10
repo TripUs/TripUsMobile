@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="resources/css/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="resources/css/jquery.mobile.theme-1.4.5.min.css"/>
-		<link rel="stylesheet" href="resources/css/themec.min.css"/>
+        <link rel="stylesheet" href="resources/css/themec.min.css"/>
         <link rel="stylesheet" href="resources/css/slick.css"/>
 		<link rel="stylesheet" href="resources/css/slick-theme.css"/>
         <link rel="stylesheet" href="resources/css/tripus.css">
@@ -23,19 +23,10 @@
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova_plugins.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/geolocation.js"></script>
         <title>Document</title>
-	    <script type="text/javascript">
-		    $(document).ready(function() {
-	        	$('.img-slider').slick({
-	        		dots : false,
-	        		infinite : true,
-	        		speed : 300,
-	        		slidesToShow : 1,
-	        		centerMode : true,
-	        		variableWidth : false
-	        	});
-	        });            	
-	    </script>
     </head>
 	<body>
         <div id="main" data-role='page' style="background-color: white;">

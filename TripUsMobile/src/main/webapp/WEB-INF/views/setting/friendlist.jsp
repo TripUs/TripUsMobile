@@ -24,32 +24,58 @@
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova_plugins.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/geolocation.js"></script>
         <title>Document</title>
-	    <script type="text/javascript">
-		    $(document).ready(function() {
-	        	$('.img-slider').slick({
-	        		dots : false,
-	        		infinite : true,
-	        		speed : 300,
-	        		slidesToShow : 1,
-	        		centerMode : true,
-	        		variableWidth : false
-	        	});
-	        });            	
-	    </script>
     </head>
     <body>
+        
         <div data-role='page' style="background-color: white;">
+            
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="View friends list" var="friends"></c:set>
+        		<c:set value="Add to friends" var="addfriend"></c:set>
+        		<c:set value="Friend request waiting list" var="waitinglist"></c:set>
+        		<c:set value="Friend request" var="friendrequest"></c:set>
+        		<c:set value="Waiting for acceptance" var="waitingaccep"></c:set>
+        		<c:set value="Delete friend" var="delfriend"></c:set>
+        		<c:set value="Friends list" var="friendslist"></c:set>
+        		<c:set value="Would you like to add a friend?" var="addfriendqen"></c:set>
+        		<c:set value="Are you sure you want to delete this friend?" var="delfriendqen"></c:set>
+        		<c:set value="ADD" var="add"></c:set>
+        		<c:set value="DELETE" var="delete"></c:set>
+        		<c:set value="CANCEL" var="cancel"></c:set>
+        		<c:set value="AJAX Communication failure" var="ajaxfailure"></c:set>
+        	</c:if>
+            <!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="친구 목록" var="friends"></c:set>
+        		<c:set value="친구 추가" var="addfriend"></c:set>
+        		<c:set value="친구요청 대기목록" var="waitinglist"></c:set>
+        		<c:set value="친구 요청" var="friendrequest"></c:set>
+        		<c:set value="수락 대기중" var="waitingaccep"></c:set>
+        		<c:set value="친구 삭제" var="delfriend"></c:set>
+        		<c:set value="친구 목록" var="friendslist"></c:set>
+        		<c:set value="친구를 추가하시겠습니까?" var="addfriendqen"></c:set>
+        		<c:set value="친구를 삭제하시겠습니까?" var="delfriendqen"></c:set>
+        		<c:set value="추가" var="add"></c:set>
+        		<c:set value="삭제" var="delete"></c:set>
+        		<c:set value="취소" var="cancel"></c:set>
+        		<c:set value="AJAX 통신실패" var="ajaxfailure"></c:set>
+        	</c:if>
+        	
             <div data-role='header' style="background-color: #F05562;">
                 <a href="setting" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h1 style="color: white;">친구 목록</h1>
-                <a href="addfriend" class="ui-btn ui-icon-myplusicon ui-btn-icon-notext ui-corner-all">친구 추가</a>
+                <h1 style="color: white;">${friends }</h1>
+                <a href="addfriend" class="ui-btn ui-icon-myplusicon ui-btn-icon-notext ui-corner-all">${addfriend }</a>
             </div>
             <div data-role='content' style="padding-left: 10px; padding-right: 10px;">
             	<br/>
             	<div class="ui-conner-all">
 					<div id="friend-stay-num" class="ui-bar ui-bar-a" style="background-color: #F05562; border: 2px solid #F05562; border-radius: 10px;">
-						<h3 style="color: white;">친구요청 대기 목록 (${fn:length(waitList)})</h3>
+						<h3 style="color: white;">${waitinglist } (${fn:length(waitList)})</h3>
 					</div>
 					<div id="friend-search-result" class='ui-body ui-body-a' style="border: none;">
 		            	<ul id="friend-stay-listview" data-role="listview" data-inset="true">
@@ -58,14 +84,14 @@
 		                		<li class="cate-stay" id="${stlistid }" data-icon="delete">
 			                		<a href="#"><img src="${bean.friendprofile }"/>
 			                		<h2>${bean.friendname } (${bean.friendnicname })</h2>
-			                		<c:if test="${bean.flag eq 1 }"><p> - 친구 요청</p></c:if>
-				                	<c:if test="${bean.flag eq 0 }"><p> - 수락 대기중..</p></c:if>
+			                		<c:if test="${bean.flag eq 1 }"><p> - ${friendrequest }</p></c:if>
+				                	<c:if test="${bean.flag eq 0 }"><p> - ${waitingaccep }</p></c:if>
 			                		</a>
 			                		<c:if test="${bean.flag eq 1 }">
-				                		<a href="#add-friend" onclick="addfriend('${bean.friendid }')" class="ui-icon-myplusicon" data-rel="popup" data-position-to="window" data-transition="pop">친구 추가</a>
+				                		<a href="#add-friend" onclick="addfriend('${bean.friendid }')" class="ui-icon-myplusicon" data-rel="popup" data-position-to="window" data-transition="pop">${addfriend }</a>
 			                		</c:if>
 			                		<c:if test="${bean.flag eq 0 }">
-				                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" class="ui-icon-mydelicon" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
+				                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" class="ui-icon-mydelicon" data-rel="popup" data-position-to="window" data-transition="pop">${delfriend }</a>
 			                		</c:if>
 			                	</li>
 		                	</c:forEach>
@@ -75,7 +101,7 @@
                 
                 <div class="ui-conner-all">
 					<div id="friend-list-num" class="ui-bar ui-bar-a" style="background-color: #F05562; border: 2px solid #F05562; border-radius: 10px;">
-						<h3 style="color: white;">친구 목록 (${fn:length(friendList)})</h3>
+						<h3 style="color: white;">${friendslist } (${fn:length(friendList)})</h3>
 					</div>
 					<div id="friend-search-result" class='ui-body ui-body-a' style="border: none;">
 		            	<ul id="friend-list-listview" data-role="listview" data-filter="true" data-filter-placeholder="Search Name" data-inset="true">
@@ -85,7 +111,7 @@
 			                		<a href="#"><img src="${bean.friendprofile }"/>
 			                		<h2>${bean.friendname } (${bean.friendnicname })</h2>
 			                		<p>${bean.friendemail }</p></a>
-			                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" class="ui-icon-mydelicon" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
+			                		<a href="#delete-friend" onclick="deletefriend('${bean.friendid }')" class="ui-icon-mydelicon" data-rel="popup" data-position-to="window" data-transition="pop">${delfriend }</a>
 			                	</li>
 		                   	</c:forEach>
 		                </ul>
@@ -114,14 +140,14 @@
 					            									+ "<p>" + data2['email'] + "</p></a>"
 																	+ "<a href='#delete-friend' onclick=deletefriend('" + data2['id'] + "')" 
 																	+ " data-rel='popup' data-position-to='window' data-transition='pop' aria-haspopup='true'"
-																	+ " aria-owns='delete-friend' aria-expanded='false' class='ui-btn ui-btn-icon-notext ui-icon-mydelicon' title='친구 삭제'>친구 삭제</a>"	    				
+																	+ " aria-owns='delete-friend' aria-expanded='false' class='ui-btn ui-btn-icon-notext ui-icon-mydelicon' title='${delfriend}'>${delfriend}</a>"	    				
 				            										+ "</li>");
 				            	$('#friend-list-listview').listview('refresh');
 				            	var staynum = $('.cate-stay').length;
 				            	var listnum = $('.cate-list').length;
 				            	console.log(staynum + " : " + listnum);
-				            	$('#friend-stay-num h3').html('친구요청 대기 목록 (' + staynum + ')');
-				            	$('#friend-list-num h3').html('친구 목록 (' + listnum + ')');
+				            	$('#friend-stay-num h3').html('${waitinglist} (' + staynum + ')');
+				            	$('#friend-list-num h3').html('${friendslist} (' + listnum + ')');
 				            }, 
 				            error : function(){ 
 				            	alert('AJAX 통신 실패'); 
@@ -146,8 +172,8 @@
 				            	var staynum = $('.cate-stay').length;
 				            	var listnum = $('.cate-list').length;
 				            	console.log(staynum + " : " + listnum);
-				            	$('#friend-stay-num h3').html('친구요청 대기 목록 (' + staynum + ')');
-				            	$('#friend-list-num h3').html('친구 목록 (' + listnum + ')');
+				            	$('#friend-stay-num h3').html('${waitinglist} (' + staynum + ')');
+				            	$('#friend-list-num h3').html('${friendslist} (' + listnum + ')');
 				            }, 
 				            error : function(){ 
 				            	alert('AJAX 통신 실패'); 
@@ -160,18 +186,18 @@
                 	};
                 	
                 	var addfriend = function(data) {
-                		$('#add-friend').html("<h3>친구 추가</h3>");
-                		$('#add-friend').append("<p>친구를 추가하시겠습니까?</p>");
-                		$('#add-friend').append("<a id='add-friend-list' onclick=addfriend_list('" + data + "') href='#' data-ajax='false' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-plus ui-btn-inline ui-mini'>추가</a>");
-                		$('#add-friend').append("<a href='#' onclick=delfriend_list('" + data + "') class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>삭제</a>");
+                		$('#add-friend').html("<h3>${addfriend}</h3>");
+                		$('#add-friend').append("<p>${addfriendqen}</p>");
+                		$('#add-friend').append("<a id='add-friend-list' onclick=addfriend_list('" + data + "') href='#' data-ajax='false' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-plus ui-btn-inline ui-mini'>${add}</a>");
+                		$('#add-friend').append("<a href='#' onclick=delfriend_list('" + data + "') class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>${cancel}</a>");
                 		$('#add-friend').show();
                 	};
                 	
                 	var deletefriend = function(data) {
-                		$('#delete-friend').html("<h3>친구 삭제</h3>");
-                		$('#delete-friend').append("<p>친구를 삭제하시겠습니까?</p>");
-                		$('#delete-friend').append("<a id='del-friend-list' href='#' onclick=delfriend_list('" + data + "') data-ajax='false' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-delete ui-btn-inline ui-mini'>삭제</a>");
-                		$('#delete-friend').append("<a href='#' onclick=hidepop() class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>취소</a>");
+                		$('#delete-friend').html("<h3>${delfriend}</h3>");
+                		$('#delete-friend').append("<p>${delfriendqen}</p>");
+                		$('#delete-friend').append("<a id='del-friend-list' href='#' onclick=delfriend_list('" + data + "') data-ajax='false' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-delete ui-btn-inline ui-mini'>${delete}</a>");
+                		$('#delete-friend').append("<a href='#' onclick=hidepop() class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>${cancel}</a>");
                 		$('#delete-friend').show();
                 	};
                 </script>

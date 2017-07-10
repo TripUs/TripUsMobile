@@ -37,7 +37,7 @@
             <div data-role='content' style="background-color: white;">
                 <div data-role="controlgroup" data-type="horizontal">
                 	<c:if test="${basicInfo.firstimage eq '데이터 없음' }">
-						<img class="detail-area-img" src="http://localhost:8080/tripus/resources/imgs/no_img.jpg"/>			
+						<img class="detail-area-img" src="http://203.236.209.203:8080/tripus/resources/imgs/no_img.jpg"/>			
 					</c:if>
 	            	<c:if test="${basicInfo.firstimage ne '데이터 없음' }">
 		            	<img class="detail-area-img" src="${basicInfo.firstimage }"/>			
@@ -48,10 +48,10 @@
 					<c:if test="${likeflag ne 1 }">
 						<a id="likebutton" class="mytrip-detail-btn" data-role="button" style="background-color: white; color: black;" href="#" onclick="likeupdate()">♥ ${likeCnt }</a>
 					</c:if>
-					<c:if test="${sessionScope.mytripCode ne null}">
+					<c:if test="${sessionScope.mytripCode ne 0}">
 						<a class="mytrip-detail-btn" id="addmytrip-stay" data-role="button" style="background-color: white; color: black;" href="../addmytrip_list/${basicInfo.contentid }">내 여행지 추가</a>
 					</c:if>
-					<c:if test="${sessionScope.mytripCode eq null}">
+					<c:if test="${sessionScope.mytripCode eq 0}">
 						<a class="mytrip-detail-btn" id="addmytrip-stay" onclick="addmytripstay()" data-role="button" style="background-color: white; color: black;" href="#">내 여행지 추가</a>
 					</c:if>
 				</div>

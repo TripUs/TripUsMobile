@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -22,51 +23,64 @@
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova_plugins.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/geolocation.js"></script>
         <title>Document</title>
-	    <script type="text/javascript">
-		    $(document).ready(function() {
-	        	$('.img-slider').slick({
-	        		dots : false,
-	        		infinite : true,
-	        		speed : 300,
-	        		slidesToShow : 1,
-	        		centerMode : true,
-	        		variableWidth : false
-	        	});
-	        });            	
-	    </script>
     </head>
     <body>
         <div data-role='page' style="background-color: white;">
+        
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Edit Your Info." var="editinformation"></c:set>
+        		<c:set value="ID" var="id"></c:set>
+        		<c:set value="PASSWORD" var="password"></c:set>
+        		<c:set value="Name" var="name"></c:set>
+        		<c:set value="Nickname" var="nickname"></c:set>
+        		<c:set value="E - Mail" var="email"></c:set>
+        		<c:set value="Modifications completed" var="modicompleted"></c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="회원정보 수정" var="editinformation"></c:set>
+        		<c:set value="아이디" var="id"></c:set>	
+        		<c:set value="비밀번호" var="password"></c:set>
+        		<c:set value="이 &nbsp 름" var="name"></c:set>
+        		<c:set value="별 &nbsp 명" var="nickname"></c:set>
+        		<c:set value="이메일" var="email"></c:set>
+        		<c:set value="수정 완료" var="modicompleted"></c:set>
+        	</c:if>
+        	
             <div data-role='header' style="background-color: #F05562; color: white;">
             	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h1 style="color: white;">회원정보 수정</h1>
+                <h1 style="color: white;">${editinformation }</h1>
             </div>
             <div data-role='content' style="padding-left: 10px; padding-right: 10px;">
             	<form method="post">
                 	<ul data-role="listview" data-inset="true">
                 		<li class="ui-field-contain">
-	                		<label>아 이 디 </label>
+	                		<label>${id } </label>
                 			<input id="id" name="id" type="text" value="${sessionScope.userInfo.id }" readonly/>
                 		</li>
                 		<li class="ui-field-contain">
-                			<label>비밀번호 </label>
+                			<label>${password } </label>
                 			<input id="pw" name="pw" type="password" value="${sessionScope.userInfo.pw }" />
                 		</li>
                 		<li class="ui-field-contain">
-                			<label>이 &nbsp; &nbsp; 름 </label>
+                			<label>${name } </label>
                 			<input id="name" name="name" type="text" value="${sessionScope.userInfo.name }"/>
                 		</li>
                 		<li class="ui-field-contain">
-                			<label>닉 네 임</label>
+                			<label>${nickname }</label>
                 			<input id="nicname" name="nicname" type="text" value="${sessionScope.userInfo.nicname }" />
                 		</li>
                 		<li class="ui-field-contain">
-                			<label>E - Mail</label>
+                			<label>${email }</label>
                 			<input id="email" name="email" type="email" value="${sessionScope.userInfo.email }" />
                 		</li>
                 	</ul>
-	                <button style="background: #F05562; color: white;">수정완료</button>
+	                <button style="background: #F05562; color: white;">${modicompleted }</button>
                 </form>
             </div>
             <div data-role='footer' data-position='fixed' data-theme="c">

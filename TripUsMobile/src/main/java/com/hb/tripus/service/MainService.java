@@ -18,35 +18,59 @@ public class MainService implements ServiceCommand {
 	public List<Object> getAreaContent(int areacode, int lang) {
 		List<Object> list = new ArrayList<Object>();
 		String url = "areaBasedList?areaCode=" + areacode + "&MobileOS=ETC&MobileApp=AppTesting&numOfRows=7";
-		url += "&contentTypeId=12";
-		jparser = new JsonParserModule(url, 1, "TourAreaBasicDto", lang);
-		list.add(jparser.allParse());
-		
-		url = "areaBasedList?areaCode=" + areacode + "&MobileOS=ETC&MobileApp=AppTesting&numOfRows=7";
-		url += "&contentTypeId=32";
-		jparser = new JsonParserModule(url, 1, "TourAreaBasicDto", lang);
-		list.add(jparser.allParse());
-		
-		url = "areaBasedList?areaCode=" + areacode + "&MobileOS=ETC&MobileApp=AppTesting&numOfRows=7";
-		url += "&contentTypeId=39";
-		jparser = new JsonParserModule(url, 1, "TourAreaBasicDto", lang);
-		list.add(jparser.allParse());
-		
-		url = "areaBasedList?areaCode=" + areacode + "&MobileOS=ETC&MobileApp=AppTesting&numOfRows=7";
-		url += "&contentTypeId=25";
-		jparser = new JsonParserModule(url, 1, "TourAreaBasicDto", lang);
-		list.add(jparser.allParse());
+		if(lang == 0) {
+			url += "&contentTypeId=12";
+			jparser = new JsonParserModule(url, 1, "TourAreaBasicDto", lang);
+			list.add(jparser.allParse());
+			
+			url = "areaBasedList?areaCode=" + areacode + "&MobileOS=ETC&MobileApp=AppTesting&numOfRows=7";
+			url += "&contentTypeId=32";
+			jparser = new JsonParserModule(url, 1, "TourAreaBasicDto", lang);
+			list.add(jparser.allParse());
+			
+			url = "areaBasedList?areaCode=" + areacode + "&MobileOS=ETC&MobileApp=AppTesting&numOfRows=7";
+			url += "&contentTypeId=39";
+			jparser = new JsonParserModule(url, 1, "TourAreaBasicDto", lang);
+			list.add(jparser.allParse());
+			
+			url = "areaBasedList?areaCode=" + areacode + "&MobileOS=ETC&MobileApp=AppTesting&numOfRows=7";
+			url += "&contentTypeId=25";
+			jparser = new JsonParserModule(url, 1, "TourAreaBasicDto", lang);
+			list.add(jparser.allParse());
+		} else {
+			url += "&contentTypeId=76";
+			jparser = new JsonParserModule(url, 1, "TourAreaBasicDto", lang);
+			list.add(jparser.allParse());
+			
+			url = "areaBasedList?areaCode=" + areacode + "&MobileOS=ETC&MobileApp=AppTesting&numOfRows=7";
+			url += "&contentTypeId=80";
+			jparser = new JsonParserModule(url, 1, "TourAreaBasicDto", lang);
+			list.add(jparser.allParse());
+			
+			url = "areaBasedList?areaCode=" + areacode + "&MobileOS=ETC&MobileApp=AppTesting&numOfRows=7";
+			url += "&contentTypeId=82";
+			jparser = new JsonParserModule(url, 1, "TourAreaBasicDto", lang);
+			list.add(jparser.allParse());
+		}
 		return list;
 	}
 	
 	public List<Object> searchAreaTypeContent(int areacode, int page, int lang, int contenttypeid) {
 		List<Object> list = new ArrayList<Object>();
 		String url = "areaBasedList?areaCode=" + areacode + "&MobileOS=ETC&MobileApp=AppTesting&numOfRows=20";
-		if(contenttypeid != 0) {
-			if(contenttypeid == 12) url += "&contenttypeidArray=12&contenttypeidArray=14&contenttypeidArray=15&contenttypeidArray=28&contenttypeidArray=38";
-			else if(contenttypeid == 32) url += "&contentTypeId=32";
-			else if(contenttypeid == 39) url += "&contentTypeId=39";
-			else if(contenttypeid == 25) url += "&contentTypeId=25";
+		if(lang == 0) {
+			if(contenttypeid != 0) {
+				if(contenttypeid == 12) url += "&contentTypeId=12";
+				else if(contenttypeid == 32) url += "&contentTypeId=32";
+				else if(contenttypeid == 39) url += "&contentTypeId=39";
+				else if(contenttypeid == 25) url += "&contentTypeId=25";
+			}
+		} else {
+			if(contenttypeid != 0) {
+				if(contenttypeid == 12) url += "&contentTypeId=76";
+				else if(contenttypeid == 32) url += "&contentTypeId=80";
+				else if(contenttypeid == 39) url += "&contentTypeId=82";
+			}
 		}
 		jparser = new JsonParserModule(url, page, "TourAreaBasicDto", lang);
 		list.add(jparser.allParse());
@@ -60,13 +84,23 @@ public class MainService implements ServiceCommand {
 		try {
 			String url = "searchKeyword?keyword=" + URLEncoder.encode(keyword, "UTF-8")
 					+ "&MobileOS=ETC&MobileApp=AppTesting&numOfRows=20";
-			if(contenttypeid != 0) {
-				if(contenttypeid == 12) url += "&contentTypeId=12";
-				else if(contenttypeid == 28) url += "&contentTypeId=28";
-				else if(contenttypeid == 39) url += "&contentTypeId=39";
-				else if(contenttypeid == 32) url += "&contentTypeId=32";
-				else if(contenttypeid == 25) url += "&contentTypeId=25";
+			if(lang == 0) {
+				if(contenttypeid != 0) {
+					if(contenttypeid == 12) url += "&contentTypeId=12";
+					else if(contenttypeid == 28) url += "&contentTypeId=28";
+					else if(contenttypeid == 39) url += "&contentTypeId=39";
+					else if(contenttypeid == 32) url += "&contentTypeId=32";
+					else if(contenttypeid == 25) url += "&contentTypeId=25";
+				}
+			} else {
+				if(contenttypeid != 0) {
+					if(contenttypeid == 12) url += "&contentTypeId=76";
+					else if(contenttypeid == 28) url += "&contentTypeId=75";
+					else if(contenttypeid == 32) url += "&contentTypeId=80";
+					else if(contenttypeid == 39) url += "&contentTypeId=82";
+				}
 			}
+			
 			jparser = new JsonParserModule(url, page, "TourAreaBasicDto", lang);
 			list.add(jparser.allParse());
 			jparser = new JsonParserModule(url, lang);
@@ -80,12 +114,21 @@ public class MainService implements ServiceCommand {
 	public List<Object> getGpsAreaList(String lat, String lng, int page, int lang, int contenttypeid) {
 		List<Object> list = new ArrayList<Object>();
 		String url = "locationBasedList?mapX=" + lng + "&mapY=" + lat + "&radius=2000&numOfRows=10&listYN=Y&arrange=E&MobileOS=ETC&MobileApp=AppTesting";
-		if(contenttypeid != 0) {
-			if(contenttypeid == 12) url += "&contentTypeId=12";
-			else if(contenttypeid == 28) url += "&contentTypeId=28";
-			else if(contenttypeid == 39) url += "&contentTypeId=39";
-			else if(contenttypeid == 32) url += "&contentTypeId=32";
-			else if(contenttypeid == 25) url += "&contentTypeId=25";
+		if(lang == 0) {
+			if(contenttypeid != 0) {
+				if(contenttypeid == 12) url += "&contentTypeId=12";
+				else if(contenttypeid == 28) url += "&contentTypeId=28";
+				else if(contenttypeid == 39) url += "&contentTypeId=39";
+				else if(contenttypeid == 32) url += "&contentTypeId=32";
+				else if(contenttypeid == 25) url += "&contentTypeId=25";
+			}
+		} else {
+			if(contenttypeid != 0) {
+				if(contenttypeid == 12) url += "&contentTypeId=76";
+				else if(contenttypeid == 28) url += "&contentTypeId=75";
+				else if(contenttypeid == 32) url += "&contentTypeId=80";
+				else if(contenttypeid == 39) url += "&contentTypeId=82";
+			}
 		}
 		jparser = new JsonParserModule(url, page, "TourAreaBasicDto", lang);
 		list.add(jparser.allParse());

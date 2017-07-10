@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
 <mapper namespace="mytrip">
+	
+	<select id="getConLike" parameterType="String" resultType="int">
+		SELECT COUNT(LIKEFLAG) FROM LIKEFLAG WHERE CONTENTID=#{value}
+	</select>
+	
 	<delete id="deleteMyTrip" parameterType="int">
 		DELETE FROM MYTRIP WHERE CODE=#{value}
+	</delete>
+	
+	<delete id="deleteMyTripDetail" parameterType="int">
+		DELETE FROM TRIPLIST_DETAIL WHERE CODE=#{value}
 	</delete>
 	
 	<delete id="deleteMyTripGroup" parameterType="int">

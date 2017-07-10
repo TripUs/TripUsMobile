@@ -23,37 +23,54 @@
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova_plugins.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/geolocation.js"></script>
         <title>Document</title>
-	    <script type="text/javascript">
-		    $(document).ready(function() {
-	        	$('.img-slider').slick({
-	        		dots : false,
-	        		infinite : true,
-	        		speed : 300,
-	        		slidesToShow : 1,
-	        		centerMode : true,
-	        		variableWidth : false
-	        	});
-	        });            	
-	    </script>
     </head>
 	<body>
 		<div data-role='page' style="background-color: white;">
+            
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Add to friends" var="addfriend"></c:set>
+        		<c:set value="Please enter your friend's name" var="entername"></c:set>
+        		<c:set value="Find friends" var="findfriends"></c:set>
+        		<c:set value="Search Results" var="searchresults"></c:set>
+        		<c:set value="Persons" var="person"></c:set>
+        		<c:set value="AJAX Communication failure" var="ajaxfailure"></c:set>
+        		<c:set value="Are you sure you want to add?" var="addsureqen"></c:set>
+        		<c:set value="ADD" var="add"></c:set>
+        		<c:set value="CANCEL" var="cancel"></c:set>
+        	</c:if>
+            <!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="친구 추가" var="addfriend"></c:set>
+        		<c:set value="친구 이름을 입력하세요" var="entername"></c:set>
+        		<c:set value="친구 찾기" var="findfriends"></c:set>
+        		<c:set value="검색 결과" var="searchresults"></c:set>
+        		<c:set value="명" var="person"></c:set>		
+        		<c:set value="AJAX 통신실패" var="ajaxfailure"></c:set>
+        		<c:set value="님을 추가하시겠습니까?" var="addsureqen"></c:set>
+        		<c:set value="추가" var="add"></c:set>
+        		<c:set value="취소" var="cancel"></c:set>
+        	</c:if>
+        	
             <div data-role='header' style="background-color: #F05562;">
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h1 style="color: white;">친구 추가</h1>
+                <h1 style="color: white;">${addfriend }</h1>
             </div>
             <div data-role='content' style="padding-left: 10px; padding-right: 10px; background-color: white;">
 				<div class="ui-conner-all">
 					<div class="ui-body ui-body-a" style="border: none;">
-						<input type="search" name="friendname" id="friendname" data-mini="true" placeholder="친구 이름을 입력하세요"/>
-						<button id="search-friend">찾기</button>
+						<input type="search" name="friendname" id="friendname" data-mini="true" placeholder="${entername }"/>
+						<button id="search-friend">${findfriends }</button>
 					</div>
 				</div>
 				
 				<div class="ui-conner-all">
 					<div id="frind-search-header" class="ui-bar ui-bar-a" style="background-color: #F05562; border: 2px solid #F05562; border-radius: 10px;">
-						<h3 style="color: white;">검색 결과</h3>
+						<h3 style="color: white;">${searchresults }</h3>
 					</div>
 					<div id="friend-search-result" class='ui-body ui-body-a' style="border: none;">
 						<ul id="friend-listview" data-role='listview' data-inset='true'></ul>
@@ -71,7 +88,7 @@
 				            	friendname: $('#friendname').val()
 				            }, 
 				            success : function(data){
-				            	$('#frind-search-header').html("<h3 style='color: white;'>검색결과 : " + data.length + "명</h3>");
+				            	$('#frind-search-header').html("<h3 style='color: white;'>${searchresults} : " + data.length + "${person}</h3>");
 				            	for(var i=0; i<data.length; i++) { //  class='ui-btn ui-btn-icon-right ui-icon-plus'
 				            		$('#friend-listview').append("<li class='ui-li-has-thumb ui-first-child ui-last-child' data-icon='plus'>"
 				            										+ "<a href='#'>"
@@ -80,7 +97,7 @@
 					            									+ "<p>" + data[i]['email'] + "</p></a>"
 																	+ "<a href='#add-friend-pop' onclick=addfriend_search('" + data[i]['id'] + "')" 
 																	+ " data-rel='popup' data-position-to='window' data-transition='pop' aria-haspopup='true'"
-																	+ " aria-owns='add-friend-pop' aria-expanded='false' class='ui-btn ui-btn-icon-notext ui-icon-plus' title='친구 추가'>친구 추가</a>"	    				
+																	+ " aria-owns='add-friend-pop' aria-expanded='false' class='ui-btn ui-btn-icon-notext ui-icon-plus' title='${addfriend}'>${addfriend}</a>"	    				
 				            										+ "</li>");
 				            	}
 				            	$('#friend-listview').listview('refresh');
@@ -92,10 +109,10 @@
 					});
 					
 					function addfriend_search(data) {
-	            		$('#add-friend-pop').html("<h3>친구 추가</h3>");
-	            		$('#add-friend-pop').append("<p>" + data + "님을 추가하시겠습니까?</p>");
-	            		$('#add-friend-pop').append("<a id='add-friend-btn' data-ajax='false' href='addfriend/" + data + "' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-plus ui-btn-inline ui-mini'>추가</a>");
-	            		$('#add-friend-pop').append("<a href='#' data-rel='back' class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>취소</a>");
+	            		$('#add-friend-pop').html("<h3>${addfriend}</h3>");
+	            		$('#add-friend-pop').append("<p>" + data + "${addsureqen}</p>");
+	            		$('#add-friend-pop').append("<a id='add-friend-btn' data-ajax='false' href='addfriend/" + data + "' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-plus ui-btn-inline ui-mini'>${add}</a>");
+	            		$('#add-friend-pop').append("<a href='#' data-rel='back' class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>${cancel}</a>");
 	            	}
 				</script>
 				

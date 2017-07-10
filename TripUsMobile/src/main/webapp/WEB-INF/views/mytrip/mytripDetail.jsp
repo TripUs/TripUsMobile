@@ -9,9 +9,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="../resources/css/jquery.mobile.theme-1.4.5.min.css"/>
+        <link rel="stylesheet" href="../resources/css/themec.min.css"/>
         <link rel="stylesheet" href="../resources/css/slick.css"/>
 		<link rel="stylesheet" href="../resources/css/slick-theme.css"/>
-		<link rel="stylesheet" href="../resources/css/themec.min.css"/>
         <link rel="stylesheet" href="../resources/css/tripus.css">
         <script src="http://code.jquery.com/jquery-1.12.4.min.js"
                   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
@@ -23,19 +23,10 @@
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="../resources/js/tripus.js"></script>
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
+        <script type="text/javascript" charset="utf-8" src="../resources/js/cordova.js"></script>
+        <script type="text/javascript" charset="utf-8" src="../resources/js/cordova_plugins.js"></script>
+        <script type="text/javascript" charset="utf-8" src="../resources/js/geolocation.js"></script>
         <title>Document</title>
-        <script type="text/javascript">
-		    $(document).ready(function() {
-	        	$('.img-slider').slick({
-	        		dots : false,
-	        		infinite : true,
-	        		speed : 300,
-	        		slidesToShow : 1,
-	        		centerMode : true,
-	        		variableWidth : false
-	        	});
-	        });            	
-	    </script>
     </head>
     <body>
     	<div id="main" data-role='page' style="background-color: white;">
@@ -85,7 +76,7 @@
 		               							<td><img src="../resources/imgs/icon/tripline.png" style="width: 100%;"/></td>
 		               							<td><img src="${detail.content_img }" style="width: 100%; height: 110px; border-radius: 5px;"/></td>
 		               							<th>
-		               								<span style="color: red;">♥</span>11<br/><br/>
+		               								<span style="color: red;">♥</span>${conLike[status.index] }<br/><br/>
 		               								<a href="../delTrip/${detail.contentid }" style="color: darkgray; text-decoration: none;">삭제</a>
 		               							</th>
 		               						</tr>
@@ -99,8 +90,8 @@
 	               				</table>
 	               					
 	               				<!-- 메모 공간 -->
-	               				<div data-role="collapsible" data-theme="b" data-content-theme="a">
-	               					<h4>${bean.daynum }일차 Story Borad</h4>
+	               				<div data-role="collapsible" data-theme="b" data-content-theme="a" style="background-color: #e9e9e9">
+	               					<h4 style="background-color: #e9e9e9">${bean.daynum }일차 Story Borad</h4>
 	               					
 	               					<c:forEach items="${tripStory }" var="story">
 	               						<c:if test="${bean.tripdate eq story.tripdate }">
@@ -127,21 +118,6 @@
 	               						</c:if>
 	               					</c:forEach>
 	               					
-	               					<%-- <ul data-role="listview" data-inset="true">
-		               					<c:forEach items="${tripStory }" var="story">
-		               						<c:if test="${bean.tripdate eq story.tripdate }">
-		               							<li data-icon="comment">
-		               								<a href="#"><img class="ui-li-icon" src="${story.userprofile }" style="width: 100%; height: 100%;"/>
-		               								${story.memo }</a>
-		               								<a href="../replestory/${story.idx }">댓글</a>
-		               							</li>
-		               							<p>
-		               								<img src="${story.userprofile }" style="width: 50px; height: 50px;"/> 
-		               								&nbsp; &nbsp;${story.memo }
-		               							</p>
-		               						</c:if>
-		               					</c:forEach>
-	               					</ul> --%>
 	               					<a data-role="button" style="background-color: white; border: 2px solid #F05562; color: #F05562;" href="../addstory/${bean.daynum }/${bean.tripdate }">글 쓰기</a>
 	               				</div>
 	               				
@@ -190,7 +166,7 @@
 															</c:choose>
 				               							</td>
 				               							<th>
-				               								<span style="color: red;">♥</span>11<br/><br/>
+				               								<span style="color: red;">♥</span>${conLike[status.index] }<br/><br/>
 				               								<a href="../delTrip/${detail.contentid }" style="text-decoration: none;">삭제</a>
 				               							</th>
 				               						</tr>
@@ -276,7 +252,7 @@
 			        var markerImage_end = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption)// 마커가 표시될 위치입니다
 			        
 			        
-			        var imageSrc_b = 'http://localhost:8080/tripus/resources/imgs/icon/ourmaker.png', // 마커이미지의 주소입니다    
+			        var imageSrc_b = 'http://203.236.209.203:8080/tripus/resources/imgs/icon/ourmaker.png', // 마커이미지의 주소입니다    
 		            imageSize_b = new daum.maps.Size(50,50), // 마커이미지의 크기입니다
 		            imageOption_b = {offset: new daum.maps.Point(25,25)}; 
 			        

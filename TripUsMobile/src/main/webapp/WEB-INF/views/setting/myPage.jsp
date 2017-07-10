@@ -23,30 +23,53 @@
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova_plugins.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/geolocation.js"></script>
         <title>Document</title>
-	    <script type="text/javascript">
-		    $(document).ready(function() {
-	        	$('.img-slider').slick({
-	        		dots : false,
-	        		infinite : true,
-	        		speed : 300,
-	        		slidesToShow : 1,
-	        		centerMode : true,
-	        		variableWidth : false
-	        	});
-	        });            	
-	    </script>
     </head>
     <body>
         <div data-role='page' style="background-color: white;">
+        
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="My Page" var="account"></c:set>
+        		<c:set value="Set up my profile" var="profile"></c:set>
+        		<c:set value="Change profile photo" var="pfphoto"></c:set>
+        		<c:set value="Cancel change of profile photo" var="cancelphoto"></c:set>
+        		<c:set value="Change profile photo" var="changephoto"></c:set>
+        		<c:set value="My Info" var="myinfo"></c:set>
+        		<c:set value="Change profile image" var="changeimg"></c:set>
+        		<c:set value="ID" var="id"></c:set>
+        		<c:set value="Name" var="name"></c:set>
+        		<c:set value="Nickname" var="nickname"></c:set>
+        		<c:set value="E-Mail" var="email"></c:set>
+        		<c:set value="Edit My information" var="editinformation"></c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="내 &nbsp; 정보" var="account"></c:set>
+        		<c:set value="내 프로필 설정" var="profile"></c:set>
+        		<c:set value="프로필 사진 변경" var="pfphoto"></c:set>
+        		<c:set value="프로필 사진 변경 취소" var="cancelphoto"></c:set>
+        		<c:set value="프로필 변경" var="changephoto"></c:set>
+        		<c:set value="내 정보" var="myinfo"></c:set>
+        		<c:set value="프로필 이미지 변경" var="changeimg"></c:set>
+        		<c:set value="아이디" var="id"></c:set>
+        		<c:set value="이 &nbsp 름" var="name"></c:set>
+        		<c:set value="별 &nbsp 명" var="nickname"></c:set>
+        		<c:set value="이메일" var="email"></c:set>
+        		<c:set value="내정보 수정" var="editinformation"></c:set>
+        	</c:if>
+        	
             <div data-role='header' style="background-color: #F05562; color: white;">
             	<a href="setting" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h1 style="color: white;">마이 페이지</h1>
+                <h1 style="color: white;">${account }</h1>
             </div>
             <div data-role='content' style="padding-left: 10px; padding-right: 10px;">
             	<div class="ui-corner-all custom-corners" style="margin-top: 10px;">
             		<div class="ui-bar ui-bar-a" style="background-color: #F05562; border: 2px solid #F05562; border-radius: 10px;">
-            	   		<h3 style="color: white;">회원 프로필</h3>
+            	   		<h3 style="color: white;">${profile }</h3>
                 	</div>
                 	<div class="ui-body ui-body-a" style="border: none;">
                 		<table style="width: 100%;">
@@ -61,7 +84,7 @@
                 			</tr>
 							<tr>
                 				<td colspan="2">
-                					<a href="#" data-role="button" id="profile-edit-btn" style="border: 2px solid #F05562; background-color: white; color: #F05562;">프로필 사진 변경</a>
+                					<a href="#" data-role="button" id="profile-edit-btn" style="border: 2px solid #F05562; background-color: white; color: #F05562;">${pfphoto }</a>
                 				</td>
                 			</tr>
                 		</table>
@@ -73,16 +96,16 @@
                  	$('#profile-edit-btn').click(function() {
                  		var profileflag = $('#profileflag').val();
                  		if(profileflag != 1) {
-                 			$('#profile-edit-btn').html('프로필 사진 변경 취소');
+                 			$('#profile-edit-btn').html('${cancelphoto }');
 	                 		$('#profile-table').append('<div data-role="controlgroup" data-type="horizontal"><div class="ui-controltroup-controls">'
 	                 					+ '<input type="hidden" value="1" id="profileflag" />'
 	                 					+ '<div class="ui-input-text ui-body-inherit ui-corner-all ui-controlgroup-textinput ui-btn ui-first-child ui-shaow-inset" style="background-color: white; border: none;">'				
 	                 					+ '<form id="fileForm" method="post" enctype="multipart/form-data" data-ajax="false">'
 	                 					+ '<input id="profileimg" name="profile" type="file" data-wrapper-class="controlgroup-textinput ui-btn"/>'
-	                 					+ '<button onclick="uploadProfile();" class="ui-btn ui-shadow ui-corner-all ui-last-child" style="background-color: #F05562; color: white;">프로필 이미지 변경</button></form></div></div></div>');
+	                 					+ '<button onclick="uploadProfile();" class="ui-btn ui-shadow ui-corner-all ui-last-child" style="background-color: #F05562; color: white;">${changephoto }</button></form></div></div></div>');
 	                 		$('#profile-table').show();
                  		} else {
-                 			$('#profile-edit-btn').html('프로필 사진 변경');
+                 			$('#profile-edit-btn').html('${changephoto }');
                  			$('.ui-controltroup-controls').remove();
                  			$('#profile-table').hide();
                  		}
@@ -107,7 +130,7 @@
                  
                  <div class="ui-corner-all custom-corners">
                 	<div class="ui-bar ui-bar-a" style="background-color: #F05562; border: 2px solid #F05562; border-radius: 10px;">
-                		<h3 style="color: white;">회원 정보</h3>
+                		<h3 style="color: white;">${myinfo }</h3>
                 	</div>
                 	<div class="ui-body ui-body-a" style="border: none;">
                 		<table style="width: 100%">
@@ -115,28 +138,28 @@
                 				<th>&nbsp;</th>
                 			</tr>
                 			<tr>
-                				<th style="width: 25%">아이디</th>
+                				<th style="width: 25%">${id }</th>
                 				<td style="width: 75%">${sessionScope.userInfo.id}</td>
                 			</tr>
                 			<tr>
                 				<th>&nbsp;</th>
                 			</tr>
                 			<tr>
-                				<th>이 &nbsp; 름</th>
+                				<th>${name }</th>
                 				<td>${sessionScope.userInfo.name}</td>
                 			</tr>
                 			<tr>
                 				<th>&nbsp;</th>
                 			</tr>
                 			<tr>
-                				<th>닉네임</th>
+                				<th>${nickname }</th>
                 				<td>${sessionScope.userInfo.nicname}</td>
                 			</tr>
                 			<tr>
                 				<th>&nbsp;</th>
                 			</tr>
                 			<tr>
-                				<th>E-Mail</th>
+                				<th>${email }</th>
                 				<td>${sessionScope.userInfo.email}</td>
                 			</tr>
                 			<tr>
@@ -144,7 +167,7 @@
                 			</tr>
                 			<tr>
                 				<td colspan="2">
-                					<a href="myEdit" data-role="button" class="ui-btn ui-corner-all" style="border: 2px solid #F05562; background-color: white; color: #F05562;">회원정보 수정</a>
+                					<a href="myEdit" data-role="button" class="ui-btn ui-corner-all" style="border: 2px solid #F05562; background-color: white; color: #F05562;">${editinformation }</a>
                 				</td>
                 			</tr>
                 		</table>

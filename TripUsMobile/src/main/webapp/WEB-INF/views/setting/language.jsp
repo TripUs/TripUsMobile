@@ -23,25 +23,34 @@
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova_plugins.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/geolocation.js"></script>
         <title>Document</title>
-	    <script type="text/javascript">
-		    $(document).ready(function() {
-	        	$('.img-slider').slick({
-	        		dots : false,
-	        		infinite : true,
-	        		speed : 300,
-	        		slidesToShow : 1,
-	        		centerMode : true,
-	        		variableWidth : false
-	        	});
-	        });            	
-	    </script>
     </head>
 	<body>
 		<div data-role="page" style="background-color: white;">
+		
+		    <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="TripUs Setting" var="langSetting"></c:set>
+        		<c:set value="Korean" var="korean"></c:set>
+        		<c:set value="English" var="english"></c:set>
+        		<c:set value="Confirm" var="confirm"></c:set>
+        		<c:set value="Please choose your preferred language." var="chooseLanguage"></c:set>
+        	</c:if>
+			<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="TripUs 설정" var="langSetting"></c:set>
+        		<c:set value="한국어" var="korean"></c:set>
+        		<c:set value="영 &nbsp 어" var="english"></c:set>
+        		<c:set value="확인" var="confirm"></c:set>
+        		<c:set value="사용하실 언어를 선택하세요." var="chooseLanguage"></c:set>
+        	</c:if>
+        	
 			<div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
 				<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h1 style="color: white;">TripUs Setting</h1>
+                <h1 style="color: white;">${langSetting }</h1>
 			</div>
 			<div data-role="ui-content" style="padding-left: 10px; padding-right: 10px;">
 				
@@ -49,22 +58,22 @@
 				<div class="ui-content">
 					<form method="post">
 						<fieldset data-role="controlgroup">
-							<legend>Please choose your preferred language </legend>
+							<legend>${chooseLanguage } </legend>
 							<c:if test="${lang eq 0 }">
-								<label for="korean">Korean</label>
+								<label for="korean">${korean }</label>
 								<input onclick="chklang()" type="radio" name="language" id="korean" value="0" checked>
-								<label for="english">English</label>
+								<label for="english">${english }</label>
 								<input onclick="chklang()" type="radio" name="language" id="english" value="1">
 							</c:if>
 			
 							<c:if test="${lang eq 1 }">
-								<label for="korean">Korean</label>
+								<label for="korean">${korean }</label>
 								<input onclick="chklang()" type="radio" name="language" id="korean" value="0">
-								<label for="english">English</label>
+								<label for="english">${english }</label>
 								<input onclick="chklang()" type="radio" name="language" id="english" value="1" checked>
 			            	</c:if>
 						</fieldset>
-						<button id="langok" style="background-color: #F05562; color: white;">확인</button>
+						<button id="langok" style="background-color: #F05562; color: white;">${confirm }</button>
 		           	</form>
 				</div>
 	

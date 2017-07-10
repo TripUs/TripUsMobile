@@ -109,7 +109,7 @@ public class TripNoteController {
 					for(int j=0; j<files.size(); j++) {
 						File f = new File(path + "\\" + files.get(j).getOriginalFilename());
 						files.get(j).transferTo(f);
-						String fileName="http://localhost:8080/tripus/resources/upload/tripnote/" + idx + "/" + files.get(j).getOriginalFilename();
+						String fileName="http://203.236.209.203:8080/tripus/resources/upload/tripnote/" + idx + "/" + files.get(j).getOriginalFilename();
 						System.out.println(fileName);
 						TripNoteImgDto imgs = new TripNoteImgDto(idx, i, fileName);
 						dao.insertTripNoteImg(imgs);
@@ -169,7 +169,7 @@ public class TripNoteController {
 					for(int j=0; j<files.size(); j++) {
 						File f = new File(path + "\\" + files.get(j).getOriginalFilename());
 						files.get(j).transferTo(f);
-						String fileName="http://localhost:8080/tripus/resources/upload/tripnote/" + idx + "/" + files.get(j).getOriginalFilename();
+						String fileName="http://203.236.209.203:8080/tripus/resources/upload/tripnote/" + idx + "/" + files.get(j).getOriginalFilename();
 						System.out.println(fileName);
 						TripNoteImgDto imgs = new TripNoteImgDto(idx, i, fileName);
 						dao.insertTripNoteImg(imgs);

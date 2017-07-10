@@ -57,8 +57,8 @@ public class SettingController {
 
 	@RequestMapping("setting")
 	public String setting(HttpSession session, Model model) {
-		session.setAttribute("mytripCode", null);
-		session.setAttribute("mytripDate", null);
+		session.setAttribute("mytripCode", 0);
+		session.setAttribute("mytripDate", 0);
 		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
 		if(userInfo != null) {
 			return "setting/setting";
@@ -69,7 +69,7 @@ public class SettingController {
 			model.addAttribute("google_url", google_url);
 
 			String kakao_url = "https://kauth.kakao.com/oauth/authorize?client_id=558fac862bc9ed96b1edcf6d54f9edf4&"
-					+ "redirect_uri=http://localhost:8080/tripus/oauth2kakao&response_type=code";
+					+ "redirect_uri=http://203.236.209.203:8080/tripus/oauth2kakao&response_type=code";
 			model.addAttribute("kakao_url", kakao_url);
 			return "login/login";
 		}
@@ -157,7 +157,7 @@ public class SettingController {
 	public JsonNode getAccessToken(String autorize_code) {
 		String RequestUrl = "https://kauth.kakao.com/oauth/token";
 		String RestApiKey = "558fac862bc9ed96b1edcf6d54f9edf4";
-		String Redirect_URI = "http://localhost:8080/tripus/oauth2kakao";
+		String Redirect_URI = "http://203.236.209.203:8080/tripus/oauth2kakao";
 
 		List<NameValuePair> postParams = new ArrayList<NameValuePair>();
 		postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
@@ -273,7 +273,7 @@ public class SettingController {
 	@RequestMapping(value = "signin", method = RequestMethod.POST)
 	public String signin(@ModelAttribute UserDto bean, Model model) {
 		try {
-			bean.setProfile("http://localhost:8080/tripus/resources/imgs/default_profile.png");
+			bean.setProfile("http://203.236.209.203:8080/tripus/resources/imgs/default_profile.png");
 			bean.setUsertype("tripus");
 			dao.insertUser(bean);
 		} catch (SQLException e) {
@@ -398,7 +398,7 @@ public class SettingController {
 		@SuppressWarnings("deprecation")
 		String path = req.getRealPath("/resources/upload/profile").replaceAll("\\\\", "/");
 		File f = new File(path + "\\" + profile.getOriginalFilename());
-		String profileName="http://localhost:8080/tripus/resources/upload/profile/" + profile.getOriginalFilename();
+		String profileName="http://203.236.209.203:8080/tripus/resources/upload/profile/" + profile.getOriginalFilename();
 			
 		UserDto userInfo = (UserDto)session.getAttribute("userInfo");
 		userInfo.setProfile(profileName);
@@ -431,7 +431,7 @@ public class SettingController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "setting/setting";
+		return "redirect:/";
 	}
 	
 }
