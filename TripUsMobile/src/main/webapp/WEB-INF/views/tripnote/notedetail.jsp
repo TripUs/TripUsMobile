@@ -41,9 +41,28 @@
     </head>
     <body>
         <div data-role='page' style="background-color: white;">
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Write Travel Notes" var="notedetail_sub"></c:set>
+        		<c:set value="Delete Posts" var="notedetail_del"></c:set>
+        		<c:set value="Follow" var="notedetail_follow"></c:set>
+        		<c:set value="AJAX Communication failure" var="ajaxfailure"></c:set>
+        		<c:set value="You can use it after login" var="tour_alert"></c:set>
+        		<c:set value="Comment" var="tour_comment"></c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="님의 여행기" var="notedetail_sub"></c:set>
+        		<c:set value="글삭제" var="notedetail_del"></c:set>
+        		<c:set value="팔로우" var="notedetail_follow"></c:set>
+        		<c:set value="AJAX 통신실패" var="ajaxfailure"></c:set>
+        		<c:set value="로그인 후 사용하실 수 있습니다." var="tour_alert"></c:set>
+        		<c:set value="댓글" var="tour_comment"></c:set>
+        	</c:if>
+        	
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h1>${noteInfo.usernicname }님의 여행기</h1>
+                <h1>${noteInfo.usernicname }${notedetail_sub }</h1>
             </div>
         	
             <div data-role='content' style="padding: 0px 10px;">
@@ -51,7 +70,7 @@
       				<div style="padding-top: 5px; margin-bottom: 10px;">
       					<div style="font-size: 20px; width: 67%; display: inline-block;"><strong>${noteInfo.title }</strong></div>
 	      				<c:if test="${sessionScope.userInfo.id eq noteInfo.userid }">
-	      					<div style="width: 30%; display: inline-block; text-align: right; text-decoration: none; font-size: 14px;"><a href="../delTripNote/${noteInfo.idx }" data-ajax="false">글삭제</a></div>
+	      					<div style="width: 30%; display: inline-block; text-align: right; text-decoration: none; font-size: 14px;"><a href="../delTripNote/${noteInfo.idx }" data-ajax="false">${notedetail_del }</a></div>
 	      				</c:if>
       				</div>
       				<table>
@@ -79,7 +98,7 @@
 									<c:if test="${noteLike ne 1 }">
 										<a style="width: 45px; height: 10px; line-height: 10px;" id="notelikebtn" data-role="button" href="#">♥ ${noteInfo.likeflag }</a>
 									</c:if>
-			            			<button onclick="follow()" style="width: 45px; height: 10px; line-height: 5px;"><small>팔로우</small></button>
+			            			<button onclick="follow()" style="width: 45px; height: 10px; line-height: 5px;"><small>${notedetail_follow }</small></button>
 								</div>
             				</td>
             			</tr>
@@ -114,13 +133,13 @@
 					            	}
 					            }, 
 					            error : function(){ 
-					            	alert('AJAX 통신 실패'); 
+					            	alert('${ajaxfailure}'); 
 					            } 
 					        });		
 						} else if(userInfo == friendid) {
 							alert('잘못된 요청입니다.');
 						} else {
-							alert('로그인 후 사용하실 수 있습니다.');
+							alert('${tour_alert}');
 						}
       				}
       				
@@ -146,11 +165,11 @@
 					            	}
 					            }, 
 					            error : function(){ 
-					            	alert('AJAX 통신 실패'); 
+					            	alert('${ajaxfailure}'); 
 					            } 
 					        });		
 						} else {
-							alert('로그인 후 사용하실 수 있습니다.');
+							alert('${tour_alert}');
 						}
 					});
       			</script>
@@ -175,10 +194,12 @@
 				</div>
             	</c:forEach>
             	
-            	<a href="../notecomment/${noteInfo.idx }" data-role="button" data-transition="slideup">
-            		<img src="../resources/imgs/icon/comment.png" style="position: relative; top: 5px; width: 30px; height: 20px;"/>
-            		&nbsp;&nbsp;댓글
-            	</a>
+            	<c:if test="${sessionScope.userInfo ne null }">
+	            	<a href="../notecomment/${noteInfo.idx }" data-role="button" data-transition="slideup">
+	            		<img src="../resources/imgs/icon/comment.png" style="position: relative; top: 5px; width: 30px; height: 20px;"/>
+	            		&nbsp;&nbsp;${tour_comment }
+	            	</a>
+            	</c:if>
             </div> <!-- end content -->
             
             <div data-role='footer' data-position='fixed' data-theme="c">

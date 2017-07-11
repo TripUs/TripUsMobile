@@ -40,16 +40,35 @@
     </head>
     <body>
         <div data-role='page' style="background-color: white;">
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Share Travel Notes" var="sharetripnote_sub"></c:set>
+        		<c:set value="Trip Title" var="addtripnote_title"></c:set>
+        		<c:set value="Enter your trip title" var="addtripnote_title_input"></c:set>
+        		<c:set value="Subtitle" var="addtripnote_subtitle"></c:set>
+        		<c:set value="Please enter your travel subtitle." var="addtripnote_subtitle_input"></c:set>
+        		<c:set value="Write your travel notes" var="addtripnote_writeNotes"></c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="여행노트 공유" var="sharetripnote_sub"></c:set>
+        		<c:set value="여행 제목" var="addtripnote_title"></c:set>
+        		<c:set value="여행 제목을 입력하세요" var="addtripnote_title_input"></c:set>
+        		<c:set value="소제목" var="addtripnote_subtitle"></c:set>
+        		<c:set value="여행 소제목을 입력해보세요." var="addtripnote_subtitle_input"></c:set>
+        		<c:set value="여행노트 등록" var="addtripnote_writeNotes"></c:set>
+        	</c:if>
+    	    
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h1>여행노트 공유</h1>
+                <h1>${sharetripnote_sub }</h1>
             </div>
         	
             <div data-role='content' style="padding: 0px 10px;">
       			<form method="post" enctype="multipart/form-data" data-ajax="false">
                 	<div data-role='fieldcontain'>
-                		<label for="title">&nbsp; <strong>여행 제목</strong></label>
-                		<input id="title" name="title" type="text" value="${mytrip.title }" placeholder="여행 제목을 입력하세요"/><br/>
+                		<label for="title">&nbsp; <strong>${addtripnote_title }</strong></label>
+                		<input id="title" name="title" type="text" value="${mytrip.title }" placeholder="${addtripnote_title_input }"/><br/>
 						<input type="hidden" name="daynum" value="${fn:length(tripList)} "/>
                			<c:forEach items="${tripList }" var="tripday">
 	                		
@@ -57,8 +76,8 @@
 	                			<div style="">
 	                				<h4>Day ${tripday.daynum }<small>&nbsp; (${tripday.tripdate })</small></h4>
 			                	</div>
-	                			<label>소제목</label>
-	                			<input type="text" name="daytitle_${tripday.daynum }" placeholder="여행 소제목을 입력해보세요."/>
+	                			<label>${addtripnote_subtitle }</label>
+	                			<input type="text" name="daytitle_${tripday.daynum }" placeholder="${addtripnote_subtitle_input }"/>
 			                	<c:forEach items="${tripDetail }" var="detail" varStatus="n">
 			                		<c:if test="${tripday.tripdate eq detail.tripdate }">
 			                			
@@ -75,7 +94,7 @@
                			</c:forEach>
                 		
                 	</div>
-                	<button style="background-color: #F05562; color: white; border-radius: 5px;">여행노트 등록</button>
+                	<button style="background-color: #F05562; color: white; border-radius: 5px;">${addtripnote_writeNotes }</button>
                 </form>
             </div>
             

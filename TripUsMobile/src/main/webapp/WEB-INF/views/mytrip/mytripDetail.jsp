@@ -30,6 +30,33 @@
     </head>
     <body>
     	<div id="main" data-role='page' style="background-color: white;">
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Travel Stories" var="mytripDetail_sub"></c:set>
+        		<c:set value="Travel Course" var="mytripDetail_course"></c:set>
+        		<c:set value="Change Image" var="mytripDetail_changeImg"></c:set>
+        		<c:set value="Invite a Friends" var="mytripDetail_invite"></c:set>
+        		<c:set value="Share Your Travel-Note Calendar" var="mytripDetail_share"></c:set>
+        		<c:set value="of Travel" var="mytripDetail_title"></c:set>
+        		<c:set value="Day " var="mytripDetail_day"></c:set>
+        		<c:set value="Delete" var="mytripDetail_del"></c:set>
+        		<c:set value="Add Attractions +" var="mytripDetail_addAttrac"></c:set>
+        		<c:set value="Writing" var="mytripDetail_writing"></c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="여행 스토리" var="mytripDetail_sub"></c:set>
+        		<c:set value="여행 경로" var="mytripDetail_course"></c:set>
+        		<c:set value="커버이미지 변경" var="mytripDetail_changeImg"></c:set>
+        		<c:set value="친구 초대" var="mytripDetail_invite"></c:set>
+        		<c:set value="여행노트 일정공유" var="mytripDetail_share"></c:set>
+        		<c:set value="여행" var="mytripDetail_title"></c:set>
+        		<c:set value="일차" var="mytripDetail_day"></c:set>
+        		<c:set value="삭제" var="mytripDetail_del"></c:set>
+        		<c:set value="여행지 추가 +" var="mytripDetail_addAttrac"></c:set>
+        		<c:set value="글쓰기" var="mytripDetail_writing"></c:set>
+        	</c:if>
+        	
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
             	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
                 <h2>${mytrip.title }</h2>
@@ -39,27 +66,27 @@
         		<div class="sub-navbar">
 	        		<div data-role="navbar" style="width: 100%; z-index: 100; top: 42px; position: fixed;" data-theme="c">
 	        			<ul>
-	        				<li><a id="nav-story" href="#" class="ui-btn-active">여행 스토리</a></li>
-	        				<li><a id="nav-maps" href="#">여행 경로</a></li>
+	        				<li><a id="nav-story" href="#" class="ui-btn-active">${mytripDetail_sub }</a></li>
+	        				<li><a id="nav-maps" href="#">${mytripDetail_course }</a></li>
 	        			</ul>
 	        		</div>
         		</div>
         		<div id="mytrip-story">
 	            	<div data-role="controlgroup" data-type="horizontal">
 	            		<img class="mytrip-cover" src="${mytrip.coverimg }"/>
-	               		<a class="mytrip-detail-btn" data-role="button" href="#" style="background-color: white; color: black;">커버 변경</a>
-	               		<a class="mytrip-detail-btn" data-role="button" href="../invitefriend" style="background-color: white; color: black;">친구 초대</a>
+	               		<a class="mytrip-detail-btn" data-role="button" href="#" style="background-color: white; color: black;">${mytripDetail_changeImg }</a>
+	               		<a class="mytrip-detail-btn" data-role="button" href="../invitefriend" style="background-color: white; color: black;">${mytripDetail_invite }</a>
 	               	</div>
 	               	
 	               	
 	               	<div style="position: relative; top: -48px;">
-	               	<a href="../shareTripnote/${sessionScope.mytripCode }" data-role="button">여행노트 일정공유</a>
+	               	<a href="../shareTripnote/${sessionScope.mytripCode }" data-role="button">${mytripDetail_share }</a>
 	              	<c:forEach items="${tripList }" var="bean">
 	               		<div class="ui-corner-all custom-corners">
 	               			<div class="ui-bar ui-bar-a" style="background: white; border: none;">
 		               			<div style="border-bottom: 3px solid gray; padding-bottom: 5px;">
 			               			<img src="../resources/imgs/icon/tripcon2.png" style="width: 30px; height: 23px; position: relative; top: 5px;"/>
-			               			<h3>여행 ${bean.daynum }일차</h3><small>&nbsp; (${bean.tripdate })</small>
+			               			<h3>${mytripDetail_title } ${bean.daynum }${mytripDetail_day }</h3><small>&nbsp; (${bean.tripdate })</small>
 		               			</div>
 		               		</div>
 	               			<div class="ui-body ui-body-a" style="border: none;">
@@ -84,7 +111,7 @@
 		               							</td>
 		               							<th>
 		               								<span style="color: red;">♥</span>${conLike[status.index] }<br/><br/>
-		               								<a href="../delTrip/${detail.contentid }" style="color: darkgray; text-decoration: none;">삭제</a>
+		               								<a href="../delTrip/${detail.contentid }" style="color: darkgray; text-decoration: none;">${mytripDetail_del }</a>
 		               							</th>
 		               						</tr>
 	               						</c:if>
@@ -92,13 +119,13 @@
 	               					<tr>
 	               						<th>
 	               							<span style="width: 30px; height: 30px; border-radius: 30px; background-color: #F05562; color: white;">&nbsp; +&nbsp;&nbsp;</span></th>
-	               						<td colspan="2"><a style="text-decoration: none; color: gray;" href="../search_mytrip?tripdate=${bean.tripdate}"> 여행지 추가 + </a></td>
+	               						<td colspan="2"><a style="text-decoration: none; color: gray;" href="../search_mytrip?tripdate=${bean.tripdate}"> ${mytripDetail_addAttrac } </a></td>
 	               					</tr>
 	               				</table>
 	               					
 	               				<!-- 메모 공간 -->
 	               				<div data-role="collapsible" data-theme="b" data-content-theme="a" style="background-color: #e9e9e9">
-	               					<h4 style="background-color: #e9e9e9">${bean.daynum }일차 Story Borad</h4>
+	               					<h4 style="background-color: #e9e9e9">${bean.daynum }${mytripDetail_day } Story Borad</h4>
 	               					
 	               					<c:forEach items="${tripStory }" var="story">
 	               						<c:if test="${bean.tripdate eq story.tripdate }">
@@ -125,7 +152,7 @@
 	               						</c:if>
 	               					</c:forEach>
 	               					
-	               					<a data-role="button" style="background-color: white; border: 2px solid #F05562; color: #F05562;" href="../addstory/${bean.daynum }/${bean.tripdate }">글 쓰기</a>
+	               					<a data-role="button" style="background-color: white; border: 2px solid #F05562; color: #F05562;" href="../addstory/${bean.daynum }/${bean.tripdate }">${mytripDetail_writing }</a>
 	               				</div>
 	               				
 	               			</div>
@@ -147,7 +174,7 @@
 				           			<div class="ui-bar ui-bar-a" style="background: white; border: none;">
 				               			<div style="border-bottom: 3px solid gray; padding-bottom: 5px;">
 						               		<img src="../resources/imgs/icon/tripcon2.png" style="width: 30px; height: 23px; position: relative; top: 5px;"/>
-						               		<h3>여행 ${bean.daynum }일차</h3><small>&nbsp; (${bean.tripdate })</small>
+						               		<h3>${mytripDetail_title } ${bean.daynum }${mytripDetail_day }</h3><small>&nbsp; (${bean.tripdate })</small>
 					               		</div>
 				               		</div>
 			               			<div class="ui-body ui-body-a" style="border: none;">
@@ -259,7 +286,7 @@
 			        var markerImage_end = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption)// 마커가 표시될 위치입니다
 			        
 			        
-			        var imageSrc_b = 'http://localhost:8080/tripus/resources/imgs/icon/ourmaker.png', // 마커이미지의 주소입니다    
+			        var imageSrc_b = 'http://203.236.209.203:8080/tripus/resources/imgs/icon/ourmaker.png', // 마커이미지의 주소입니다    
 		            imageSize_b = new daum.maps.Size(50,50), // 마커이미지의 크기입니다
 		            imageOption_b = {offset: new daum.maps.Point(25,25)}; 
 			        

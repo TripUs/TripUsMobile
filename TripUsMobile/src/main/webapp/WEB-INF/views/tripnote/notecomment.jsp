@@ -11,9 +11,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../resources/css/jquery.mobile-1.4.5.min.css"/>
         <link rel="stylesheet" href="../resources/css/jquery.mobile.theme-1.4.5.min.css"/>
+        <link rel="stylesheet" href="../resources/css/themec.min.css"/>
         <link rel="stylesheet" href="../resources/css/slick.css"/>
 		<link rel="stylesheet" href="../resources/css/slick-theme.css"/>
-		<link rel="stylesheet" href="../resources/css/themec.min.css"/>
         <link rel="stylesheet" href="../resources/css/tripus.css">
         <script src="http://code.jquery.com/jquery-1.12.4.min.js"
                   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
@@ -25,25 +25,29 @@
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="../resources/js/tripus.js"></script>
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
-        <title>Document</title>
-	    <script type="text/javascript">
-		    $(document).ready(function() {
-	        	$('.img-slider').slick({
-	        		dots : false,
-	        		infinite : true,
-	        		speed : 300,
-	        		slidesToShow : 1,
-	        		centerMode : true,
-	        		variableWidth : false
-	        	});
-	        });            	
-	    </script>
+        <script type="text/javascript" charset="utf-8" src="../resources/js/cordova.js"></script>
+        <script type="text/javascript" charset="utf-8" src="../resources/js/cordova_plugins.js"></script>
+        <script type="text/javascript" charset="utf-8" src="../resources/js/geolocation.js"></script>
     </head>
     <body>
         <div data-role='page' style="background-color: white;">
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Comment" var="tour_comment"></c:set>
+        		<c:set value="Write" var="tour_write"></c:set>
+        		<c:set value="AJAX Communication failure" var="ajaxfailure">
+        		</c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="댓글" var="tour_comment"></c:set>
+        		<c:set value="작성" var="tour_write"></c:set>
+        		<c:set value="AJAX 통신실패" var="ajaxfailure"></c:set>
+        	</c:if>
+        	
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h1><img src="../resources/imgs/icon/comment2.png" style="position: relative; top: 5px; width: 30px; height: 20px;"/> &nbsp;댓글</h1>
+                <h1><img src="../resources/imgs/icon/comment2.png" style="position: relative; top: 5px; width: 30px; height: 20px;"/> &nbsp;${tour_comment }</h1>
             </div>
         	
             <div data-role='content' style="padding: 0px 10px;">
@@ -68,10 +72,6 @@
 		            					&nbsp;&nbsp;<small>${bean.reporting_date }</small>
 									</c:if>
 	            				</td>
-	            				<td style="text-align: right;">
-	            					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	            					<a href="#" style="text-decoration: none; color: gray;">답글</a>
-	            				</td>
 	            			</tr>
 	            			<tr>
 	            				<td>&nbsp;</td>
@@ -84,7 +84,7 @@
       			
       			<div>
       				<textarea id="note_comment" name="comment"></textarea>
-      				<button id="commentbtn" style="background-color: #F05562; color: white;">작성</button>
+      				<button id="commentbtn" style="background-color: #F05562; color: white;">${tour_write }</button>
       			</div>
       			
       			<fmt:formatDate value="${now}" pattern="hh:mm:ss" var="curr"/>
@@ -108,12 +108,11 @@
 			            				+ '<td style="padding-left: 10px;"><strong>${sessionScope.userInfo.nicname }</strong></td>'
 			            				+ '<td >&nbsp;&nbsp;<small>${curr }</small>'
 				            			+ '<img src="../resources/imgs/icon/newicon.png" style="width: 20px; height: 20px; position: relative; top: 5px;"/>'
-				            			+ '</td><td style="text-align: right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-			            				+ '<a href="#" style="text-decoration: none; color: gray;">답글</a></td></tr>'
+				            			+ '</td></tr>'
 			            				+ '<tr><td>&nbsp;</td><td colspan="2" style="padding-left: 10px;">' + comment + '</td></tr></table></div>');
 					        }, 
 					        error : function(){ 
-					           	alert('AJAX 통신 실패'); 
+					           	alert('${ajaxfailure}'); 
 					        } 
 					    });
       				});

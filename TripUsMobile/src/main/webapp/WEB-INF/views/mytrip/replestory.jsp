@@ -30,9 +30,20 @@
     </head>
     <body>
         <div id="main" data-role='page' style="background-color: white;">
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Write a Comment" var="replestory_sub"></c:set>
+        		<c:set value="Writing" var="invitefriend_writing"></c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="댓글 작성" var="replestory_sub"></c:set>
+        		<c:set value="글쓰기" var="invitefriend_writing"></c:set>
+        	</c:if>
+        	
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
             	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h2>댓글 작성</h2>
+                <h2>${replestory_sub }</h2>
             </div>
         
         	<div data-role='content'>
@@ -40,7 +51,7 @@
                 	<ul data-role="listview" data-inset="true">
                 		<li class="ui-field-contain">
                 			<textarea id="memo" name="memo" rows="10" cols="5"></textarea>
-	                		<button style="background-color: #F05562; color: white;">글쓰기</button>
+	                		<button style="background-color: #F05562; color: white;">${invitefriend_writing }</button>
                 		</li>
                 	</ul>
                 </form>

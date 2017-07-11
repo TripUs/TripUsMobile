@@ -30,8 +30,35 @@
     </head>
     <body>
         <div id="main" data-role='page' style="background-color: white;">
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="My Travel" var="mytrip"></c:set>
+        		<c:set value="Delete Travel" var="mytrip_del"></c:set>
+        		<c:set value="Would you like to plan your trip now?" var="mytrip_management_planTrip"></c:set>
+        		<c:set value="Add Travel" var="mytrip_management_addTravel"></c:set>
+        		<c:set value="This feature requires login." var="mytrip_management_login"></c:set>
+        		<c:set value="Do you want to sign in now?" var="mytrip_management_signIn"></c:set>
+        		<c:set value="Are you sure you want to delete this trip?" var="mytrip_management_deleteTrip"></c:set>
+        		<c:set value="LogIn" var="login"></c:set>
+        		<c:set value="Delete" var="delete"></c:set>
+        		<c:set value="Cancel" var="cancel"></c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="내 여행관리" var="mytrip"></c:set>
+        		<c:set value="여행 삭제" var="mytrip_del"></c:set>
+        		<c:set value="지금 여행 계획을 세우시겠어요?" var="mytrip_management_planTrip"></c:set>
+        		<c:set value="여행 추가" var="mytrip_management_addTravel"></c:set>
+        		<c:set value="로그인이 필요한 기능입니다." var="mytrip_management_login"></c:set>
+        		<c:set value="지금 로그인 하시겠습니까?" var="mytrip_management_signIn"></c:set>
+        		<c:set value="여행을 삭제하시겠습니까?" var="mytrip_management_deleteTrip"></c:set>
+        		<c:set value="로그인" var="login"></c:set>
+        		<c:set value="삭제" var="delete"></c:set>
+        		<c:set value="취소" var="cancel"></c:set>
+        	</c:if>
+        	
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
-                <h1>내 여행관리</h1>
+                <h1>${mytrip }</h1>
             </div>
         	
             <div data-role='content' style="padding: 0px 10px;">
@@ -49,7 +76,7 @@
 				                            <h2>[${bean.thema}] ${bean.title }</h2>
 				                            <p>${bean.startdate } ~ ${bean.enddate }</p>
 				                        </a>
-				                        <a href="#" onclick="showtrippop('${bean.code }')">여행삭제</a>
+				                        <a href="#" onclick="showtrippop('${bean.code }')">${mytrip_del }</a>
 				                    </li>		
 			                	</c:forEach>
 			                	</ul>
@@ -57,9 +84,14 @@
 			                
 			                <c:otherwise>
 			                	<!-- 여행 목록이 없는 경우 -->
-			                	<h2>${sessionScope.userInfo.nicname }님의 여행목록이 없습니다</h2>
-			                	<p>지금 여행 계획을 세우시겠어요?</p>
-			                	<p><a href="addmytrip">여행 추가</a></p>
+			                	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+		           					<h2> No Travel Listings from  ${sessionScope.userInfo.nicname } </h2>
+		           				</c:if>
+		           				<c:if test="${sessionScope.userInfo.lang ne 1 }">
+			                		 <h2>${sessionScope.userInfo.nicname } 님의 여행목록이 없습니다.</h2>
+			                	</c:if>
+			                	<p>${mytrip_management_planTrip }</p>
+			                	<p><a href="addmytrip">${mytrip_management_addTravel }</a></p>
 			                </c:otherwise>
 		                </c:choose>
 		                <a href="addmytrip" style="position: fixed; top: 80%; left: 83%;">
@@ -70,9 +102,9 @@
 	                <c:otherwise>
 	                	<!-- 로그인이 되어 있지 않은 경우 -->
 	                	<h2>&nbsp;</h2>
-	                	<h2> &nbsp;로그인이 필요한 기능입니다.</h2>
+	                	<h2> &nbsp;${mytrip_management_login }</h2>
 	                	<h4>&nbsp;</h4>
-	                	<p> &nbsp; 지금 로그인 하시겠습니까? &nbsp; <a href="setting">로그인</a></p>
+	                	<p> &nbsp; ${mytrip_management_signIn } &nbsp; <a href="setting">${login }</a></p>
 	                </c:otherwise>
                 </c:choose>
             </div>
@@ -85,9 +117,9 @@
             	};
             	
             	function showtrippop(code) {
-            		$('#deltrippop').html('<h3>여행을 삭제하시겠습니까?</h3>');
-            		$('#deltrippop').append('<a href="delMyTrip/'+ code + '" data-ajax="false" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini" style="background-color: #F05562; color: white;">삭제</a>'
-                        	+ '<a href="#" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini" style="background-color: #F05562; color: white;" onclick="canceltrippop()">취소</a>');
+            		$('#deltrippop').html('<h3>${mytrip_management_deleteTrip}</h3>');
+            		$('#deltrippop').append('<a href="delMyTrip/'+ code + '" data-ajax="false" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini" style="background-color: #F05562; color: white;">${delete}</a>'
+                        	+ '<a href="#" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini" style="background-color: #F05562; color: white;" onclick="canceltrippop()">${cancel}</a>');
             		$('#deltrippop').show();
             	}
             </script>

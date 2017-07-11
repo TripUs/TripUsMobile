@@ -31,16 +31,31 @@
     </head>
     <body>
         <div id="main" data-role='page' style="background-color: white;">
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Travel Notes" var="tripnote_sub"></c:set>
+        		<c:set value="Community" var="tripnote_community"></c:set>
+        		<c:set value="My Travel Notes" var="tripnote_mynotes"></c:set>
+        		<c:set value="You can use it after login" var="tour_alert"></c:set>
+        	</c:if>                    
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="여행 노트" var="tripnote_sub"></c:set>
+        		<c:set value="커뮤니티" var="tripnote_community"></c:set>
+        		<c:set value="내 여행노트" var="tripnote_mynotes"></c:set>
+        		<c:set value="로그인 후 사용하실 수 있습니다." var="tour_alert"></c:set>
+        	</c:if>
+        	
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
-                <h1>여행 노트</h1>
+                <h1>${tripnote_sub }</h1>
             </div>
         	
             <div data-role='content'>
         		<div class="sub-navbar">
 	        		<div data-role="navbar">
 	        			<ul>
-	        				<li><a id="nav-all" href="#" class="ui-btn-active">커뮤니티</a></li>
-	        				<li><a id="nav-mynote" href="#" onclick="chkLogin()">내 여행노트</a></li>
+	        				<li><a id="nav-all" href="#" class="ui-btn-active">${tripnote_community }</a></li>
+	        				<li><a id="nav-mynote" href="#" onclick="chkLogin()">${tripnote_mynotes }</a></li>
 	        			</ul>
 	        		</div>
         		</div>
@@ -51,7 +66,7 @@
 				<script type="text/javascript">
 					function chkLogin() {
 						if($('#noteuser').val()=='') {
-							alert("로그인 후 사용가능합니다.");
+							alert("${tour_alert}");
 							$('#nav-all').trigger('click');
 						} else {
 							$('#all-note').hide();

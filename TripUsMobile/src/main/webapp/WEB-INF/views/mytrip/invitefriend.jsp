@@ -30,15 +30,44 @@
     </head>
 	<body>
         <div id="main" data-role='page' style="background-color: white;">
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Share Itinerary" var="invitefriend_sub"></c:set>
+        		<c:set value="Share to a Friend" var="invitefriend_share"></c:set>
+        		<c:set value="Invite TripUs" var="invitefriend_invite"></c:set>
+        		<c:set value="친구 삭제" var="invitefriend_del"></c:set>
+        		<c:set value="Friend's E-Mail" var="invitefriend_friendMail"></c:set>
+        		<c:set value="Please Write One's E-mail" var="invitefriend_mail"></c:set>
+        		<c:set value="Send" var="invitefriend_send"></c:set>
+        		<c:set value="Schedule Sharing" var="share"></c:set>
+        		<c:set value="Would you like to share your itinerary with your friends?" var="invitefriend_shareQsn"></c:set>
+        		<c:set value="Submit" var="confirm"></c:set>
+        		<c:set value="Cancel" var="cancel"></c:set>
+        	</c:if>
+    	    <!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="여행일정 공유" var="invitefriend_sub"></c:set>
+        		<c:set value="친구와 일정 공유" var="invitefriend_share"></c:set>
+        		<c:set value="TripUs 초대" var="invitefriend_invite"></c:set>
+        		<c:set value="친구 삭제" var="invitefriend_del"></c:set>
+        		<c:set value="친구 E-Mail" var="invitefriend_friendMail"></c:set>
+        		<c:set value="상대의 E-Mail을 적어주세요" var="invitefriend_mail"></c:set>
+        		<c:set value="발송" var="invitefriend_send"></c:set>
+        		<c:set value="일정 공유" var="share"></c:set>
+        		<c:set value="친구와 여행일정을 공유 하시겠습니까?" var="invitefriend_shareQsn"></c:set>
+        		<c:set value="확인" var="confirm"></c:set>
+        		<c:set value="취소" var="cancel"></c:set>
+        	</c:if>
+        	
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
             	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h2>여행일정 공유</h2>
+                <h2>${invitefriend_sub }</h2>
             </div>
         	<div data-role='content'>
         		<div data-role="navbar">
         			<ul>
-        				<li><a id="nav-friend" href="#" class="ui-btn-active">친구와 일정 공유</a></li>
-        				<li><a id="nav-invite" href="#">TripUs 초대</a></li>
+        				<li><a id="nav-friend" href="#" class="ui-btn-active">${invitefriend_share }</a></li>
+        				<li><a id="nav-invite" href="#">${invitefriend_invite }</a></li>
         			</ul>
         		</div>
             	<div id="mytrip-friend" style="padding: 30px 10px;">
@@ -49,7 +78,7 @@
 	                			<img src="${bean.friendprofile }"/>
 	                			<h2>${bean.friendnicname }</h2>
 	                		</a>
-	                		<a href="#invite-mytrip-friend" onclick="invitemytrip('${bean.friendid }')" data-rel="popup" data-position-to="window" data-transition="pop">친구 삭제</a>
+	                		<a href="#invite-mytrip-friend" onclick="invitemytrip('${bean.friendid }')" data-rel="popup" data-position-to="window" data-transition="pop">${invitefriend_del }</a>
 	                	</li>
                    	</c:forEach>
                 	</ul>
@@ -60,9 +89,9 @@
 	            
 	            <div id="mytrip-invite" style="padding: 30px 10px;">
 	            	<form action="sendmail">
-	            		<label for="email">&nbsp; <strong>Friend E-Mail</strong></label>
-	            		<input type="email" id="email" name="address" placeholder="상대의 E-Mail을 적어주세요"/>
-	            		<button style="background-color: #F05562; color: white; margin-top: 20px;">발송</button>
+	            		<label for="email">&nbsp; <strong>${invitefriend_friendMail }</strong></label>
+	            		<input type="email" id="email" name="address" placeholder="${invitefriend_mail }"/>
+	            		<button style="background-color: #F05562; color: white; margin-top: 20px;">${invitefriend_send }</button>
 	            	</form>
 	            </div>
             </div>
@@ -70,10 +99,10 @@
             <script type="text/javascript">
 	            var invitemytrip = function(data) {
 	        		console.log('invite friend callback' + data);
-	        		$('#invite-mytrip-friend').html("<h3>일정 공유</h3>");
-	        		$('#invite-mytrip-friend').append("<p>친구와 여행일정을 공유 하시겠습니까?</p>");
-	        		$('#invite-mytrip-friend').append("<a href='invitefriend/" + data + "' data-ajax='false' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-delete ui-btn-inline ui-mini'>확인</a>");
-	        		$('#invite-mytrip-friend').append("<a href='#' data-rel='back' class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>취소</a>");
+	        		$('#invite-mytrip-friend').html("<h3>${share}</h3>");
+	        		$('#invite-mytrip-friend').append("<p>${invitefriend_shareQsn}</p>");
+	        		$('#invite-mytrip-friend').append("<a href='invitefriend/" + data + "' data-ajax='false' class='ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-delete ui-btn-inline ui-mini'>${confirm}</a>");
+	        		$('#invite-mytrip-friend').append("<a href='#' data-rel='back' class='ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini'>${cancel}</a>");
 	        	};
         	
             	$('#nav-friend').click(function() {

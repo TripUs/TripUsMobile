@@ -30,9 +30,20 @@
     </head>
     <body>
         <div id="main" data-role='page' style="background-color: white;">
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Write Story Board" var="mytrip_addStory"></c:set>
+        		<c:set value="Writing" var="mytrip_addStory_writing"></c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="Story Board 만들기" var="mytrip_addStory"></c:set>
+        		<c:set value="글쓰기" var="mytrip_addStory_writing"></c:set>
+        	</c:if>
+        	
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
             	<a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h2>Story Board 작성</h2>
+                <h2>${mytrip_addStory }</h2>
             </div>
         
         	<div data-role='content'>
@@ -40,7 +51,7 @@
                 	<ul data-role="listview" data-inset="true">
                 		<li class="ui-field-contain">
                 			<textarea id="memo" name="memo" rows="10" cols="5"></textarea>
-	                		<button style="background-color: #F05562; color: white;">글쓰기</button>
+	                		<button style="background-color: #F05562; color: white;">${mytrip_addStory_writing }</button>
                 		</li>
                 	</ul>
                 </form>

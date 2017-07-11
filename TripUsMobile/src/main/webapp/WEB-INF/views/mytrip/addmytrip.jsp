@@ -30,35 +30,64 @@
     </head>
     <body>
         <div data-role='page' style="background-color: white;">
+            <!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Add my trip" var="mytrip_add"></c:set>
+        		<c:set value="Trip title" var="mytrip_sub"></c:set>
+        		<c:set value="Enter your trip title" var="mytrip_subInput"></c:set>
+        		<c:set value="Travel start date" var="mytrip_startDate"></c:set>
+        		<c:set value="Travel end date" var="mytrip_endDate"></c:set>
+        		<c:set value="Travel Theme" var="mytrip_theme"></c:set>
+        		<c:set value="Alone" var="mytrip_theme_alone"></c:set>
+        		<c:set value="Friends" var="mytrip_theme_withFriend"></c:set>
+        		<c:set value="Family" var="mytrip_theme_withFamily"></c:set>
+        		<c:set value="Lover" var="mytrip_theme_withLover"></c:set>
+        		<c:set value="Add Travel Plan" var="mytrip_addPlan"></c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="내 여행 추가" var="mytrip_add"></c:set>
+        		<c:set value="여행 제목" var="mytrip_sub"></c:set>
+        		<c:set value="여행 제목을 입력하세요" var="mytrip_subInput"></c:set>
+        		<c:set value="여행 시작일" var="mytrip_startDate"></c:set>
+        		<c:set value="여행 종료일" var="mytrip_endDate"></c:set>
+        		<c:set value="여행 테마" var="mytrip_theme"></c:set>
+        		<c:set value="나홀로" var="mytrip_theme_alone"></c:set>
+        		<c:set value="친구와함께" var="mytrip_theme_withFriend"></c:set>
+        		<c:set value="가족과함께" var="mytrip_theme_withFamily"></c:set>
+        		<c:set value="연인과함께" var="mytrip_theme_withLover"></c:set>
+        		<c:set value="여행계획 추가" var="mytrip_addPlan"></c:set>
+        	</c:if>
+        	
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
-                <h1>내 여행 추가</h1>
+                <h1>${mytrip_add }</h1>
             </div>
         	
             <div data-role='content' style="padding: 0px 10px;">
       			<form action="addmytrip" method="post" accept-charset="UTF-8" data-ajax="false">
                 	<div data-role='fieldcontain'>
-                		<label for="title">&nbsp; <strong>여행 제목</strong></label>
-                		<input id="title" name="title" type="text" placeholder="여행 제목을 입력하세요"/><br/>
-                		<label for="startdate">&nbsp; <strong>여행 시작일</strong></label>
+                		<label for="title">&nbsp; <strong>${mytrip_sub }</strong></label>
+                		<input id="title" name="title" type="text" placeholder="${mytrip_subInput }"/><br/>
+                		<label for="startdate">&nbsp; <strong>${mytrip_startDate }</strong></label>
                 		<input id="startdate" name="startdate" type="date"/><br/>
-                		<label for="enddate">&nbsp; <strong>여행 종료일</strong></label>
+                		<label for="enddate">&nbsp; <strong>${mytrip_endDate }</strong></label>
                 		<input id="enddate" name="enddate" type="date"/>
                 	</div>
                 	<div data-role='fieldcontain'>
                 		<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-                			<legend>&nbsp; <strong>여행 테마</strong></legend>
-                			<input type="radio" name="thema" id="thema1" value="나홀로" checked="checked"/>
-                			<label for="thema1">나홀로</label>
-                			<input type="radio" name="thema" id="thema2" value="친구와 함께"/>
-                			<label for="thema2">친구와 함께</label>
-                			<input type="radio" name="thema" id="thema3" value="가족과 함께"/>
-                			<label for="thema3">가족과 함께</label>
-                			<input type="radio" name="thema" id="thema4" value="커플"/>
-                			<label for="thema4">커플</label>
+                			<legend>&nbsp; <strong>${mytrip_theme }</strong></legend>
+                			<input type="radio" name="thema" id="thema1" value="${mytrip_theme }" checked="checked"/>
+                			<label for="thema1">${mytrip_theme }</label>
+                			<input type="radio" name="thema" id="thema2" value="${mytrip_theme_withFriend }"/>
+                			<label for="thema2">${mytrip_theme_withFriend }</label>
+                			<input type="radio" name="thema" id="thema3" value="${mytrip_theme_withFamily }"/>
+                			<label for="thema3">${mytrip_theme_withFamily }</label>
+                			<input type="radio" name="thema" id="thema4" value="${mytrip_theme_withLover }"/>
+                			<label for="thema4">${mytrip_theme_withLover }</label>
                 		</fieldset>
                 	</div>
-                	<button style="background-color: #F05562; color: white; border-radius: 5px;">여행 등록</button>
+                	<button style="background-color: #F05562; color: white; border-radius: 5px;">${mytrip_addPlan }</button>
                 </form>
             </div>
             

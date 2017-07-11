@@ -30,6 +30,76 @@
     </head>
     <body>
         <div data-role='page'>
+        	<!-- 영어 -->
+        	<c:if test="${sessionScope.userInfo.lang eq 1 }">
+        		<c:set value="Add My Travels" var="tour_add"></c:set>
+        		<c:set value="You can use it after login" var="tour_alert"></c:set>
+        		<c:set value="s travel list" var="tour_list"></c:set>
+        		<c:set value="! No travel listings" var="tour_list_no"></c:set>
+        		<c:set value="Do you want to add a new trip?" var="tour_list_new"></c:set>
+        		<c:set value="Travel" var="travel"></c:set>
+        		<c:set value="Day" var="day"></c:set>
+        		<c:set value="Add Travel" var="tour_list_add"></c:set>
+        		<c:set value="Add Attractions" var="tour_place_add"></c:set>
+        		<c:set value="Add to your trip?" var="tour_place_new"></c:set>
+        		<c:set value="AJAX Communication failure" var="ajaxfailure"></c:set>
+        		<c:set value="Add" var="add"></c:set>
+        		<c:set value="Cancel" var="cancel"></c:set>
+        		<c:set value="Introduce" var="tour_intro"></c:set>
+        		<c:set value="Telephone" var="tour_tel"></c:set>
+        		<c:set value="Main Menu" var="tour_main"></c:set>
+        		<c:set value="Restaurant Details" var="tour_detail"></c:set>
+        		<c:set value="Menu" var="tour_menu"></c:set>
+        		<c:set value="Reservation Guide" var="tour_book"></c:set>
+        		<c:set value="Opening hours" var="tour_time"></c:set>
+        		<c:set value="Day Off" var="tour_holiday"></c:set>
+        		<c:set value="Discount information" var="tour_sale"></c:set>
+        		<c:set value="Parking Facilities" var="tour_parking"></c:set>
+        		<c:set value="Packing availability" var="tour_package"></c:set>
+        		<c:set value="Photo" var="tour_photo_info"></c:set>
+        		<c:set value="Add Photo" var="tour_photo"></c:set>
+        		<c:set value="Upload" var="upload"></c:set>
+        		<c:set value="Location Information (Map)" var="tour_gps"></c:set>
+        		<c:set value="review" var="tour_review"></c:set>
+        		<c:set value="Please enter a review" var="tour_review_input"></c:set>
+        		<c:set value="Input" var="input"></c:set>
+        		<c:set value="Write a review after login" var="tour_review_writing"></c:set>
+        	</c:if>
+        	<!-- 한국어 -->
+        	<c:if test="${sessionScope.userInfo.lang ne 1 }">
+        		<c:set value="내 여행 추가" var="tour_add"></c:set>
+        		<c:set value="로그인 후 사용하실 수 있습니다." var="tour_alert"></c:set>
+        		<c:set value="님의 여행목록" var="tour_list"></c:set>
+        		<c:set value="님의 여행목록이 없습니다." var="tour_list_no"></c:set>
+        		<c:set value="새로운 여행을 추가하시겠습니까?" var="tour_list_new"></c:set>
+        		<c:set value="여행" var="travel"></c:set>
+        		<c:set value="일차" var="day"></c:set>
+        		<c:set value="여행 추가" var="tour_list_add"></c:set>
+        		<c:set value="여행지 추가" var="tour_place_add"></c:set>
+        		<c:set value="여행지에 추가하시겠습니까?" var="tour_place_new"></c:set>
+        		<c:set value="AJAX 통신실패" var="ajaxfailure"></c:set>
+        		<c:set value="추가" var="add"></c:set>
+        		<c:set value="취소" var="cancel"></c:set>
+        		<c:set value="소개" var="tour_intro"></c:set>
+        		<c:set value="전화" var="tour_tel"></c:set>
+        		<c:set value="대표메뉴" var="tour_main"></c:set>
+        		<c:set value="식당 상세정보" var="tour_detail"></c:set>
+        		<c:set value="메뉴" var="tour_menu"></c:set>
+        		<c:set value="예약안내" var="tour_book"></c:set>
+        		<c:set value="영업시간" var="tour_time"></c:set>
+        		<c:set value="쉬는 날" var="tour_holiday"></c:set>
+        		<c:set value="할인정보" var="tour_sale"></c:set>
+        		<c:set value="주차시설" var="tour_parking"></c:set>
+        		<c:set value="포장가능여부" var="tour_package"></c:set>
+        		<c:set value="사진정보" var="tour_photo_info"></c:set>
+        		<c:set value="사진추가" var="tour_photo"></c:set>
+        		<c:set value="업로드" var="upload"></c:set>
+        		<c:set value="위치정보(지도)" var="tour_gps"></c:set>
+        		<c:set value="리뷰" var="tour_review"></c:set>
+        		<c:set value="리뷰를 등록하세요" var="tour_review_input"></c:set>
+        		<c:set value="입력" var="input"></c:set>
+        		<c:set value="로그인 후 리뷰를 작성하세요" var="tour_review_writing"></c:set>
+        	</c:if>
             <div data-role='header' data-position='fixed' style="background-color: #F05562; color: white;">
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-icon-mybackicon ui-btn-icon-left ui-btn-icon-notext ui-corner-all">Back</a>
                 <h1>${basicInfo.title }</h1>
@@ -37,7 +107,7 @@
             <div data-role='content' style="background-color: white;">
                 <div data-role="controlgroup" data-type="horizontal">
                 	<c:if test="${basicInfo.firstimage eq '데이터 없음' }">
-						<img class="detail-area-img" src="http://localhost:8080/tripus/resources/imgs/no_img.jpg"/>			
+						<img class="detail-area-img" src="http://203.236.209.203:8080/tripus/resources/imgs/no_img.jpg"/>			
 					</c:if>
 	            	<c:if test="${basicInfo.firstimage ne '데이터 없음' }">
 		            	<img class="detail-area-img" src="${basicInfo.firstimage }"/>			
@@ -49,10 +119,10 @@
 						<a id="likebutton" class="mytrip-detail-btn" data-role="button" style="background-color: white; color: black;" href="#" onclick="likeupdate()">♥ ${likeCnt }</a>
 					</c:if>
 					<c:if test="${sessionScope.mytripCode eq 0}">
-						<a class="mytrip-detail-btn" id="addmytrip-food" onclick="addmytripfood()" data-role="button" style="background-color: white; color: black;" href="#">내 여행지 추가</a>
+						<a class="mytrip-detail-btn" id="addmytrip-food" onclick="addmytripfood()" data-role="button" style="background-color: white; color: black;" href="#">${tour_add }</a>
 					</c:if>
 					<c:if test="${sessionScope.mytripCode ne 0}">
-						<a class="mytrip-detail-btn" id="addmytrip-food" data-role="button" style="background-color: white; color: black;" href="../addmytrip_list/${basicInfo.contentid }">내 여행지 추가</a>
+						<a class="mytrip-detail-btn" id="addmytrip-food" data-role="button" style="background-color: white; color: black;" href="../addmytrip_list/${basicInfo.contentid }">${tour_add }</a>
 					</c:if>
 				</div>
 				
@@ -118,7 +188,7 @@
 					            } 
 					        });		
 						} else {
-							alert('로그인 후 사용하실 수 있습니다.');
+							alert('${tour_alert}');
 						}
 					};
 					
@@ -128,7 +198,7 @@
 					
 					function addmytripfood() {
 						if(userInfo == '') {
-							alert('로그인 후 사용하실 수 있습니다.');
+							alert('${tour_alert}');
 						} else {
 							$.ajax({ 
 					        	url: "../getMyTrip",
@@ -137,7 +207,7 @@
 					            	var usernicname = $('#usernicname').val();
 					            	$('#mytrip-food div').html('');
 					            	if(data.length != 0) {
-					            		$('#mytrip-food h4').html(usernicname + '님의 여행목록');
+					            		$('#mytrip-food h4').html(usernicname + '${tour_list}');
 					            		$('#mytripfood').html("<li class='ui-li-has-thumb ui-first-child ui-last-child' data-icon='plus'>"
 													+ "<a onclick='tripDetail(" + data[0]['code'] + ")' href='#'>"
 					            					+ "<img src='" + data[0]['coverimg'] + "' style='width: 100%; height: 100%;'/>"
@@ -149,18 +219,18 @@
 											        + "<h2>[" + data[i]['thema'] + "] " + data[i]['title'] + "</h2>"
 											        + "<p>" + data[i]['startdate'] + " ~ " + data[i]['enddate'] + "</p></a></li>");
 							            }
-					            		$('#mytripfood').append('<button onclick="removeTripPop()" class="ui-btn ui-shadow ui-corner-all ui-last-child" style="background-color: #F05562; color: white;">취소</button>');
+					            		$('#mytripfood').append('<button onclick="removeTripPop()" class="ui-btn ui-shadow ui-corner-all ui-last-child" style="background-color: #F05562; color: white;">${cancel}</button>');
 								        $('#mytripfood').listview('refresh');
 					            	} else {
-					            		$('#mytrip-food').html('<h4>' + usernicname + '님의 여행목록이 없습니다.</h4>'
-						            				+ '<p>새로운 여행을 추가하시겠습니까?</p>'
-						            				+ '<a class="ui-btn" href="../addmytrip">여행 추가</a>'
-						            				+ '<a onclick="removeTripPop()" class="ui-btn" href="#">취소</a><br/>');
+					            		$('#mytrip-food').html('<h4>' + usernicname + '${tour_list_no}</h4>'
+						            				+ '<p>${tour_list_new}</p>'
+						            				+ '<a class="ui-btn" href="../addmytrip">${tour_list_add}</a>'
+						            				+ '<a onclick="removeTripPop()" class="ui-btn" href="#">${cancel}</a><br/>');
 					            	} 
 					            	$('#mytrip-food').show();
 					            }, 
 					            error : function(){ 
-					            	alert('AJAX 통신 실패'); 
+					            	alert('${ajaxfailure}'); 
 					            } 
 					        });
 						}
@@ -178,31 +248,31 @@
 				            	$('#mytrip-food h4').html('여행지 추가');
 				            	$('#mytripfood').html('<li class="ui-first-child ui-last-child" data-icon="plus">'
 										+ '<a onclick="addTrip(' + data[0]['code'] + ', \'' + data[0]['tripdate'] + '\')" href="#">'
-								        + '<h2>여행 ' + data[0]['daynum'] + '일차 - ' + data[0]['tripdate'] + '</h2></a></li>');
+								        + '<h2>${travel} ' + data[0]['daynum'] + '${day} - ' + data[0]['tripdate'] + '</h2></a></li>');
 								for(var i=1; i<data.length; i++) {
 									$('#mytripfood').append('<li class="ui-first-child ui-last-child" data-icon="plus">'
 										+ '<a onclick="addTrip(' + data[i]['code'] + ', \'' + data[i]['tripdate'] + '\')" href="#">'
-									    + '<h2>여행 ' + data[i]['daynum'] + '일차 - ' + data[i]['tripdate'] + '</h2></a></li>');
+									    + '<h2>${travel} ' + data[i]['daynum'] + '${day} - ' + data[i]['tripdate'] + '</h2></a></li>');
 								}
-			            		$('#mytripfood').append('<button onclick="removeTripPop()" class="ui-btn ui-shadow ui-corner-all ui-last-child" style="background-color: #F05562; color: white;">취소</button>');
+			            		$('#mytripfood').append('<button onclick="removeTripPop()" class="ui-btn ui-shadow ui-corner-all ui-last-child" style="background-color: #F05562; color: white;">${cancel}</button>');
 				            	$('#mytripfood').listview('refresh');
 				            	$('#mytrip-food').show();
 				            }, 
 				            error : function(){ 
-				            	alert('AJAX 통신 실패'); 
+				            	alert('${ajaxfailure}'); 
 				            } 
 				        });
 					};
 					
 					function addTrip(code, tripdate) {
-						$('#mytrip-food h4').html('<h4>여행지에 추가하시겠습니까?</h4>');
+						$('#mytrip-food h4').html('<h4>${tour_place_new}</h4>');
 						$('#mytripfood').html('');
 						$('#mytripfood').listview('refresh');
-						$('#mytrip-food div').html('<button onclick="addTrip2(' + code + ', \'' + tripdate + '\')">추가</button><button onclick="removeTripPop()">취소</button>');
+						$('#mytrip-food div').html('<button onclick="addTrip2(' + code + ', \'' + tripdate + '\')">${add}</button><button onclick="removeTripPop()">${cancel}</button>');
 					};
 					
 					function addTrip2(code, tripdate) {
-						alert(tripdate);
+						alert('tripdate');
 						$.ajax({ 
 				        	url: "../addTrip",
 				            type:'POST',
@@ -230,7 +300,7 @@
 						<table style="width: 100%; font-size: 14px;">
 							<c:if test="${basicInfo.overview ne '데이터 없음' }">
 								<tr>
-									<th colspan="4" style="font-size: 16px; width: 100%; border-bottom: 3px solid #e9e9e9; margin-bottom: 10px; padding-bottom: 5px; text-align: left;">${basicInfo.title } 소개</th>
+									<th colspan="4" style="font-size: 16px; width: 100%; border-bottom: 3px solid #e9e9e9; margin-bottom: 10px; padding-bottom: 5px; text-align: left;">${basicInfo.title } ${tour_intro }</th>
 								</tr>
 								<tr>
 									<td colspan="4">${basicInfo.overview }</td>
@@ -244,13 +314,13 @@
 							</c:if>
 							<c:if test="${basicInfo.tel ne '데이터 없음' }">
 								<tr>
-									<th width="30%" style="text-align: left;">전화</th>
+									<th width="30%" style="text-align: left;">${tour_tel }</th>
 									<td colspan="3">${basicInfo.tel }</td>
 								</tr>
 							</c:if>
 							<c:if test="${detailInfo.firstmenu ne '데이터 없음' }">
 								<tr>
-									<th style="text-align: left;">대표메뉴</th>
+									<th style="text-align: left;">${tour_main }</th>
 									<td colspan="3">${detailInfo.firstmenu }</td>
 								</tr>
 							</c:if>
@@ -259,7 +329,7 @@
 					
 					<div style="width: 100%; border-bottom: 3px solid #e9e9e9; margin-top: 10px; padding-left: 5px; padding-bottom: 5px; margin-bottom: 10px;">
 						<a id="fooddetaila" href="#" style="text-decoration: none; color: #F05562; font-size: 16px; font-weight: bold;">
-							식당 상세정보 +
+							${tour_detail } +
 						</a>
 					</div>
 					
@@ -268,43 +338,43 @@
 							<tbody>
 								<c:if test="${detailInfo.treatmenu ne '데이터 없음' }">
 									<tr>
-										<th width="30%" style="text-align: left;">메뉴</th>
+										<th width="30%" style="text-align: left;">${tour_menu }</th>
 										<td colspan="3">${detailInfo.treatmenu }</td>
 									</tr>
 								</c:if>
 								<c:if test="${detailInfo.reservationfood ne '데이터 없음' }">
 									<tr>
-										<th width="30%" style="text-align: left;">예약안내</th>
+										<th width="30%" style="text-align: left;">${tour_book }</th>
 										<td colspan="3">${detailInfo.reservationfood }</td>
 									</tr>
 								</c:if>
 								<c:if test="${detailInfo.opentimefood ne '데이터 없음' }">
 									<tr>
-										<th width="30%" style="text-align: left;">영업시간</th>
+										<th width="30%" style="text-align: left;">${tour_time }</th>
 										<td colspan="3">${detailInfo.opentimefood }</td>
 									</tr>
 								</c:if>
 								<c:if test="${detailInfo.restdatefood ne '데이터 없음' }">
 									<tr>
-										<th width="30%" style="text-align: left;">쉬는날</th>
+										<th width="30%" style="text-align: left;">${tour_holiday }</th>
 										<td colspan="3">${detailInfo.restdatefood }</td>
 									</tr>
 								</c:if>
 								<c:if test="${detailInfo.firstmenu ne '데이터 없음' }">
 									<tr>
-										<th width="30%" style="text-align: left;">할인정보</th>
+										<th width="30%" style="text-align: left;">${tour_sale }</th>
 										<td colspan="3">${detailInfo.firstmenu }</td>
 									</tr>
 								</c:if>
 								<c:if test="${detailInfo.parkingfood ne '데이터 없음' }">
 									<tr>
-										<th width="30%" style="text-align: left;">주차시설</th>
+										<th width="30%" style="text-align: left;">${tour_parking }</th>
 										<td colspan="3">${detailInfo.parkingfood }</td>
 									</tr>
 								</c:if>
 								<c:if test="${detailInfo.packing ne '데이터 없음' }">
 									<tr>
-										<th width="30%" style="text-align: left;">포장여부</th>
+										<th width="30%" style="text-align: left;">${tour_package }</th>
 										<td colspan="3">${detailInfo.packing }</td>
 									</tr>
 								</c:if>
@@ -318,12 +388,12 @@
 							if(flag == 1) {
 								flag = 0;
 								$('#fooddetailpop').show();
-								$('#fooddetaila').html('식당 상세정보 -');
+								$('#fooddetaila').html('${tour_detail} -');
 							}
 							else {
 								flag = 1;
 								$('#fooddetailpop').hide();
-								$('#fooddetaila').html('식당 상세정보 +');
+								$('#fooddetaila').html('${tour_detail} +');
 							}
 						});
 					</script>
@@ -332,8 +402,8 @@
 					<div style="width: 100%; background-color: white; border-bottom: 3px solid #e9e9e9; margin-top: 20px; margin-bottom: 10px;">
 			        	<table style="width: 100%;">
 			        		<tr>
-			        			<td style="padding-left: 5px; font-size: 16px; color: #F05562; font-weight: bold; margin-bottom: 10px;">사진정보</td>
-			        			<td align="right" style="padding-right: 5px;"><a href="#" onclick="showfoodImg()" style="text-decoration: none; color: gray; font-size: 14px;">사진추가</a></td>
+			        			<td style="padding-left: 5px; font-size: 16px; color: #F05562; font-weight: bold; margin-bottom: 10px;">${tour_photo_info }</td>
+			        			<td align="right" style="padding-right: 5px;"><a href="#" onclick="showfoodImg()" style="text-decoration: none; color: gray; font-size: 14px;">${tour_photo }</a></td>
 			        		</tr>
 			        	</table>
 			        </div>
@@ -357,8 +427,8 @@
 							<div style="padding: 10px;">
 								<input type="hidden" name="contentid" value="${basicInfo.contentid }"/>
 								<input style="z-index: 100" type="file" id="uploadFood" name="file"/>
-								<a href="#" class="ui-btn ui-btn-inline" style="color: white; background-color: #F05562; box-sizing: border-box; display: inline-block; width: 45%; z-index: 100" onclick="uploadimage()">업로드</a>
-								<a href="#" class="ui-btn ui-btn-inline" style="color: white; background-color: #F05562; box-sizing: border-box; display: inline-block; width: 45%; z-index: 100" onclick="hidefoodImg()">취소</a>
+								<a href="#" class="ui-btn ui-btn-inline" style="color: white; background-color: #F05562; box-sizing: border-box; display: inline-block; width: 45%; z-index: 100" onclick="uploadimage()">${upload }</a>
+								<a href="#" class="ui-btn ui-btn-inline" style="color: white; background-color: #F05562; box-sizing: border-box; display: inline-block; width: 45%; z-index: 100" onclick="hidefoodImg()">${cancel }</a>
 							</div>
 						</form>
 				    </div>
@@ -366,7 +436,7 @@
 					<script type="text/javascript">
 				        function showfoodImg() {
 				        	if(userInfo == '') {
-								alert('로그인 후 사용하실 수 있습니다.');
+								alert('${tour_alert}');
 							} else {
 				        		$('#foodpop').show();
 							}
@@ -415,7 +485,7 @@
 					<div style="width: 100%; background-color: white; border-bottom: 3px solid #e9e9e9; margin-bottom: 10px;">
 			        	<table style="width: 100%;">
 			        		<tr>
-			        			<td style="padding-left: 5px; font-size: 16px; color: #F05562; font-weight: bold; margin-bottom: 10px;">위치정보(지도)</td>
+			        			<td style="padding-left: 5px; font-size: 16px; color: #F05562; font-weight: bold; margin-bottom: 10px;">${tour_gps }</td>
 			        		</tr>
 			        	</table>
 			        </div>
@@ -436,7 +506,7 @@
 			        	<table style="width: 100%;">
 			        		<tr>
 			        			<td style="padding-left: 5px; font-size: 16px; color: #F05562; font-weight: bold; margin-bottom: 10px;">
-			        				<a class="review-btn" style="color: #F05562">리뷰 +</a>
+			        				<a class="review-btn" style="color: #F05562">${tour_review } +</a>
 								</td>
 			        		</tr>
 			        	</table>
@@ -470,8 +540,8 @@
 				      		</div>
 			      		</c:forEach>
 						<div data-role='fieldcontain'>
-							<input id="review" name="review" type="text" placeholder="리뷰를 등록하세요" />
-							<button id="review_add" style="border: 2px solid #F05562; border-radius: 10px; background-color: white; color: #F05562;">입력</button>
+							<input id="review" name="review" type="text" placeholder="${tour_review_input }" />
+							<button id="review_add" style="border: 2px solid #F05562; border-radius: 10px; background-color: white; color: #F05562;">${input }</button>
 						</div>
 			      	</div>
 				</div>
@@ -482,12 +552,12 @@
 					if(flag == 1) {
 						flag = 0;
 						$('.review-table').show();
-						$('.review-btn').html('리뷰 -');
+						$('.review-btn').html('${tour_review} -');
 					}
 					else {
 						flag = 1;
 						$('.review-table').hide();
-						$('.review-btn').html('리뷰 +');
+						$('.review-btn').html('${tour_review} +');
 					}
 				});
 
@@ -521,7 +591,7 @@
 				            } 
 				        });					
 					} else {
-						alert('로그인 후 리뷰를 작성하세요');
+						alert('${tour_review_writing}');
 					}
 				});
 			</script>
