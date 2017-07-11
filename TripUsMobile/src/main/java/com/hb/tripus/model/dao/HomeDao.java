@@ -53,7 +53,7 @@ public class HomeDao implements DaoInterface {
 		return sqlSession.selectOne("home.selectOneAreaInfo", areacode);
 	}
 	
-	public List<TourAreaDto> getTopArea() throws SQLException {
+	public List<AreaDto> getTopArea() throws SQLException {
 		return sqlSession.selectList("home.getTopArea");
 	}
 	

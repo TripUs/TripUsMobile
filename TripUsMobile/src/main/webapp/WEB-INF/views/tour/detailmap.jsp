@@ -22,6 +22,9 @@
         <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
         <script type="text/javascript" src="resources/js/tripus.js"></script>
 	    <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=27fe7a62295f8cc3e56a54958afc32e5&libraries=services"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/cordova_plugins.js"></script>
+        <script type="text/javascript" charset="utf-8" src="resources/js/geolocation.js"></script>
         <title>Document</title>
     </head>
     <body>
@@ -65,8 +68,7 @@
 					setTimeout(function(){ map.relayout();	 }, 2000);
                	</script>
 			</div>
-            <div data-role='footer' data-position='fixed'>
-                <!-- data-role='navbar'는 앱스럽게 탭메뉴를 구성할 수 있도록 해준다. 가로 최대:5개 -->
+            <div data-role='footer' data-position='fixed' data-theme="c">
                 <div data-role='navbar'>
                     <ul>
                         <li>

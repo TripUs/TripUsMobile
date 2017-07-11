@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.hb.tripus.model.dao.TripNoteDao;
+import com.hb.tripus.model.dto.FriendListDto;
 import com.hb.tripus.model.dto.MyTripDetailDto;
 import com.hb.tripus.model.dto.MyTripDto;
 import com.hb.tripus.model.dto.MyTripListDto;
@@ -109,7 +110,7 @@ public class TripNoteController {
 					for(int j=0; j<files.size(); j++) {
 						File f = new File(path + "\\" + files.get(j).getOriginalFilename());
 						files.get(j).transferTo(f);
-						String fileName="http://203.236.209.203:8080/tripus/resources/upload/tripnote/" + idx + "/" + files.get(j).getOriginalFilename();
+						String fileName="http://localhost:8080/tripus/resources/upload/tripnote/" + idx + "/" + files.get(j).getOriginalFilename();
 						System.out.println(fileName);
 						TripNoteImgDto imgs = new TripNoteImgDto(idx, i, fileName);
 						dao.insertTripNoteImg(imgs);
@@ -169,7 +170,7 @@ public class TripNoteController {
 					for(int j=0; j<files.size(); j++) {
 						File f = new File(path + "\\" + files.get(j).getOriginalFilename());
 						files.get(j).transferTo(f);
-						String fileName="http://203.236.209.203:8080/tripus/resources/upload/tripnote/" + idx + "/" + files.get(j).getOriginalFilename();
+						String fileName="http://localhost:8080/tripus/resources/upload/tripnote/" + idx + "/" + files.get(j).getOriginalFilename();
 						System.out.println(fileName);
 						TripNoteImgDto imgs = new TripNoteImgDto(idx, i, fileName);
 						dao.insertTripNoteImg(imgs);
@@ -263,4 +264,23 @@ public class TripNoteController {
 		}
 		return "redirect:../tripnote";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "follow", method = RequestMethod.POST)
+	public int follow(@RequestParam String friendid, HttpSession session) {
+		UserDto userInfo = (UserDto) session.getAttribute("userInfo");
+		int flag = 1;
+		try {
+			if(dao.searchFollow(userInfo.getId(), friendid) == 0) {
+				UserDto friendInfo = dao.getUserInfo(friendid);
+				dao.insertFriend(new FriendListDto(userInfo.getId(), friendid, friendInfo.getProfile(), friendInfo.getName(), friendInfo.getNicname(), friendInfo.getEmail(), 0));
+				dao.insertFriend(new FriendListDto(friendid, userInfo.getId(), userInfo.getProfile(), userInfo.getName(), userInfo.getNicname(), userInfo.getEmail(), 1));
+				flag = 0;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+	
 }

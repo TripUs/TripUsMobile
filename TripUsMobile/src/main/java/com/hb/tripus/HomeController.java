@@ -334,7 +334,7 @@ public class HomeController {
 		@SuppressWarnings("deprecation")
 		String path = req.getRealPath("/resources/upload/detailImg").replaceAll("\\\\", "/");
 		File f = new File(path + "\\" + file.getOriginalFilename());
-		String fileName = "http://203.236.209.203:8080/tripus/resources/upload/detailImg/" + file.getOriginalFilename();
+		String fileName = "http://localhost:8080/tripus/resources/upload/detailImg/" + file.getOriginalFilename();
 		
 		try {
 			file.transferTo(f);

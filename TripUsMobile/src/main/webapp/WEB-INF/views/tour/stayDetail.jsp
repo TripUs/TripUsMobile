@@ -37,7 +37,7 @@
             <div data-role='content' style="background-color: white;">
                 <div data-role="controlgroup" data-type="horizontal">
                 	<c:if test="${basicInfo.firstimage eq '데이터 없음' }">
-						<img class="detail-area-img" src="http://203.236.209.203:8080/tripus/resources/imgs/no_img.jpg"/>			
+						<img class="detail-area-img" src="http://localhost:8080/tripus/resources/imgs/no_img.jpg"/>			
 					</c:if>
 	            	<c:if test="${basicInfo.firstimage ne '데이터 없음' }">
 		            	<img class="detail-area-img" src="${basicInfo.firstimage }"/>			

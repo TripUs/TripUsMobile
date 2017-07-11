@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.hb.tripus.model.dto.FriendListDto;
 import com.hb.tripus.model.dto.MyTripDetailDto;
 import com.hb.tripus.model.dto.MyTripDto;
 import com.hb.tripus.model.dto.MyTripListDto;
@@ -14,6 +15,7 @@ import com.hb.tripus.model.dto.TripNoteBbsDto;
 import com.hb.tripus.model.dto.TripNoteContentDto;
 import com.hb.tripus.model.dto.TripNoteDto;
 import com.hb.tripus.model.dto.TripNoteImgDto;
+import com.hb.tripus.model.dto.UserDto;
 
 public class TripNoteDao implements DaoInterface {
 
@@ -122,6 +124,21 @@ public class TripNoteDao implements DaoInterface {
 		map.put("idx", idx);
 		map.put("commentnum", commentnum);
 		sqlSession.update("tripnote.updateCommentNum", map);
+	}
+
+	public int searchFollow(String id, String friendid) throws SQLException {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("friendid", friendid);
+		return sqlSession.selectOne("tripnote.searchFollow", map);
+	}
+	
+	public UserDto getUserInfo(String id) throws SQLException {
+		return sqlSession.selectOne("setting.getUserInfo", id);
+	}
+	
+	public void insertFriend(FriendListDto bean) throws SQLException {
+		sqlSession.insert("setting.insertFriend", bean);
 	}
 	
 }

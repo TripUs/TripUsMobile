@@ -1,16 +1,16 @@
 .ui-icon-mybackicon {
-	background-image: url("http://203.236.209.203:8080/tripus/resources/imgs/icon/backicon.png");
+	background-image: url("http://localhost:8080/tripus/resources/imgs/icon/backicon.png");
 	background-size: 26px 26px;
 }
 
 .ui-icon-mydelicon {
-	background-image: url("http://203.236.209.203:8080/tripus/resources/imgs/icon/delete.png");
-	background-size: 26px 26px;
+	background-image: url("http://localhost:8080/tripus/resources/imgs/icon/delete.png");
+	background-size: 28px 28px;
 }
 
 .ui-icon-myplusicon {
-	background-image: url("http://203.236.209.203:8080/tripus/resources/imgs/icon/plus.png");
-	background-size: 26px 26px;
+	background-image: url("http://localhost:8080/tripus/resources/imgs/icon/plus.png");
+	background-size: 28px 28px;
 }
 
 .sub-navbar .ui-btn-active { 

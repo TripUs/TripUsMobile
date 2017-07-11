@@ -3,6 +3,10 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="tripnote">
+	<select id="searchFollow" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM FRIENDLIST WHERE USERID=#{id} AND FRIENDID=#{friendid}
+	</select>
+
 	<delete id="delTripNote" parameterType="int">
 		DELETE FROM TRIPNOTE WHERE IDX=#{value}
 	</delete>

@@ -99,8 +99,8 @@ public class JsonParserModule {
 					if(data.get(dto.getTags()[j]) != null)
 						value[j] = data.get(dto.getTags()[j]).toString();
 					else {
-						if(dto.getTags()[j].equals("firstimage")) value[j] = "http://203.236.209.203:8080/tripus/resources/imgs/no_img.jpg";
-						else if(dto.getTags()[j].equals("firstimage2")) value[j] = "http://203.236.209.203:8080/tripus/resources/imgs/no_img.jpg";
+						if(dto.getTags()[j].equals("firstimage")) value[j] = "http://localhost:8080/tripus/resources/imgs/no_img.jpg";
+						else if(dto.getTags()[j].equals("firstimage2")) value[j] = "http://localhost:8080/tripus/resources/imgs/no_img.jpg";
 						else value[j] = "데이터 없음";
 					}
 				}

@@ -79,7 +79,7 @@
 									<c:if test="${noteLike ne 1 }">
 										<a style="width: 45px; height: 10px; line-height: 10px;" id="notelikebtn" data-role="button" href="#">♥ ${noteInfo.likeflag }</a>
 									</c:if>
-			            			<button style="width: 45px; height: 10px; line-height: 5px;"><small>팔로우</small></button>
+			            			<button onclick="follow()" style="width: 45px; height: 10px; line-height: 5px;"><small>팔로우</small></button>
 								</div>
             				</td>
             			</tr>
@@ -90,6 +90,7 @@
       			<input type="hidden" id="noteidx" value="${noteInfo.idx }"/>
       			<input type="hidden" id="noteLike" value="${noteLike }"/>
       			<input type="hidden" id="userInfo" value="${sessionScope.userInfo.id }">
+				<input type="hidden" id="friendid" value="${noteInfo.userid }">
 				
       			<script type="text/javascript">
       				var idx = $('#noteidx').val();
@@ -97,6 +98,32 @@
 	      			var likeCnt = $('#likeCnt').val();
       				var userInfo = $('#userInfo').val();
 	      			
+      				function follow() {
+      					if(userInfo != '') {
+							$.ajax({ 
+					        	url: "../follow",
+					            type:'POST', 					 
+					            data:{ 
+					            	friendid : $('#friendid').val(),
+					            }, 
+					            success : function(data){
+					            	if(data == 1) {
+					            		alert('이미 친구입니다.');
+					            	} else {
+					            		alert('친구요청을 완료했습니다.');
+					            	}
+					            }, 
+					            error : function(){ 
+					            	alert('AJAX 통신 실패'); 
+					            } 
+					        });		
+						} else if(userInfo == friendid) {
+							alert('잘못된 요청입니다.');
+						} else {
+							alert('로그인 후 사용하실 수 있습니다.');
+						}
+      				}
+      				
       				$('#notelikebtn').click(function() {
       					if(userInfo != '') {
 							$.ajax({ 

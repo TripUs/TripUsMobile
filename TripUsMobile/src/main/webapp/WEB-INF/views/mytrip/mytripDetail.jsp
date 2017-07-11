@@ -74,7 +74,14 @@
 		               						</tr>
 		               						<tr>
 		               							<td><img src="../resources/imgs/icon/tripline.png" style="width: 100%;"/></td>
-		               							<td><img src="${detail.content_img }" style="width: 100%; height: 110px; border-radius: 5px;"/></td>
+		               							<td>
+		               								<c:if test="${detail.content_img ne '데이터 없음' }">
+			               								<img src="${detail.content_img }" style="width: 100%; height: 110px; border-radius: 5px;"/>
+		               								</c:if>
+		               								<c:if test="${detail.content_img eq '데이터 없음' }">
+			               								<img src="../resources/imgs/no_img.jpg" style="width: 100%; height: 110px; border-radius: 5px;"/>
+		               								</c:if>
+		               							</td>
 		               							<th>
 		               								<span style="color: red;">♥</span>${conLike[status.index] }<br/><br/>
 		               								<a href="../delTrip/${detail.contentid }" style="color: darkgray; text-decoration: none;">삭제</a>
@@ -252,7 +259,7 @@
 			        var markerImage_end = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption)// 마커가 표시될 위치입니다
 			        
 			        
-			        var imageSrc_b = 'http://203.236.209.203:8080/tripus/resources/imgs/icon/ourmaker.png', // 마커이미지의 주소입니다    
+			        var imageSrc_b = 'http://localhost:8080/tripus/resources/imgs/icon/ourmaker.png', // 마커이미지의 주소입니다    
 		            imageSize_b = new daum.maps.Size(50,50), // 마커이미지의 크기입니다
 		            imageOption_b = {offset: new daum.maps.Point(25,25)}; 
 			        
